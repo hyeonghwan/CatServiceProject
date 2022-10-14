@@ -7,23 +7,88 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */; };
+		961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */; };
+		961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */; };
 		964E66F728C30E1900518436 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F628C30E1900518436 /* AppDelegate.swift */; };
 		964E66F928C30E1900518436 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F828C30E1900518436 /* SceneDelegate.swift */; };
-		964E66FB28C30E1900518436 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66FA28C30E1900518436 /* ViewController.swift */; };
-		964E66FE28C30E1900518436 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964E66FC28C30E1900518436 /* Main.storyboard */; };
+		964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66FA28C30E1900518436 /* CatMainListViewController.swift */; };
 		964E670028C30E1A00518436 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964E66FF28C30E1A00518436 /* Assets.xcassets */; };
 		964E670328C30E1A00518436 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 964E670128C30E1A00518436 /* LaunchScreen.storyboard */; };
+		964EE57928C9852600BEFCD5 /* CatBreedsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE57828C9852600BEFCD5 /* CatBreedsViewModel.swift */; };
+		964EE57E28C9865C00BEFCD5 /* CatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE57D28C9865C00BEFCD5 /* CatService.swift */; };
+		964EE58228CD469200BEFCD5 /* CatMainListDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58128CD469200BEFCD5 /* CatMainListDataModel.swift */; };
+		964EE58428CD494900BEFCD5 /* CatMainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */; };
+		964EE58628CD4D2200BEFCD5 /* ImageViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */; };
+		964EE58828CD5AE200BEFCD5 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58728CD5AE200BEFCD5 /* ImageModel.swift */; };
+		966064A528D4302800CBAE6E /* RepositoryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A428D4302800CBAE6E /* RepositoryExtension.swift */; };
+		966064A728D4313F00CBAE6E /* UpLoadImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */; };
+		96635BEC28C39814004F4F34 /* EntityOfCatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BEB28C39814004F4F34 /* EntityOfCatData.swift */; };
+		96635BEE28C39EE3004F4F34 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BED28C39EE2004F4F34 /* NetworkHandler.swift */; };
+		96635BF828C48797004F4F34 /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BF728C48797004F4F34 /* CatCollectionViewCell.swift */; };
+		96635BFF28C71DC3004F4F34 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BFE28C71DC3004F4F34 /* Repository.swift */; };
+		96635C0128C725E9004F4F34 /* CatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635C0028C725E9004F4F34 /* CatDetailViewController.swift */; };
+		96635C0328C77AF8004F4F34 /* CatBreedsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635C0228C77AF8004F4F34 /* CatBreedsListViewController.swift */; };
+		96635C0828C77D67004F4F34 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635C0728C77D67004F4F34 /* CustomSegmentedControl.swift */; };
+		96635C0A28C7A152004F4F34 /* CatBreedsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635C0928C7A152004F4F34 /* CatBreedsButton.swift */; };
+		967CAA2528CDB0E9004CBCC5 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA2428CDB0E9004CBCC5 /* LikeButton.swift */; };
+		967CAA2728CEAF64004CBCC5 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA2628CEAF64004CBCC5 /* extension.swift */; };
+		967CAA2928CEDDD7004CBCC5 /* CatURLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA2828CEDDD7004CBCC5 /* CatURLModel.swift */; };
+		967CAA2B28CEDE2C004CBCC5 /* CatMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA2A28CEDE2C004CBCC5 /* CatMainViewModel.swift */; };
+		967CAA2D28CEDEB1004CBCC5 /* CatService2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA2C28CEDEB1004CBCC5 /* CatService2.swift */; };
+		967CAA2F28CEE124004CBCC5 /* CatCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA2E28CEE124004CBCC5 /* CatCellModel.swift */; };
+		967CAA3128CF40D8004CBCC5 /* EntityOfFavouriteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3028CF40D8004CBCC5 /* EntityOfFavouriteResponse.swift */; };
+		967CAA3628D0040B004CBCC5 /* FavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3528D0040B004CBCC5 /* FavouriteViewController.swift */; };
+		967CAA3828D01484004CBCC5 /* FavouriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3728D01484004CBCC5 /* FavouriteCell.swift */; };
+		967CAA3A28D01553004CBCC5 /* CatFavouriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3928D01553004CBCC5 /* CatFavouriteViewModel.swift */; };
+		967CAA3C28D01E09004CBCC5 /* EntityOfFavouriteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3B28D01E09004CBCC5 /* EntityOfFavouriteData.swift */; };
+		967CAA3E28D021FE004CBCC5 /* CatFavouriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3D28D021FE004CBCC5 /* CatFavouriteModel.swift */; };
+		967CAA4028D04D3D004CBCC5 /* AnimationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967CAA3F28D04D3D004CBCC5 /* AnimationButton.swift */; };
+		9690D1E228D191440038198F /* ViewAnimator in Frameworks */ = {isa = PBXBuildFile; productRef = 9690D1E128D191440038198F /* ViewAnimator */; };
+		9690D1E528D1914E0038198F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9690D1E428D1914E0038198F /* Kingfisher */; };
+		9690D1E828D1915B0038198F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9690D1E728D1915B0038198F /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewController.swift; sourceTree = "<group>"; };
+		961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewModel.swift; sourceTree = "<group>"; };
+		961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatLodedResponseModel.swift; sourceTree = "<group>"; };
 		964E66F328C30E1900518436 /* CatServiceProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatServiceProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		964E66F628C30E1900518436 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		964E66F828C30E1900518436 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		964E66FA28C30E1900518436 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		964E66FD28C30E1900518436 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		964E66FA28C30E1900518436 /* CatMainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatMainListViewController.swift; sourceTree = "<group>"; };
 		964E66FF28C30E1A00518436 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		964E670228C30E1A00518436 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		964E670428C30E1A00518436 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		964EE57828C9852600BEFCD5 /* CatBreedsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatBreedsViewModel.swift; sourceTree = "<group>"; };
+		964EE57D28C9865C00BEFCD5 /* CatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatService.swift; sourceTree = "<group>"; };
+		964EE58128CD469200BEFCD5 /* CatMainListDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatMainListDataModel.swift; sourceTree = "<group>"; };
+		964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatMainListViewModel.swift; sourceTree = "<group>"; };
+		964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModelDelegate.swift; sourceTree = "<group>"; };
+		964EE58728CD5AE200BEFCD5 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
+		966064A428D4302800CBAE6E /* RepositoryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryExtension.swift; sourceTree = "<group>"; };
+		966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpLoadImageFile.swift; sourceTree = "<group>"; };
+		96635BEB28C39814004F4F34 /* EntityOfCatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOfCatData.swift; sourceTree = "<group>"; };
+		96635BED28C39EE2004F4F34 /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		96635BF728C48797004F4F34 /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
+		96635BFE28C71DC3004F4F34 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		96635C0028C725E9004F4F34 /* CatDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatDetailViewController.swift; sourceTree = "<group>"; };
+		96635C0228C77AF8004F4F34 /* CatBreedsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatBreedsListViewController.swift; sourceTree = "<group>"; };
+		96635C0728C77D67004F4F34 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
+		96635C0928C7A152004F4F34 /* CatBreedsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatBreedsButton.swift; sourceTree = "<group>"; };
+		967CAA2428CDB0E9004CBCC5 /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
+		967CAA2628CEAF64004CBCC5 /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		967CAA2828CEDDD7004CBCC5 /* CatURLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatURLModel.swift; sourceTree = "<group>"; };
+		967CAA2A28CEDE2C004CBCC5 /* CatMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatMainViewModel.swift; sourceTree = "<group>"; };
+		967CAA2C28CEDEB1004CBCC5 /* CatService2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatService2.swift; sourceTree = "<group>"; };
+		967CAA2E28CEE124004CBCC5 /* CatCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatCellModel.swift; sourceTree = "<group>"; };
+		967CAA3028CF40D8004CBCC5 /* EntityOfFavouriteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOfFavouriteResponse.swift; sourceTree = "<group>"; };
+		967CAA3528D0040B004CBCC5 /* FavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewController.swift; sourceTree = "<group>"; };
+		967CAA3728D01484004CBCC5 /* FavouriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteCell.swift; sourceTree = "<group>"; };
+		967CAA3928D01553004CBCC5 /* CatFavouriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatFavouriteViewModel.swift; sourceTree = "<group>"; };
+		967CAA3B28D01E09004CBCC5 /* EntityOfFavouriteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOfFavouriteData.swift; sourceTree = "<group>"; };
+		967CAA3D28D021FE004CBCC5 /* CatFavouriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatFavouriteModel.swift; sourceTree = "<group>"; };
+		967CAA3F28D04D3D004CBCC5 /* AnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,12 +96,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9690D1E828D1915B0038198F /* SnapKit in Frameworks */,
+				9690D1E528D1914E0038198F /* Kingfisher in Frameworks */,
+				9690D1E228D191440038198F /* ViewAnimator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		961A9C8828D30C2E00B8ECB0 /* UpLoadViewController */ = {
+			isa = PBXGroup;
+			children = (
+				961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */,
+			);
+			path = UpLoadViewController;
+			sourceTree = "<group>";
+		};
 		964E66EA28C30E1900518436 = {
 			isa = PBXGroup;
 			children = (
@@ -58,13 +134,124 @@
 			children = (
 				964E66F628C30E1900518436 /* AppDelegate.swift */,
 				964E66F828C30E1900518436 /* SceneDelegate.swift */,
-				964E66FA28C30E1900518436 /* ViewController.swift */,
-				964E66FC28C30E1900518436 /* Main.storyboard */,
+				96635C0428C77D46004F4F34 /* BreedsCatListViewController */,
+				96635BF928C62B63004F4F34 /* MainListViewController */,
+				967CAA3428D003EB004CBCC5 /* FavouriteViewController */,
+				961A9C8828D30C2E00B8ECB0 /* UpLoadViewController */,
+				964EE57728C984FC00BEFCD5 /* ViewModel */,
+				964EE58A28CD78CA00BEFCD5 /* Protocol */,
+				964EE57C28C9864700BEFCD5 /* Service */,
+				96635BFB28C62B7F004F4F34 /* Data */,
+				96635BFD28C62B92004F4F34 /* Repository */,
 				964E66FF28C30E1A00518436 /* Assets.xcassets */,
 				964E670128C30E1A00518436 /* LaunchScreen.storyboard */,
 				964E670428C30E1A00518436 /* Info.plist */,
 			);
 			path = CatServiceProject;
+			sourceTree = "<group>";
+		};
+		964EE57728C984FC00BEFCD5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				964EE57828C9852600BEFCD5 /* CatBreedsViewModel.swift */,
+				964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */,
+				967CAA2A28CEDE2C004CBCC5 /* CatMainViewModel.swift */,
+				967CAA3928D01553004CBCC5 /* CatFavouriteViewModel.swift */,
+				961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		964EE57B28C9863D00BEFCD5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				964EE58128CD469200BEFCD5 /* CatMainListDataModel.swift */,
+				967CAA2828CEDDD7004CBCC5 /* CatURLModel.swift */,
+				964EE58728CD5AE200BEFCD5 /* ImageModel.swift */,
+				967CAA2E28CEE124004CBCC5 /* CatCellModel.swift */,
+				967CAA3D28D021FE004CBCC5 /* CatFavouriteModel.swift */,
+				961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		964EE57C28C9864700BEFCD5 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				964EE57D28C9865C00BEFCD5 /* CatService.swift */,
+				967CAA2C28CEDEB1004CBCC5 /* CatService2.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		964EE58A28CD78CA00BEFCD5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */,
+				967CAA2628CEAF64004CBCC5 /* extension.swift */,
+				967CAA3F28D04D3D004CBCC5 /* AnimationButton.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		96635BF928C62B63004F4F34 /* MainListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				964E66FA28C30E1900518436 /* CatMainListViewController.swift */,
+				96635BF728C48797004F4F34 /* CatCollectionViewCell.swift */,
+				967CAA2428CDB0E9004CBCC5 /* LikeButton.swift */,
+				96635C0028C725E9004F4F34 /* CatDetailViewController.swift */,
+			);
+			path = MainListViewController;
+			sourceTree = "<group>";
+		};
+		96635BFB28C62B7F004F4F34 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				964EE57B28C9863D00BEFCD5 /* Model */,
+				96635BFC28C62B87004F4F34 /* Entity */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		96635BFC28C62B87004F4F34 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				96635BEB28C39814004F4F34 /* EntityOfCatData.swift */,
+				967CAA3028CF40D8004CBCC5 /* EntityOfFavouriteResponse.swift */,
+				967CAA3B28D01E09004CBCC5 /* EntityOfFavouriteData.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		96635BFD28C62B92004F4F34 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				96635BED28C39EE2004F4F34 /* NetworkHandler.swift */,
+				96635BFE28C71DC3004F4F34 /* Repository.swift */,
+				966064A428D4302800CBAE6E /* RepositoryExtension.swift */,
+				966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		96635C0428C77D46004F4F34 /* BreedsCatListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				96635C0228C77AF8004F4F34 /* CatBreedsListViewController.swift */,
+				96635C0728C77D67004F4F34 /* CustomSegmentedControl.swift */,
+				96635C0928C7A152004F4F34 /* CatBreedsButton.swift */,
+			);
+			path = BreedsCatListViewController;
+			sourceTree = "<group>";
+		};
+		967CAA3428D003EB004CBCC5 /* FavouriteViewController */ = {
+			isa = PBXGroup;
+			children = (
+				967CAA3528D0040B004CBCC5 /* FavouriteViewController.swift */,
+				967CAA3728D01484004CBCC5 /* FavouriteCell.swift */,
+			);
+			path = FavouriteViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +270,11 @@
 			dependencies = (
 			);
 			name = CatServiceProject;
+			packageProductDependencies = (
+				9690D1E128D191440038198F /* ViewAnimator */,
+				9690D1E428D1914E0038198F /* Kingfisher */,
+				9690D1E728D1915B0038198F /* SnapKit */,
+			);
 			productName = CatServiceProject;
 			productReference = 964E66F328C30E1900518436 /* CatServiceProject.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +303,11 @@
 				Base,
 			);
 			mainGroup = 964E66EA28C30E1900518436;
+			packageReferences = (
+				9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */,
+				9690D1E328D1914E0038198F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 964E66F428C30E1900518436 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +324,6 @@
 			files = (
 				964E670328C30E1A00518436 /* LaunchScreen.storyboard in Resources */,
 				964E670028C30E1A00518436 /* Assets.xcassets in Resources */,
-				964E66FE28C30E1900518436 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +334,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				964E66FB28C30E1900518436 /* ViewController.swift in Sources */,
+				967CAA2928CEDDD7004CBCC5 /* CatURLModel.swift in Sources */,
+				964EE58628CD4D2200BEFCD5 /* ImageViewModelDelegate.swift in Sources */,
+				966064A728D4313F00CBAE6E /* UpLoadImageFile.swift in Sources */,
+				967CAA3A28D01553004CBCC5 /* CatFavouriteViewModel.swift in Sources */,
+				96635BFF28C71DC3004F4F34 /* Repository.swift in Sources */,
+				96635BF828C48797004F4F34 /* CatCollectionViewCell.swift in Sources */,
+				967CAA2728CEAF64004CBCC5 /* extension.swift in Sources */,
+				96635C0128C725E9004F4F34 /* CatDetailViewController.swift in Sources */,
+				967CAA2528CDB0E9004CBCC5 /* LikeButton.swift in Sources */,
+				967CAA2D28CEDEB1004CBCC5 /* CatService2.swift in Sources */,
+				967CAA3628D0040B004CBCC5 /* FavouriteViewController.swift in Sources */,
+				96635C0A28C7A152004F4F34 /* CatBreedsButton.swift in Sources */,
+				967CAA3128CF40D8004CBCC5 /* EntityOfFavouriteResponse.swift in Sources */,
+				96635C0828C77D67004F4F34 /* CustomSegmentedControl.swift in Sources */,
+				964EE57E28C9865C00BEFCD5 /* CatService.swift in Sources */,
+				961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */,
+				967CAA2B28CEDE2C004CBCC5 /* CatMainViewModel.swift in Sources */,
+				964EE57928C9852600BEFCD5 /* CatBreedsViewModel.swift in Sources */,
+				967CAA2F28CEE124004CBCC5 /* CatCellModel.swift in Sources */,
+				964EE58228CD469200BEFCD5 /* CatMainListDataModel.swift in Sources */,
+				964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */,
 				964E66F728C30E1900518436 /* AppDelegate.swift in Sources */,
+				966064A528D4302800CBAE6E /* RepositoryExtension.swift in Sources */,
+				964EE58428CD494900BEFCD5 /* CatMainListViewModel.swift in Sources */,
+				96635BEC28C39814004F4F34 /* EntityOfCatData.swift in Sources */,
+				964EE58828CD5AE200BEFCD5 /* ImageModel.swift in Sources */,
+				961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */,
+				967CAA3C28D01E09004CBCC5 /* EntityOfFavouriteData.swift in Sources */,
+				967CAA4028D04D3D004CBCC5 /* AnimationButton.swift in Sources */,
+				967CAA3E28D021FE004CBCC5 /* CatFavouriteModel.swift in Sources */,
+				96635C0328C77AF8004F4F34 /* CatBreedsListViewController.swift in Sources */,
+				961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */,
+				967CAA3828D01484004CBCC5 /* FavouriteCell.swift in Sources */,
+				96635BEE28C39EE3004F4F34 /* NetworkHandler.swift in Sources */,
 				964E66F928C30E1900518436 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +375,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		964E66FC28C30E1900518436 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				964E66FD28C30E1900518436 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		964E670128C30E1A00518436 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +512,6 @@
 				INFOPLIST_FILE = CatServiceProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +539,6 @@
 				INFOPLIST_FILE = CatServiceProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -358,6 +576,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marcosgriselli/ViewAnimator.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		9690D1E328D1914E0038198F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9690D1E128D191440038198F /* ViewAnimator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */;
+			productName = ViewAnimator;
+		};
+		9690D1E428D1914E0038198F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9690D1E328D1914E0038198F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		9690D1E728D1915B0038198F /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 964E66EB28C30E1900518436 /* Project object */;
 }
