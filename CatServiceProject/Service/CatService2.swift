@@ -7,10 +7,16 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
  
+enum CatServiceErrorCode: Int {
+    case jsonDecodeError = 1
+}
+
 protocol CatServiceProtocol {
     
-     func getCatDataUsingCatServiceProtocol(completion: @escaping (_ success: Bool,_ results: [EntityOfCatData]?, _ error: String?) -> () )
+     func getCatDataUsingCatServiceProtocol(completion: @escaping (Bool, [EntityOfCatData]?, Error?) -> ()  )
     
     func postFavouriting(completion: @escaping (Bool,EntityOfFavouriteResponse?,String?) -> ())
     func getImageID(_ image_ID: String)
@@ -21,8 +27,14 @@ protocol CatServiceProtocol {
     func upLoadImage(_ image: UIImage, completion: @escaping (Bool,CatLodedResponseModel?,String?) -> Void)
 }
 
+protocol RxCatServiceProtocol{
+    
+    func rxGetCatData() -> Observable<[EntityOfCatData]>
+}
 
-class CatService2: CatServiceProtocol{
+typealias CatServiceType = RxCatServiceProtocol & CatServiceProtocol
+
+class CatService2: CatServiceType {
   
     private let repository = Repository()
 
@@ -43,6 +55,8 @@ class CatService2: CatServiceProtocol{
     private var userKey = "sub_id"
     private var userID = "user-123"
     
+    
+
     
     func upLoadImage(_ image: UIImage, completion: @escaping ((Bool,CatLodedResponseModel?,String?)-> Void)){
        
@@ -88,20 +102,20 @@ class CatService2: CatServiceProtocol{
     
     func getFavouriting(completion: @escaping (Bool,[EntityOfFavouriteData]?,String?) -> ()){
         self.favoriteparams = ["sub_id" : "user-123"]
-        Repository().GET(url: favouriteAPIResource, params: favoriteparams, httpHeader: .application_json) { success, data in
-            switch success{
-            case true:
+        repository.GET(url: favouriteAPIResource, params: favoriteparams, httpHeader: .application_json) { result in
+            
+            switch result{
+            case let .success(data):
                 do {
-                    let model = try JSONDecoder().decode([EntityOfFavouriteData].self, from: data!)
+                    let model = try JSONDecoder().decode([EntityOfFavouriteData].self, from: data)
                     completion(true, model, nil)
-                    break
+                    
                 }catch{
                     completion(false, nil, "Error: Trying to pase EntityOfFavouriteData to model")
-                    break
+                    
                 }
-            default:
+            case let .failure(err):
                 completion(false,nil,"Error: EntityOfFavoriteData Post Request failed")
-                break
                 
             }
         }
@@ -130,23 +144,41 @@ class CatService2: CatServiceProtocol{
     
     /// 첫 메인 뷰컨트롤러 이미지 에 대한 전체 데이터 불러오는 함수
     /// - Parameter completion: 데이터를 불러온뒤 실행되는 콜백함수
-    func getCatDataUsingCatServiceProtocol(completion: @escaping (Bool, [EntityOfCatData]?, String?) -> ()) {
+    func getCatDataUsingCatServiceProtocol(completion: @escaping (Bool, [EntityOfCatData]?, Error?) -> ()) {
         repository.GET(url: getImageURLResource, params: params , httpHeader: .application_json) {
-            success,data in
-            if success {
+            result in
+            switch result{
+            case let .failure(error):
+                completion(false,nil,error)
+            case let .success(data):
                 do {
-                    let model = try JSONDecoder().decode([EntityOfCatData].self, from: data!)
+                    let model = try JSONDecoder().decode([EntityOfCatData].self, from: data)
                    
                     completion(true, model, nil)
+                    
                 }catch{
-                    completion(false, nil, "Error: Trying to pase [EntityOFCatData] to model")
+                    completion(false, nil, NSError(domain: "Error: Trying to pase [EntityOFCatData] to model",
+                                                   code: CatServiceErrorCode.jsonDecodeError.rawValue))
                 }
-            }else{
-                completion(false,nil,"Error: [EntityOFCatData] GET Request failed")
             }
         }
     } //getCatDataUsingCatServiceProtocol
+
     
+    func rxGetCatData() -> Observable<[EntityOfCatData]> {
+        
+        return Observable.create{ observer in
+            self.getCatDataUsingCatServiceProtocol{ flag, data , error in
+                if flag == true, error == nil {
+                    observer.onNext(data!)
+                    observer.onCompleted()
+                }else {
+                    observer.onError(error!)
+                }
+            }
+            return Disposables.create()
+        }
+    }
     
 }
 

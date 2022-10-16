@@ -6,16 +6,26 @@
 //
 
 import Foundation
-import CloudKit
-
+import RxSwift
+import RxCocoa
 
 protocol FavoriteFlagDataSendDelegate {
     func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath, _ image_URL : String,_ image_id: String)
 }
 
 
-class CatMainViewModel: NSObject {
-    private var catService: CatServiceProtocol
+protocol RxViewModelType{
+    
+    // input
+    var onDataObserver: AnyObserver<Void> { get }
+    
+    
+    // output
+    var allCatData: Observable<[CatCellModel]> { get }
+}
+
+class CatMainViewModel: NSObject, RxViewModelType {
+    private var catService: CatServiceType
     
     
     /// CollectionView reload Closure
@@ -23,6 +33,12 @@ class CatMainViewModel: NSObject {
     
     var cats = [EntityOfCatData]()
     
+    
+    var onDataObserver: AnyObserver<Void>
+    
+    var allCatData: Observable<[CatCellModel]>
+    
+    var disposeBag = DisposeBag()
     
     /// CatMainViewModelData
     var catsCellViewModels = [CatCellModel]() {
@@ -32,17 +48,29 @@ class CatMainViewModel: NSObject {
         }
     }
     
-    
     /// CatMainViewModel init
     /// - Parameter catService: CatService인스턴스를 default값으로 전달 (CatServiece 인스턴스는 전체 데이터를 가져오기위한 클래스)
-    init(catService: CatServiceProtocol = CatService2() ) {
+    init(catService: CatServiceType = CatService2() ) {
         self.catService = catService
+        let dataPipe = PublishSubject<Void>()
+        let cellDataPipe = BehaviorSubject<[CatCellModel]>(value: [])
+        
+        self.onDataObserver = dataPipe.asObserver()
+        
+        allCatData = cellDataPipe
         
         super.init()
         
+        dataPipe
+            .flatMap( catService.rxGetCatData )
+            .map( fetchDataToCellModel(cats:) )
+            .subscribe(onNext: cellDataPipe.onNext(_:))
+            .disposed(by: disposeBag)
+       
         self.addNotificationObserver()
         
     }
+ 
     
     func addNotificationObserver() {
         NotificationCenter.default.addObserver(forName: Notification.Name.deleteActInFC, object: nil, queue: nil, using: { notification in
@@ -71,13 +99,6 @@ class CatMainViewModel: NSObject {
     }//getCats
     
     
-    ///  CatMainViewModel 의 데이터 갯수 리턴 함수
-    /// - Returns:self.CatCellVIewModels.count
-    func numberOfItemsInSection() -> Int {
-        return self.catsCellViewModels.count
-    }
-    
-    
     /// CatMainViewModel favorite ? Add : Delete
     /// - Parameters:
     ///   - favorite: cell favorite Button add or Delete
@@ -102,13 +123,30 @@ class CatMainViewModel: NSObject {
                 }
             }
         }else{
-            guard let favourite_id = self.catsCellViewModels[indexPath.row].favorite_id else {print("postFavoriteToggleData favourite_id error"); return}
+             let favourite_id = self.catsCellViewModels[indexPath.row].favorite_id 
+        
             self.notifyDeleteFavouriteViewModel(favourite_id, image_id, image_URL)
         }
     }
 }
 
 private extension CatMainViewModel{
+    
+    /// Repository 에서 viewmodel 데이터로 변형 [EntityOfCatData] -> [CatCellViewModel]
+    /// - Parameter cats: [EntityOfCatData]
+    func fetchDataToCellModel(cats: [EntityOfCatData]) -> [CatCellModel]{
+        
+        self.cats = cats //cache
+        var cellmodel = [CatCellModel]()
+        
+        for cat in cats {
+            guard let id = cat.id else {print("cat id error"); return [] }
+            guard let imageURL = cat.imageURL else {print("cat url error"); return [] }
+            cellmodel.append(CatCellModel(imageURL: imageURL, id: id, favorite_id: 0))
+        }
+        
+       return cellmodel
+    }
     
     /// Repository 에서 viewmodel 데이터로 변형 [EntityOfCatData] -> [CatCellViewModel]
     /// - Parameter cats: [EntityOfCatData]
@@ -120,7 +158,8 @@ private extension CatMainViewModel{
         for cat in cats {
             guard let id = cat.id else {print("cat id error"); return}
             guard let imageURL = cat.imageURL else {print("cat url error"); return}
-            cellmodel.append(CatCellModel(imageURL: imageURL, id: id))
+            
+            cellmodel.append(CatCellModel(imageURL: imageURL, id: id, favorite_id: 0))
         }
        self.catsCellViewModels = cellmodel
         

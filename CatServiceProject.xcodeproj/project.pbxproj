@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9617F2E728FBE742002341B7 /* CatItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2E628FBE742002341B7 /* CatItemView.swift */; };
+		9617F2EA28FBEC9F002341B7 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9617F2E928FBEC9F002341B7 /* RxCocoa */; };
+		9617F2EC28FBEC9F002341B7 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9617F2EB28FBEC9F002341B7 /* RxSwift */; };
+		9617F2EF28FBFFB0002341B7 /* Cell + ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2EE28FBFFB0002341B7 /* Cell + ex.swift */; };
+		9617F2F128FC0786002341B7 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F028FC0786002341B7 /* HeartButton.swift */; };
+		9617F2F328FC0DD1002341B7 /* CollectionView+ ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F228FC0DD1002341B7 /* CollectionView+ ex.swift */; };
+		9617F2F528FC0F80002341B7 /* CatViewController - ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F428FC0F80002341B7 /* CatViewController - ex.swift */; };
+		9617F2F728FC131A002341B7 /* UIRefreshControl - ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F628FC131A002341B7 /* UIRefreshControl - ex.swift */; };
 		961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */; };
 		961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */; };
 		961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */; };
@@ -50,6 +58,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9617F2E628FBE742002341B7 /* CatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatItemView.swift; sourceTree = "<group>"; };
+		9617F2EE28FBFFB0002341B7 /* Cell + ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cell + ex.swift"; sourceTree = "<group>"; };
+		9617F2F028FC0786002341B7 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
+		9617F2F228FC0DD1002341B7 /* CollectionView+ ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionView+ ex.swift"; sourceTree = "<group>"; };
+		9617F2F428FC0F80002341B7 /* CatViewController - ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CatViewController - ex.swift"; sourceTree = "<group>"; };
+		9617F2F628FC131A002341B7 /* UIRefreshControl - ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl - ex.swift"; sourceTree = "<group>"; };
 		961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewController.swift; sourceTree = "<group>"; };
 		961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewModel.swift; sourceTree = "<group>"; };
 		961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatLodedResponseModel.swift; sourceTree = "<group>"; };
@@ -98,6 +112,8 @@
 			files = (
 				9690D1E828D1915B0038198F /* SnapKit in Frameworks */,
 				9690D1E528D1914E0038198F /* Kingfisher in Frameworks */,
+				9617F2EC28FBEC9F002341B7 /* RxSwift in Frameworks */,
+				9617F2EA28FBEC9F002341B7 /* RxCocoa in Frameworks */,
 				9690D1E228D191440038198F /* ViewAnimator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,6 +121,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9617F2E528FBE70A002341B7 /* CustomVIewCell */ = {
+			isa = PBXGroup;
+			children = (
+				96635BF728C48797004F4F34 /* CatCollectionViewCell.swift */,
+				9617F2E628FBE742002341B7 /* CatItemView.swift */,
+				9617F2F028FC0786002341B7 /* HeartButton.swift */,
+			);
+			path = CustomVIewCell;
+			sourceTree = "<group>";
+		};
+		9617F2ED28FBFFA2002341B7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9617F2EE28FBFFB0002341B7 /* Cell + ex.swift */,
+				9617F2F228FC0DD1002341B7 /* CollectionView+ ex.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		961A9C8828D30C2E00B8ECB0 /* UpLoadViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +167,7 @@
 		964E66F528C30E1900518436 /* CatServiceProject */ = {
 			isa = PBXGroup;
 			children = (
+				9617F2ED28FBFFA2002341B7 /* Extension */,
 				964E66F628C30E1900518436 /* AppDelegate.swift */,
 				964E66F828C30E1900518436 /* SceneDelegate.swift */,
 				96635C0428C77D46004F4F34 /* BreedsCatListViewController */,
@@ -198,7 +234,9 @@
 			isa = PBXGroup;
 			children = (
 				964E66FA28C30E1900518436 /* CatMainListViewController.swift */,
-				96635BF728C48797004F4F34 /* CatCollectionViewCell.swift */,
+				9617F2F428FC0F80002341B7 /* CatViewController - ex.swift */,
+				9617F2F628FC131A002341B7 /* UIRefreshControl - ex.swift */,
+				9617F2E528FBE70A002341B7 /* CustomVIewCell */,
 				967CAA2428CDB0E9004CBCC5 /* LikeButton.swift */,
 				96635C0028C725E9004F4F34 /* CatDetailViewController.swift */,
 			);
@@ -274,6 +312,8 @@
 				9690D1E128D191440038198F /* ViewAnimator */,
 				9690D1E428D1914E0038198F /* Kingfisher */,
 				9690D1E728D1915B0038198F /* SnapKit */,
+				9617F2E928FBEC9F002341B7 /* RxCocoa */,
+				9617F2EB28FBEC9F002341B7 /* RxSwift */,
 			);
 			productName = CatServiceProject;
 			productReference = 964E66F328C30E1900518436 /* CatServiceProject.app */;
@@ -307,6 +347,7 @@
 				9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */,
 				9690D1E328D1914E0038198F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9617F2E828FBEC9F002341B7 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 964E66F428C30E1900518436 /* Products */;
 			projectDirPath = "";
@@ -351,10 +392,13 @@
 				964EE57E28C9865C00BEFCD5 /* CatService.swift in Sources */,
 				961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */,
 				967CAA2B28CEDE2C004CBCC5 /* CatMainViewModel.swift in Sources */,
+				9617F2F328FC0DD1002341B7 /* CollectionView+ ex.swift in Sources */,
 				964EE57928C9852600BEFCD5 /* CatBreedsViewModel.swift in Sources */,
 				967CAA2F28CEE124004CBCC5 /* CatCellModel.swift in Sources */,
 				964EE58228CD469200BEFCD5 /* CatMainListDataModel.swift in Sources */,
 				964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */,
+				9617F2F728FC131A002341B7 /* UIRefreshControl - ex.swift in Sources */,
+				9617F2F528FC0F80002341B7 /* CatViewController - ex.swift in Sources */,
 				964E66F728C30E1900518436 /* AppDelegate.swift in Sources */,
 				966064A528D4302800CBAE6E /* RepositoryExtension.swift in Sources */,
 				964EE58428CD494900BEFCD5 /* CatMainListViewModel.swift in Sources */,
@@ -362,8 +406,11 @@
 				964EE58828CD5AE200BEFCD5 /* ImageModel.swift in Sources */,
 				961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */,
 				967CAA3C28D01E09004CBCC5 /* EntityOfFavouriteData.swift in Sources */,
+				9617F2F128FC0786002341B7 /* HeartButton.swift in Sources */,
 				967CAA4028D04D3D004CBCC5 /* AnimationButton.swift in Sources */,
+				9617F2EF28FBFFB0002341B7 /* Cell + ex.swift in Sources */,
 				967CAA3E28D021FE004CBCC5 /* CatFavouriteModel.swift in Sources */,
+				9617F2E728FBE742002341B7 /* CatItemView.swift in Sources */,
 				96635C0328C77AF8004F4F34 /* CatBreedsListViewController.swift in Sources */,
 				961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */,
 				967CAA3828D01484004CBCC5 /* FavouriteCell.swift in Sources */,
@@ -578,6 +625,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9617F2E828FBEC9F002341B7 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marcosgriselli/ViewAnimator.git";
@@ -605,6 +660,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9617F2E928FBEC9F002341B7 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9617F2E828FBEC9F002341B7 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		9617F2EB28FBEC9F002341B7 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9617F2E828FBEC9F002341B7 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
 		9690D1E128D191440038198F /* ViewAnimator */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */;

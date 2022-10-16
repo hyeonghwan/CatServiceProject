@@ -167,13 +167,12 @@ final class Repository {
     }
     
     
-    func GET(url: String, params: [String: String], httpHeader: HTTPHeaderFields, complete: @escaping (Bool,Data?) -> () ){
+    func GET(url: String, params: [String: String], httpHeader: HTTPHeaderFields, completion: @escaping (Result<Data,Error>) -> () ){
         guard var components = URLComponents(string: url) else {
             print("Error: cannot create URLComponents")
             return
         }
-        print("GETEDD")
-        print("GET: \(params)")
+      
         components.queryItems = params.map{ key, value in
             URLQueryItem(name: key, value: value)
         }
@@ -200,22 +199,20 @@ final class Repository {
         
         session.dataTask(with: request){ data,response,error in
             guard error == nil else {
-                print("Error: problem calling GET")
-                print(error!)
-                complete(false, nil)
+                completion(.failure(error!))
                 return
             }
             guard let data = data else {
-                print("Did not receive data")
-                complete(false, nil)
+                let response = response as! HTTPURLResponse
+                completion(.failure(NSError(domain: "no Data", code: response.statusCode)))
                 return
             }
             guard let response = response as? HTTPURLResponse, (200..<300) ~= response.statusCode else {
-                print("Error: HTTP request failed")
-                complete(false, nil)
+                let response = response as! HTTPURLResponse
+                completion(.failure(NSError(domain: "bad Request", code: response.statusCode)))
                 return
             }
-            complete(true, data)
+            completion(.success(data))
         }.resume()
     }
     

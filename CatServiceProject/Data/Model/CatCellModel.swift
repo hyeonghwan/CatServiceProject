@@ -9,16 +9,17 @@ import Foundation
 import UIKit
 
 struct CatCellModel {
-    var favorite_id: Int?
-    var imageURL: String?
-    var id: String?
-    var favoriteFlag: Bool?
+    var favorite_id: Int
+    var imageURL: String
+    var id: String
+    var favoriteFlag: Bool
     
     
-    init(imageURL: String, id: String, favoriteFlag: Bool = false){
+    init(imageURL: String, id: String, favoriteFlag: Bool = false, favorite_id : Int){
         self.imageURL = imageURL
         self.id = id
         self.favoriteFlag = favoriteFlag
+        self.favorite_id = favorite_id
     }
     
   
