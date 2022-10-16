@@ -24,7 +24,7 @@ protocol CatServiceProtocol {
 
 class CatService2: CatServiceProtocol{
   
-    
+    private let repository = Repository()
 
     
     /* Image GET key 값*/
@@ -48,7 +48,7 @@ class CatService2: CatServiceProtocol{
        
         let imageFile = UpLoadImageFile(fileName: "cat", mimeType: "image/jpeg", fileData: image.jpegData(compressionQuality: 1))
         
-        Repository().POST(url: upLoadKeyResource, params: [:], body: [imageFile], httpHeader: .multipart_form_data) { success, data in
+        repository.POST(url: upLoadKeyResource, params: [:], body: [imageFile], httpHeader: .multipart_form_data) { success, data in
             switch success {
             case true:
                 do {
@@ -112,9 +112,9 @@ class CatService2: CatServiceProtocol{
     /// - Parameter completion: 이미지 값(image_id) 을 전달하고 Response 받아서 콜백함수 호출
     func postFavouriting(completion: @escaping (Bool,EntityOfFavouriteResponse?,String?) -> ()) {
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: favoriteBody)
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: favoriteBody) else {  return }
         
-        Repository().POST(url: favouriteAPIResource, params: [:] ,body: [jsonData], httpHeader: .application_json) { success, data in
+        repository.POST(url: favouriteAPIResource, params: [:] ,body: [jsonData], httpHeader: .application_json) { success, data in
             if success {
                 do {
                     let model = try JSONDecoder().decode(EntityOfFavouriteResponse.self, from: data!)
@@ -131,7 +131,7 @@ class CatService2: CatServiceProtocol{
     /// 첫 메인 뷰컨트롤러 이미지 에 대한 전체 데이터 불러오는 함수
     /// - Parameter completion: 데이터를 불러온뒤 실행되는 콜백함수
     func getCatDataUsingCatServiceProtocol(completion: @escaping (Bool, [EntityOfCatData]?, String?) -> ()) {
-        Repository().GET(url: getImageURLResource, params: params , httpHeader: .application_json) {
+        repository.GET(url: getImageURLResource, params: params , httpHeader: .application_json) {
             success,data in
             if success {
                 do {

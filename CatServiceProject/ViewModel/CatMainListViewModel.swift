@@ -67,22 +67,3 @@ final class CatMainListViewModel {
 }
 
 
-
-//func getCatListImage() {
-//    let catService = CatService()
-//    catService.getCatMainListDataModel{ item in
-//        self.catList = item
-//        self.catList.forEach{ data in
-//            guard let id = data.id else { print("data.id is nil"); return}
-//            guard let imageURL = data.catImageURL else {print("data.catImageURL is nil"); return}
-//            self.downloadImage(with: imageURL) { image in
-//                self.catImageDictionary[id] = image
-//                self.catMainListViewModelArray.append("\(id) \(imageURL)")
-//            }
-//        }
-//    }
-//}
-
-
-
-//}

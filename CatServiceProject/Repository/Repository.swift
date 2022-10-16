@@ -128,7 +128,6 @@ final class Repository {
             print(type(of: data))
             request.httpBody = httpBody as Data
 
-//            print("reques.httpBody : \(String(data: httpBody as Data, encoding: .utf8))")
             break
         case .none:
             break

@@ -14,7 +14,7 @@ protocol FavoriteFlagDataSendDelegate {
 }
 
 
-class CatMainViewModel: NSObject{
+class CatMainViewModel: NSObject {
     private var catService: CatServiceProtocol
     
     
@@ -36,9 +36,10 @@ class CatMainViewModel: NSObject{
     /// CatMainViewModel init
     /// - Parameter catService: CatService인스턴스를 default값으로 전달 (CatServiece 인스턴스는 전체 데이터를 가져오기위한 클래스)
     init(catService: CatServiceProtocol = CatService2() ) {
-        
         self.catService = catService
+        
         super.init()
+        
         self.addNotificationObserver()
         
     }
@@ -84,6 +85,7 @@ class CatMainViewModel: NSObject{
     ///   - indexPath: cell 위치
     func postFavoriteToggleData(_ favorite: Bool,_ image_id: String,_ image_URL:String, _ indexPath: IndexPath){
         self.catsCellViewModels[indexPath.row].favoriteFlag = favorite
+        
         if favorite{
             catService.getImageID(image_id)
             catService.postFavouriting{ [weak self] success,model ,error in
