@@ -15,9 +15,14 @@
 		9617F2F328FC0DD1002341B7 /* CollectionView+ ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F228FC0DD1002341B7 /* CollectionView+ ex.swift */; };
 		9617F2F528FC0F80002341B7 /* CatViewController - ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F428FC0F80002341B7 /* CatViewController - ex.swift */; };
 		9617F2F728FC131A002341B7 /* UIRefreshControl - ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F628FC131A002341B7 /* UIRefreshControl - ex.swift */; };
+		9617F2F928FC1E05002341B7 /* REPError-ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2F828FC1E05002341B7 /* REPError-ex.swift */; };
+		9617F2FB28FC1EC4002341B7 /* ServiceError - ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2FA28FC1EC4002341B7 /* ServiceError - ex.swift */; };
+		9617F2FD28FD2BBE002341B7 /* PostFavouriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617F2FC28FD2BBE002341B7 /* PostFavouriteModel.swift */; };
 		961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */; };
 		961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */; };
 		961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */; };
+		964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D866E28FE95F1005BD10B /* FVC-ex.swift */; };
+		964D867128FEA17D005BD10B /* RootViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867028FEA17D005BD10B /* RootViewModelType.swift */; };
 		964E66F728C30E1900518436 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F628C30E1900518436 /* AppDelegate.swift */; };
 		964E66F928C30E1900518436 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F828C30E1900518436 /* SceneDelegate.swift */; };
 		964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66FA28C30E1900518436 /* CatMainListViewController.swift */; };
@@ -29,7 +34,7 @@
 		964EE58428CD494900BEFCD5 /* CatMainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */; };
 		964EE58628CD4D2200BEFCD5 /* ImageViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */; };
 		964EE58828CD5AE200BEFCD5 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58728CD5AE200BEFCD5 /* ImageModel.swift */; };
-		966064A528D4302800CBAE6E /* RepositoryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A428D4302800CBAE6E /* RepositoryExtension.swift */; };
+		966064A528D4302800CBAE6E /* REP (Data Form)- ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A428D4302800CBAE6E /* REP (Data Form)- ex.swift */; };
 		966064A728D4313F00CBAE6E /* UpLoadImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */; };
 		96635BEC28C39814004F4F34 /* EntityOfCatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BEB28C39814004F4F34 /* EntityOfCatData.swift */; };
 		96635BEE28C39EE3004F4F34 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BED28C39EE2004F4F34 /* NetworkHandler.swift */; };
@@ -64,9 +69,14 @@
 		9617F2F228FC0DD1002341B7 /* CollectionView+ ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionView+ ex.swift"; sourceTree = "<group>"; };
 		9617F2F428FC0F80002341B7 /* CatViewController - ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CatViewController - ex.swift"; sourceTree = "<group>"; };
 		9617F2F628FC131A002341B7 /* UIRefreshControl - ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl - ex.swift"; sourceTree = "<group>"; };
+		9617F2F828FC1E05002341B7 /* REPError-ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REPError-ex.swift"; sourceTree = "<group>"; };
+		9617F2FA28FC1EC4002341B7 /* ServiceError - ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServiceError - ex.swift"; sourceTree = "<group>"; };
+		9617F2FC28FD2BBE002341B7 /* PostFavouriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFavouriteModel.swift; sourceTree = "<group>"; };
 		961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewController.swift; sourceTree = "<group>"; };
 		961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewModel.swift; sourceTree = "<group>"; };
 		961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatLodedResponseModel.swift; sourceTree = "<group>"; };
+		964D866E28FE95F1005BD10B /* FVC-ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FVC-ex.swift"; sourceTree = "<group>"; };
+		964D867028FEA17D005BD10B /* RootViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModelType.swift; sourceTree = "<group>"; };
 		964E66F328C30E1900518436 /* CatServiceProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatServiceProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		964E66F628C30E1900518436 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		964E66F828C30E1900518436 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,7 +90,7 @@
 		964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatMainListViewModel.swift; sourceTree = "<group>"; };
 		964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModelDelegate.swift; sourceTree = "<group>"; };
 		964EE58728CD5AE200BEFCD5 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
-		966064A428D4302800CBAE6E /* RepositoryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryExtension.swift; sourceTree = "<group>"; };
+		966064A428D4302800CBAE6E /* REP (Data Form)- ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REP (Data Form)- ex.swift"; sourceTree = "<group>"; };
 		966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpLoadImageFile.swift; sourceTree = "<group>"; };
 		96635BEB28C39814004F4F34 /* EntityOfCatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOfCatData.swift; sourceTree = "<group>"; };
 		96635BED28C39EE2004F4F34 /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
@@ -189,6 +199,7 @@
 		964EE57728C984FC00BEFCD5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				964D867028FEA17D005BD10B /* RootViewModelType.swift */,
 				964EE57828C9852600BEFCD5 /* CatBreedsViewModel.swift */,
 				964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */,
 				967CAA2A28CEDE2C004CBCC5 /* CatMainViewModel.swift */,
@@ -205,6 +216,7 @@
 				967CAA2828CEDDD7004CBCC5 /* CatURLModel.swift */,
 				964EE58728CD5AE200BEFCD5 /* ImageModel.swift */,
 				967CAA2E28CEE124004CBCC5 /* CatCellModel.swift */,
+				9617F2FC28FD2BBE002341B7 /* PostFavouriteModel.swift */,
 				967CAA3D28D021FE004CBCC5 /* CatFavouriteModel.swift */,
 				961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */,
 			);
@@ -216,6 +228,7 @@
 			children = (
 				964EE57D28C9865C00BEFCD5 /* CatService.swift */,
 				967CAA2C28CEDEB1004CBCC5 /* CatService2.swift */,
+				9617F2FA28FC1EC4002341B7 /* ServiceError - ex.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -267,7 +280,8 @@
 			children = (
 				96635BED28C39EE2004F4F34 /* NetworkHandler.swift */,
 				96635BFE28C71DC3004F4F34 /* Repository.swift */,
-				966064A428D4302800CBAE6E /* RepositoryExtension.swift */,
+				9617F2F828FC1E05002341B7 /* REPError-ex.swift */,
+				966064A428D4302800CBAE6E /* REP (Data Form)- ex.swift */,
 				966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */,
 			);
 			path = Repository;
@@ -287,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				967CAA3528D0040B004CBCC5 /* FavouriteViewController.swift */,
+				964D866E28FE95F1005BD10B /* FVC-ex.swift */,
 				967CAA3728D01484004CBCC5 /* FavouriteCell.swift */,
 			);
 			path = FavouriteViewController;
@@ -396,11 +411,12 @@
 				964EE57928C9852600BEFCD5 /* CatBreedsViewModel.swift in Sources */,
 				967CAA2F28CEE124004CBCC5 /* CatCellModel.swift in Sources */,
 				964EE58228CD469200BEFCD5 /* CatMainListDataModel.swift in Sources */,
+				964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */,
 				964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */,
 				9617F2F728FC131A002341B7 /* UIRefreshControl - ex.swift in Sources */,
 				9617F2F528FC0F80002341B7 /* CatViewController - ex.swift in Sources */,
 				964E66F728C30E1900518436 /* AppDelegate.swift in Sources */,
-				966064A528D4302800CBAE6E /* RepositoryExtension.swift in Sources */,
+				966064A528D4302800CBAE6E /* REP (Data Form)- ex.swift in Sources */,
 				964EE58428CD494900BEFCD5 /* CatMainListViewModel.swift in Sources */,
 				96635BEC28C39814004F4F34 /* EntityOfCatData.swift in Sources */,
 				964EE58828CD5AE200BEFCD5 /* ImageModel.swift in Sources */,
@@ -408,14 +424,18 @@
 				967CAA3C28D01E09004CBCC5 /* EntityOfFavouriteData.swift in Sources */,
 				9617F2F128FC0786002341B7 /* HeartButton.swift in Sources */,
 				967CAA4028D04D3D004CBCC5 /* AnimationButton.swift in Sources */,
+				9617F2F928FC1E05002341B7 /* REPError-ex.swift in Sources */,
 				9617F2EF28FBFFB0002341B7 /* Cell + ex.swift in Sources */,
 				967CAA3E28D021FE004CBCC5 /* CatFavouriteModel.swift in Sources */,
 				9617F2E728FBE742002341B7 /* CatItemView.swift in Sources */,
 				96635C0328C77AF8004F4F34 /* CatBreedsListViewController.swift in Sources */,
 				961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */,
+				964D867128FEA17D005BD10B /* RootViewModelType.swift in Sources */,
 				967CAA3828D01484004CBCC5 /* FavouriteCell.swift in Sources */,
 				96635BEE28C39EE3004F4F34 /* NetworkHandler.swift in Sources */,
+				9617F2FB28FC1EC4002341B7 /* ServiceError - ex.swift in Sources */,
 				964E66F928C30E1900518436 /* SceneDelegate.swift in Sources */,
+				9617F2FD28FD2BBE002341B7 /* PostFavouriteModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

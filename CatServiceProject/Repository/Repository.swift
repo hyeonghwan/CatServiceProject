@@ -73,7 +73,11 @@ final class Repository {
         }.resume()
     }
     
-    func POST(url: String, params: [String : String],body: [Any], httpHeader: HTTPHeaderFields, complete: @escaping (Bool,Data?) -> () ) {
+    func POST(url: String,
+              params: [String : String],
+              body: [Any],
+              httpHeader: HTTPHeaderFields,
+              completion: @escaping  (Result<Data,Error>) -> () ) {
         
         guard var components = URLComponents(string: url) else {
             print("Post Error: cannot create URLComponets")
@@ -87,7 +91,7 @@ final class Repository {
         }
         
         guard let url = components.url else {
-            print("Error: cannot crate URL")
+            assert(false,"post url Error")
             return
         }
         
@@ -101,33 +105,39 @@ final class Repository {
             
             request.setValue(apiValue, forHTTPHeaderField: apiKey)
             request.setValue("application/json", forHTTPHeaderField:"Content-Type")
+            
             let httpBody = NSMutableData()
+            
             for data in body{
                 guard let data = data as? Data
-                else {print("POst Body Optional binding Error"); return}
+                else { completion(.resultError(.toString(.bodyError))); return}
                 
                 httpBody.append(data)
             }
+            request.httpBody = httpBody as Data
             
         case .multipart_form_data:
             
             let boundary = "Boundary-\(UUID().uuidString)"
             request.setValue(apiValue, forHTTPHeaderField: apiKey)
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            
             let httpBody = NSMutableData()
 
             for data in body{
-                guard let upLoadImageFile = data as? UpLoadImageFile else {return}
+                guard let upLoadImageFile = data as? UpLoadImageFile else {
+                    completion(.resultError(.toString(.bodyError))); return}
                 
                 httpBody.append(convertFileData(upLoadImage: upLoadImageFile,
                                                 using: boundary))
             }
 
             httpBody.appendString("--\(boundary)--")
+            
             let data = httpBody as Data
-            print(type(of: data))
-            request.httpBody = httpBody as Data
-
+            
+            request.httpBody = data
+            
             break
         case .none:
             break
@@ -138,28 +148,25 @@ final class Repository {
         session.dataTask(with: request){ data,response,error in
             
             guard error == nil else {
-                print("Error: problem calling Post")
-                print(error!)
-                complete(false, nil)
+                completion(.resultError(.toString(.postErorr)))
                 return
             }
             
             guard let data = data else {
-                print("Did not receive data")
-                complete(false, nil)
+                completion(.resultError(.toString(.postDataResultEmptyError)))
                 return
             }
             
             guard let response = response as? HTTPURLResponse else {
+                completion(.resultError(.toString(.HTTPURLResponseError)))
                 return
             }
-            print("response status: \(response.statusCode)")
+            
             if  (200..<300) ~= response.statusCode {
-                complete(true, data)
+                completion(.success(data))
             }else {
-                print("Error: HTTP request failed")
                 print(response)
-                complete(false, nil)
+                completion(.resultError(.toString(response.statusCode)))
             }
            
             
@@ -167,7 +174,10 @@ final class Repository {
     }
     
     
-    func GET(url: String, params: [String: String], httpHeader: HTTPHeaderFields, completion: @escaping (Result<Data,Error>) -> () ){
+    func GET(url: String,
+             params: [String: String],
+             httpHeader: HTTPHeaderFields,
+             completion: @escaping (Result<Data,Error>) -> () ){
         guard var components = URLComponents(string: url) else {
             print("Error: cannot create URLComponents")
             return

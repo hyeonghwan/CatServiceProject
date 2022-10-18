@@ -16,12 +16,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         window.makeKeyAndVisible()
         
+        
         let tabBarController = UITabBarController()
         
         
-        let catListViewController = CatMainListViewController()
+        let catMainViewModel = CatMainViewModel()
+        
+        let catFavouriteViewModel = CatFavouriteViewModel(CatService2(),
+                                                          catMainViewModel.favouriteSuccessObservable)
+        
+        let catListViewController = CatMainListViewController(catMainViewModel: catMainViewModel)
+        
+        let favoriteviewController = FavouriteViewController(favourtieViewModel: catFavouriteViewModel)
+        
+        
         let mainViewController = CatBreedsListViewController()
-        let favoriteviewController = FavouriteViewController()
         let catupLoadViewController = CatUploadViewController()
         
         let mainCatListViewController = UINavigationController(rootViewController: catListViewController)

@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 import Kingfisher
 import SnapKit
 
@@ -16,6 +18,12 @@ class FavouriteCell: UICollectionViewCell{
     private var favourite_id: Int?
     private var indexPath: IndexPath?
     
+    var onCellData: AnyObserver<CatFavouriteModel>
+    
+    var cellDisposeBag = DisposeBag()
+    
+    var disposeBag = DisposeBag()
+    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.borderColor = UIColor.blue.cgColor
@@ -23,6 +31,15 @@ class FavouriteCell: UICollectionViewCell{
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
+    }()
+    
+    private lazy var deleteButton: AnimationButton = {
+       let button = AnimationButton(primaryAction: deleteAction)
+        button.isEnabled = true
+        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
+        button.tintColor = .systemGray
+        button.backgroundColor = .systemGreen
+        return button
     }()
     
     private lazy var deleteAction: UIAction = UIAction(handler: { [unowned self] _ in
@@ -37,42 +54,34 @@ class FavouriteCell: UICollectionViewCell{
         print("action start")
         self.deleteDelegate?.deleteFavouriteDataFromCell(favourite_id,indexPath)
     })
-    private lazy var deleteButton: AnimationButton = {
-       let button = AnimationButton(primaryAction: deleteAction)
-        button.isEnabled = true
-        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
-        button.tintColor = .systemGray
-        button.backgroundColor = .systemGreen
-        return button
-    }()
-    @objc func handle(_ sender: UIButton) {
-        print("dsfaf")
-    }
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        
-        guard isUserInteractionEnabled else { return nil }
-        
-        guard !isHidden else { return nil }
-        
-        guard alpha >= 0.01 else { return nil }
-        
-        
-        
-        guard self.point(inside: point, with: event) else { return nil }
-        
-
-        // add one of these blocks for each button in our collection view cell we want to actually work
-        if self.deleteButton.point(inside: convert(point, to: deleteButton), with: event) {
-            return self.deleteButton
-        }
-        
-        return super.hitTest(point, with: event)
-    }
+   
     
     override init(frame: CGRect) {
+        
+        
+        let cellDataPipe = PublishSubject<CatFavouriteModel>()
+        
+        onCellData = cellDataPipe.asObserver()
+        
+      
         super.init(frame: frame)
+        
+        cellDataPipe
+            .asDriver(onErrorJustReturn: CatFavouriteModel())
+            .drive(onNext: { [weak self] model in
+                if let urlString = model.imageURL{
+                    self?.imageView.kf.setImage(with: URL(string: urlString))
+                }
+            }).disposed(by: cellDisposeBag)
+        
+        
         configureCell()
         
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.disposeBag = DisposeBag()
     }
     required init?(coder: NSCoder) {
         fatalError("FavouriteCell required init error")
@@ -112,3 +121,24 @@ private extension FavouriteCell {
         }
     }
 }
+
+//override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+//
+//    guard isUserInteractionEnabled else { return nil }
+//
+//    guard !isHidden else { return nil }
+//
+//    guard alpha >= 0.01 else { return nil }
+//
+//
+//
+//    guard self.point(inside: point, with: event) else { return nil }
+//
+//
+//    // add one of these blocks for each button in our collection view cell we want to actually work
+//    if self.deleteButton.point(inside: convert(point, to: deleteButton), with: event) {
+//        return self.deleteButton
+//    }
+//
+//    return super.hitTest(point, with: event)
+//}

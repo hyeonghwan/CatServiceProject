@@ -9,24 +9,30 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol FavoriteFlagDataSendDelegate {
-    func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath, _ image_URL : String,_ image_id: String)
-}
+//protocol FavoriteFlagDataSendDelegate {
+//    func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath, _ image_URL : String,_ image_id: String)
+//}
 
 
-protocol RxViewModelType{
+protocol RxViewModelType {
     
     // input
     var onDataObserver: AnyObserver<Void> { get }
     
+    var favouriteHeartObserver: AnyObserver<UpdatedHeartModel> { get }
+    
     
     // output
     var allCatData: Observable<[CatCellModel]> { get }
+    
+    // output To CatFavouriteViewModel
+    var favouriteSuccessObservable: Observable<CatFavouriteModel> { get }
 }
 
 class CatMainViewModel: NSObject, RxViewModelType {
-    private var catService: CatServiceType
     
+    private var catService: CatServiceType
+
     
     /// CollectionView reload Closure
     var reloadCollectionView: (() -> Void)?
@@ -35,6 +41,10 @@ class CatMainViewModel: NSObject, RxViewModelType {
     
     
     var onDataObserver: AnyObserver<Void>
+    
+    var favouriteHeartObserver: AnyObserver<UpdatedHeartModel>
+    
+    var favouriteSuccessObservable: Observable<CatFavouriteModel>
     
     var allCatData: Observable<[CatCellModel]>
     
@@ -47,15 +57,26 @@ class CatMainViewModel: NSObject, RxViewModelType {
             reloadCollectionView?()
         }
     }
+    var dummyData = [CatCellModel(),CatCellModel(),CatCellModel(),CatCellModel(),CatCellModel(),CatCellModel(),CatCellModel()
+    ]
     
     /// CatMainViewModel init
     /// - Parameter catService: CatService인스턴스를 default값으로 전달 (CatServiece 인스턴스는 전체 데이터를 가져오기위한 클래스)
     init(catService: CatServiceType = CatService2() ) {
         self.catService = catService
         let dataPipe = PublishSubject<Void>()
-        let cellDataPipe = BehaviorSubject<[CatCellModel]>(value: [])
+        let cellDataPipe = BehaviorSubject<[CatCellModel]>(value: dummyData)
+        
+        let sucessPipe = PublishSubject<CatFavouriteModel>()
+        
+        let heartPipe = PublishSubject<UpdatedHeartModel>()
+        
+        self.favouriteHeartObserver = heartPipe.asObserver()
         
         self.onDataObserver = dataPipe.asObserver()
+        
+        
+        favouriteSuccessObservable = sucessPipe
         
         allCatData = cellDataPipe
         
@@ -66,22 +87,54 @@ class CatMainViewModel: NSObject, RxViewModelType {
             .map( fetchDataToCellModel(cats:) )
             .subscribe(onNext: cellDataPipe.onNext(_:))
             .disposed(by: disposeBag)
-       
+        
+        heartPipe
+            .filter{ $0.changedFavourite == true}
+            .map(UpdatedHeartModel.transFormToFavouitePostModel(_:))
+            .flatMap(catService.rxPostResponse(_:))
+            .withLatestFrom(cellDataPipe){ responseData, originals in
+                
+                originals.map{ cellModel in
+                    guard cellModel.catID == responseData.imageID else {return cellModel}
+                    
+                    let convertedData = CatCellModel(catCellModel: cellModel, responseData)
+                    
+                    let favourtieData = CatFavouriteModel(convertedData)
+                    
+                    sucessPipe.onNext(favourtieData)
+                    
+                    return convertedData
+                }
+            }
+            .subscribe(onNext: { cellDataPipe.onNext($0)})
+            .disposed(by: disposeBag)
+        
+        heartPipe
+            .filter{ $0.changedFavourite == false}
+        
+        
+        
         self.addNotificationObserver()
         
     }
- 
+    
+    func postMethod() {
+       
+        
+        
+    }
+    
     
     func addNotificationObserver() {
         NotificationCenter.default.addObserver(forName: Notification.Name.deleteActInFC, object: nil, queue: nil, using: { notification in
             
             guard let favourite_dic = notification.userInfo as? [String : Int] else {return}
-           if let index =
-            self.catsCellViewModels
-            .firstIndex(where: {$0.favorite_id == favourite_dic["favourite_id"]}){
-               self.catsCellViewModels[index].favoriteFlag = false
-           }
-    
+            if let index =
+                self.catsCellViewModels
+                .firstIndex(where: {$0.favouriteID == favourite_dic["favourite_id"]}){
+                self.catsCellViewModels[index].favoriteFlag = false
+            }
+            
             
         })
     }
@@ -98,36 +151,6 @@ class CatMainViewModel: NSObject, RxViewModelType {
         }
     }//getCats
     
-    
-    /// CatMainViewModel favorite ? Add : Delete
-    /// - Parameters:
-    ///   - favorite: cell favorite Button add or Delete
-    ///   - id: cell  image id
-    ///   - indexPath: cell 위치
-    func postFavoriteToggleData(_ favorite: Bool,_ image_id: String,_ image_URL:String, _ indexPath: IndexPath){
-        self.catsCellViewModels[indexPath.row].favoriteFlag = favorite
-        
-        if favorite{
-            catService.getImageID(image_id)
-            catService.postFavouriting{ [weak self] success,model ,error in
-                guard let self = self else {return}
-                guard let model = model else {return}
-                guard let favourite_id = model.id else {return}
-            
-                if success {
-                    self.catsCellViewModels[indexPath.row].favorite_id = favourite_id
-                    self.notifyAddFavouriteViewModel(favourite_id, image_id, image_URL)
-                    print("favourite add success")
-                }else {
-                    print("favourite add fail!")
-                }
-            }
-        }else{
-             let favourite_id = self.catsCellViewModels[indexPath.row].favorite_id 
-        
-            self.notifyDeleteFavouriteViewModel(favourite_id, image_id, image_URL)
-        }
-    }
 }
 
 private extension CatMainViewModel{
@@ -142,7 +165,7 @@ private extension CatMainViewModel{
         for cat in cats {
             guard let id = cat.id else {print("cat id error"); return [] }
             guard let imageURL = cat.imageURL else {print("cat url error"); return [] }
-            cellmodel.append(CatCellModel(imageURL: imageURL, id: id, favorite_id: 0))
+            cellmodel.append(CatCellModel(imageURL: imageURL, catID: id, favorite_id: 0))
         }
         
        return cellmodel
@@ -159,11 +182,19 @@ private extension CatMainViewModel{
             guard let id = cat.id else {print("cat id error"); return}
             guard let imageURL = cat.imageURL else {print("cat url error"); return}
             
-            cellmodel.append(CatCellModel(imageURL: imageURL, id: id, favorite_id: 0))
+            cellmodel.append(CatCellModel(imageURL: imageURL, catID: id, favorite_id: 0))
         }
        self.catsCellViewModels = cellmodel
         
     }
+    
+    
+    func responseToFavouriteModel(_ entityModel: EntityOfFavouriteResponse) -> EntityOfFavouriteResponse {
+        let entity: EntityOfFavouriteResponse = entityModel
+    
+        return entity
+    }
+    
     
     /// notify AddAction to FavouriteViewModel
     /// - Parameters:
@@ -191,3 +222,15 @@ private extension CatMainViewModel{
                                             userInfo: nil)
     }
 }
+
+
+//        heartPipe
+//            .map{UpdatedHeartModel.updateHeart($0)}
+//            .withLatestFrom(cellDataPipe){ (updatedModel, originals) -> [CatCellModel] in
+//                originals.map{ data in
+//                    guard data.catID == updatedModel.catID else { return data}
+//                    return updatedModel
+//                }
+//            }
+//            .subscribe(onNext: cellDataPipe.onNext)
+//            .disposed(by: disposeBag)

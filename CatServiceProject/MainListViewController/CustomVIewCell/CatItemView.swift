@@ -18,6 +18,7 @@ final class CatItemView: UIView {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
         img.clipsToBounds = true
+        
         return img
     }()
     
@@ -25,44 +26,46 @@ final class CatItemView: UIView {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
+       
         return view
     }()
     
-    private lazy var heartButton: HeartButton = {
+    lazy var heartButton: HeartButton = {
         let button = HeartButton()
         return button
     }()
-    
-    var catItemViewObserver: AnyObserver<CatCellModel>
-    
-    var disposeBag = DisposeBag()
-    
+
     override init(frame: CGRect) {
-        
-        let subject = PublishSubject<CatCellModel>()
-        
-        catItemViewObserver = subject.asObserver()
-        
+
         super.init(frame: frame)
         
         configure()
-        
-        subject
-            .asDriver(onErrorJustReturn: CatCellModel(imageURL: "", id: "", favorite_id: 0))
-            .drive(onNext: {model in
-            
-            
-                    self.imageView.kf.setImage(with: URL(string: model.imageURL ))
-                    self.heartButton.heartObserver.onNext(model.favoriteFlag )
-                
-               
-            }).disposed(by: disposeBag)
-        
-        
+
     }
     required init?(coder: NSCoder) {
         fatalError("required init fatalError")
         
+    }
+   
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+
+        guard isUserInteractionEnabled else { return nil }
+
+        guard !isHidden else { return nil }
+
+        guard alpha >= 0.01 else { return nil }
+
+        guard self.point(inside: point, with: event) else { return nil }
+
+        
+        // add one of these blocks for each button in our collection view cell we want to actually work
+        if self.heartButton.point(inside: convert(point, to: heartButton), with: event) {
+            print("hitTest : \(self.point(inside: point, with: event))")
+            return self.heartButton
+        }
+
+        return super.hitTest(point, with: event)
     }
     
     

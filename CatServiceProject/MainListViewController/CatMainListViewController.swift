@@ -15,16 +15,24 @@ class CatMainListViewController: UIViewController {
 
     var catMainListViewModel = CatMainListViewModel()
     
-    var catMainViewModel: CatMainViewModel = CatMainViewModel()
+    var catMainViewModel: CatMainViewModel
     
     var disposeBag = DisposeBag()
+    
+    init( catMainViewModel: CatMainViewModel) {
+        self.catMainViewModel = catMainViewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     lazy var collectionView: UICollectionView = {
         return UICollectionView.collectionConfigure()
     }()
-    
-    /// CollectionView Setting func
-    
+
     
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
@@ -53,14 +61,22 @@ class CatMainListViewController: UIViewController {
         
         catMainViewModel
             .allCatData
-            .bind(to: self.collectionView.rx.items(cellIdentifier: CatCollectionViewCell.identify,
+            .observe(on: MainScheduler.instance)
+            .bind(to: collectionView.rx.items(cellIdentifier: CatCollectionViewCell.identify,
                                                    cellType: CatCollectionViewCell.self)){
-                index , cellModel , cell in
+                index , item , cell in
                 
-                cell.catItemView.catItemViewObserver.onNext(cellModel)
+                cell.catItemViewObserver.onNext(item)
+                
+                cell.onChangedHeart
+                    .map{ heartFlag in UpdatedHeartModel(item, heartFlag)}
+                    .do(onNext: {data in })
+                    .bind(to: self.catMainViewModel.favouriteHeartObserver)
+                    .disposed(by: cell.disposeBag )
                 
             }.disposed(by: disposeBag)
-            
+        
+        
     }
     
     
@@ -79,7 +95,7 @@ class CatMainListViewController: UIViewController {
 
 
 
-extension CatMainListViewController: FavoriteFlagDataSendDelegate{
+//extension CatMainListViewController: FavoriteFlagDataSendDelegate{
     
     
     /// Send Data to CatMainViewModel
@@ -88,10 +104,10 @@ extension CatMainListViewController: FavoriteFlagDataSendDelegate{
     ///   - id: image id
     ///   - indexPath: cell 위치
     ///   - image_URL: Image URL
-    func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath,_ image_URL: String,_ image_id: String) {
-        catMainViewModel.postFavoriteToggleData(favorite, image_id,image_URL, indexPath)
-    }
-}
+//    func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath,_ image_URL: String,_ image_id: String) {
+//        catMainViewModel.postFavoriteToggleData(favorite, image_id,image_URL, indexPath)
+//    }
+//}
 
 
 

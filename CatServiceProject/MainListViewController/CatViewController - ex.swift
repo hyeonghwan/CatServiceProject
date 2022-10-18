@@ -102,14 +102,6 @@ extension CatMainListViewController: UICollectionViewDelegateFlowLayout{
 }
 
 
-extension CatMainListViewController: UICollectionViewDelegate{
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = CatDetailViewController()
-        let id = catMainListViewModel.catIDarr[indexPath.row]
-        guard let image = catMainListViewModel.catImageDictionary[id] else {return}
-        vc.catmodel = (id,image)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-}
+
 
 

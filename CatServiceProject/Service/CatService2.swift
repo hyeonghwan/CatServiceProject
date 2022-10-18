@@ -18,10 +18,10 @@ protocol CatServiceProtocol {
     
      func getCatDataUsingCatServiceProtocol(completion: @escaping (Bool, [EntityOfCatData]?, Error?) -> ()  )
     
-    func postFavouriting(completion: @escaping (Bool,EntityOfFavouriteResponse?,String?) -> ())
-    func getImageID(_ image_ID: String)
+    func postFavouriting(postModel: POSTMODEL,completion: @escaping (Bool,EntityOfFavouriteResponse?,Error?) -> ())
     
-    func getFavouriting(completion: @escaping (Bool,[EntityOfFavouriteData]?,String?) -> ())
+    func getFavouriting(params: GETMOMEL, completion: @escaping (Bool,[EntityOfFavouriteData]?,Error?) -> ())
+    
     func deleteFavouriting(favourite_id: Int)
     
     func upLoadImage(_ image: UIImage, completion: @escaping (Bool,CatLodedResponseModel?,String?) -> Void)
@@ -30,6 +30,10 @@ protocol CatServiceProtocol {
 protocol RxCatServiceProtocol{
     
     func rxGetCatData() -> Observable<[EntityOfCatData]>
+    
+    func rxPostResponse(_ postModel: POSTMODEL) -> Observable<FavouriteResponseWrap>
+    
+    func rxGetFavouriteData(_ userID: GETMOMEL) -> Observable<[EntityOfFavouriteData]>
 }
 
 typealias CatServiceType = RxCatServiceProtocol & CatServiceProtocol
@@ -53,7 +57,7 @@ class CatService2: CatServiceType {
     private let upLoadKeyResource = "https://api.thecatapi.com/v1/images/upload"
     
     private var userKey = "sub_id"
-    private var userID = "user-123"
+    private var userID = " "
     
     
 
@@ -62,11 +66,11 @@ class CatService2: CatServiceType {
        
         let imageFile = UpLoadImageFile(fileName: "cat", mimeType: "image/jpeg", fileData: image.jpegData(compressionQuality: 1))
         
-        repository.POST(url: upLoadKeyResource, params: [:], body: [imageFile], httpHeader: .multipart_form_data) { success, data in
-            switch success {
-            case true:
+        repository.POST(url: upLoadKeyResource, params: [:], body: [], httpHeader: .multipart_form_data) { result in
+            switch result {
+            case let .success(data):
                 do {
-                    let model = try JSONDecoder().decode(CatLodedResponseModel.self, from: data!)
+                    let model = try JSONDecoder().decode(CatLodedResponseModel.self, from: data)
                     completion(true,model,nil)
                 }catch{
                     print("upload decode Error occur")
@@ -100,45 +104,78 @@ class CatService2: CatServiceType {
         self.favoriteBody = ["image_id" : image_ID , userKey : userID]
     }
     
-    func getFavouriting(completion: @escaping (Bool,[EntityOfFavouriteData]?,String?) -> ()){
-        self.favoriteparams = ["sub_id" : "user-123"]
-        repository.GET(url: favouriteAPIResource, params: favoriteparams, httpHeader: .application_json) { result in
-            
+    func getFavouriting(params: GETMOMEL,completion: @escaping (Bool,[EntityOfFavouriteData]?,Error?) -> ()){
+        
+        repository.GET(url: favouriteAPIResource, params: params.subID, httpHeader: .application_json) { result in
             switch result{
             case let .success(data):
                 do {
                     let model = try JSONDecoder().decode([EntityOfFavouriteData].self, from: data)
                     completion(true, model, nil)
-                    
                 }catch{
-                    completion(false, nil, "Error: Trying to pase EntityOfFavouriteData to model")
-                    
+                    completion(false, nil, NSError.serviceError(ServiceErrorCode.jsonDecodingError))
                 }
-            case let .failure(err):
-                completion(false,nil,"Error: EntityOfFavoriteData Post Request failed")
-                
+            case let .failure(error):
+                completion(false,nil,error)
             }
         }
-        
+    }
+    
+    func rxGetFavouriteData(_ userID: GETMOMEL) -> Observable<[EntityOfFavouriteData]>{
+        return Observable<[EntityOfFavouriteData]>.create{ [weak self] emiter in
+            
+            self?.getFavouriting(params: userID, completion: { resultFlag, data, error in
+                if resultFlag,
+                   error == nil,
+                   let data = data {
+
+                    print(data)
+                    emiter.onNext(data)
+                    
+                }else {
+                    print(error!)
+                }
+            })
+            return Disposables.create()
+        }
     }
     
     /// 서버에 좋아하는 이미지 값(image_id) 전달하는 함수 service -> repository
     /// - Parameter completion: 이미지 값(image_id) 을 전달하고 Response 받아서 콜백함수 호출
-    func postFavouriting(completion: @escaping (Bool,EntityOfFavouriteResponse?,String?) -> ()) {
-        
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: favoriteBody) else {  return }
-        
-        repository.POST(url: favouriteAPIResource, params: [:] ,body: [jsonData], httpHeader: .application_json) { success, data in
-            if success {
+    func postFavouriting(postModel: POSTMODEL,completion: @escaping (Bool,EntityOfFavouriteResponse?,Error?) -> ()) {
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: postModel.body) else {  return }
+        print(postModel.body)
+        repository.POST(url: favouriteAPIResource, params: [:] ,body: [jsonData], httpHeader: .application_json) { result in
+            
+            switch result {
+            case let .failure(error):
+                completion(false,nil,error)
+                
+            case let .success(data):
                 do {
-                    let model = try JSONDecoder().decode(EntityOfFavouriteResponse.self, from: data!)
+                    let model = try JSONDecoder().decode(EntityOfFavouriteResponse.self, from: data)
                     completion(true, model, nil)
                 }catch{
-                    completion(false, nil, "Error: Trying to pase EntityOfFavoriteData to model")
+                    completion(false, nil, NSError.serviceError(ServiceErrorCode.jsonDecodingError))
                 }
-            }else{
-                completion(false,nil,"Error: EntityOfFavoriteData Post Request failed")
             }
+        }
+    }
+    
+    
+    func rxPostResponse(_ postModel: POSTMODEL) -> Observable<FavouriteResponseWrap>{
+        return Observable<FavouriteResponseWrap>.create{ observer in
+            self.postFavouriting(postModel: postModel, completion: { resultFlag,responseModel,error in
+                if resultFlag,
+                   error == nil,
+                   let responseModel = responseModel {
+                    observer.onNext(FavouriteResponseWrap(responseModel, postModel.imageID))
+                }else {
+                    print(error!)
+                }
+            })
+            return Disposables.create()
         }
     }
     
@@ -150,6 +187,7 @@ class CatService2: CatServiceType {
             switch result{
             case let .failure(error):
                 completion(false,nil,error)
+                
             case let .success(data):
                 do {
                     let model = try JSONDecoder().decode([EntityOfCatData].self, from: data)
@@ -157,8 +195,8 @@ class CatService2: CatServiceType {
                     completion(true, model, nil)
                     
                 }catch{
-                    completion(false, nil, NSError(domain: "Error: Trying to pase [EntityOFCatData] to model",
-                                                   code: CatServiceErrorCode.jsonDecodeError.rawValue))
+                    
+                    completion(false, nil, NSError.serviceError(ServiceErrorCode.jsonDecodingError))
                 }
             }
         }

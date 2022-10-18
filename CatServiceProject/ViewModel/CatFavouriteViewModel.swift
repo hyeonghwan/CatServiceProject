@@ -6,11 +6,26 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
+
+protocol RxFavouriteViewModelType: RootViewModelType{
+    
+    var onFavouriteData: AnyObserver<GETMOMEL> { get }
+    
+    var allFavourites: Observable<[CatFavouriteModel]> { get }
+    
+    var favouriteSuccessObservable:  Observable<CatFavouriteModel> { get }
+    
+}
 
 
 
-class CatFavouriteViewModel {
-    private var catService: CatServiceProtocol
+class CatFavouriteViewModel: RxFavouriteViewModelType {
+    
+    private var catService: CatServiceType
+    
+    var viewType: VMType = .favourite
     
     var favoriteCollectionViewReload: (() -> Void)?
     
@@ -20,15 +35,49 @@ class CatFavouriteViewModel {
         }
     }
     
-    init(_ catService: CatServiceProtocol = CatService2() ) {
+    var onFavouriteData: AnyObserver<GETMOMEL>
+    
+    var allFavourites: Observable<[CatFavouriteModel]>
+    
+    var favouriteSuccessObservable: Observable<CatFavouriteModel>
+    
+    var disposeBag = DisposeBag()
+    
+    
+    var dummyData = [CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel()]
+    
+    init(_ catService: CatServiceType ,
+         _ favouriteSuccessObservable: Observable<CatFavouriteModel> ) {
+        
         self.catService = catService
-        self.catService.getFavouriting{ success,data,error in
-            if success, let favorites = data {
-                self.fetchData(favorites)
-            }else{
-                print(error!)
-            }
-        }
+        
+        self.favouriteSuccessObservable = favouriteSuccessObservable
+        
+        let eventPipe = PublishSubject<GETMOMEL>()
+        
+        let dataPipe = BehaviorSubject<[CatFavouriteModel]>(value: dummyData)
+        
+        
+        onFavouriteData = eventPipe.asObserver()
+        
+        allFavourites = dataPipe
+        
+        
+        eventPipe
+            .flatMap(catService.rxGetFavouriteData)
+            .map(fetchToFavouriteData)
+            .subscribe(onNext: dataPipe.onNext(_:))
+            .disposed(by: disposeBag)
+   
+        self.favouriteSuccessObservable
+            .subscribe(onNext: {
+                do{
+                    try dataPipe.onNext( dataPipe.value() + [$0])
+                } catch {
+                    print(error)
+                }
+            }).disposed(by: disposeBag)
+        
         notificationAddObserver()
     }
     
@@ -55,12 +104,31 @@ private extension CatFavouriteViewModel{
     /// - Parameter favorEntities: 서버에서 가져온 Data
     func fetchData(_ favorEntities: [EntityOfFavouriteData]){
         for favor in favorEntities {
-            guard let id = favor.id else {print("CatFavouriteViewModel id error"); return}
-            guard let imageID = favor.image.id else {print("CatFavouriteViewModel imageID error"); return}
-            guard let imagURL = favor.image.url else {print("CatFavouriteViewModel imageURL error"); return}
+            guard let id = favor.favouriteID else {print("CatFavouriteViewModel id error"); return}
+            guard let imageID = favor.imageID_URL.id else {print("CatFavouriteViewModel imageID error"); return}
+            guard let imagURL = favor.imageID_URL.url else {print("CatFavouriteViewModel imageURL error"); return}
             favoriteCellModel.append(CatFavouriteModel(favourite_id: id,imageID: imageID, imageURL: imagURL))
         }
     }
+    
+    /// FetchData - 서버에서 가져온 데이터를 Cell에 보여줄 데이터로 변형
+    /// - Parameter favorEntities: 서버에서 가져온 Data
+    func fetchToFavouriteData(_ favouriteEntities: [EntityOfFavouriteData]) -> [CatFavouriteModel] {
+        return favouriteEntities.map{entity in
+            
+            if let favouriteID = entity.favouriteID,
+               let imageID = entity.imageID_URL.id,
+               let imageURL = entity.imageID_URL.url{
+                
+                return CatFavouriteModel(favourite_id: favouriteID,
+                                  imageID: imageID,
+                                  imageURL: imageURL)
+            }
+            
+            return CatFavouriteModel()
+        }
+    }
+    
     
     func notificationAddObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(addDataToCellModel(notification: )), name: Notification.Name.favoriteAdd, object: nil)

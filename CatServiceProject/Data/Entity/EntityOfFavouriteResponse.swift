@@ -7,7 +7,18 @@
 
 import Foundation
 
+struct FavouriteResponseWrap {
+    let favouritID: Int
+    let imageID: String
+    let message: String?
+    
+    init(_ response: EntityOfFavouriteResponse,_ imageID: String){
+        self.favouritID = response.id
+        self.imageID = imageID
+        self.message = response.message
+    }
+}
 struct EntityOfFavouriteResponse: Codable {
-    let id: Int?
+    let id: Int
     let message: String?
 }

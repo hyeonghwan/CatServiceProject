@@ -18,3 +18,4 @@ extension IdentifiableProtocol{
 
 extension CatCollectionViewCell: IdentifiableProtocol {}
 
+extension FavouriteCell: IdentifiableProtocol {}
