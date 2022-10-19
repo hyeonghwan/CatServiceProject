@@ -73,7 +73,14 @@ final class CatCollectionViewCell: UICollectionViewCell {
     
     @objc func heartTapped(_ sender: UIButton){
         print("heartTapped")
+        
+        
         self.catItemView.heartButton.heartFlag.toggle()
+        
+        self.catItemView.heartButton.heartFlag ?
+        sender.toastMessage("즐겨찾기 추가") :
+        sender.toastMessage("즐겨찾기 해제")
+        
         heartChange(self.catItemView.heartButton.heartFlag)
         
     }

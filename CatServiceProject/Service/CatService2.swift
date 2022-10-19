@@ -22,7 +22,7 @@ protocol CatServiceProtocol {
     
     func getFavouriting(params: GETMOMEL, completion: @escaping (Bool,[EntityOfFavouriteData]?,Error?) -> ())
     
-    func deleteFavouriting(favourite_id: Int)
+    func deleteFavouriting(deleteModel: DELETEMODEL, completion: @escaping (EntityOfDeleteResponse?,Error?) -> ())
     
     func upLoadImage(_ image: UIImage, completion: @escaping (Bool,CatLodedResponseModel?,String?) -> Void)
 }
@@ -34,6 +34,8 @@ protocol RxCatServiceProtocol{
     func rxPostResponse(_ postModel: POSTMODEL) -> Observable<FavouriteResponseWrap>
     
     func rxGetFavouriteData(_ userID: GETMOMEL) -> Observable<[EntityOfFavouriteData]>
+    
+    func rxDeleteFavouriteData(_ deleteModel: DELETEMODEL) -> Observable<FavouriteDeleteResponseWrap>
 }
 
 typealias CatServiceType = RxCatServiceProtocol & CatServiceProtocol
@@ -86,14 +88,38 @@ class CatService2: CatServiceType {
     
     /// DELETE Method call -> delete data using favourite_id from FavouriteList
     /// - Parameter favourite_id: delete data ID
-    func deleteFavouriting(favourite_id: Int) {
-        let deleteURL = favouriteAPIResource + "/\(favourite_id)"
-        Repository().DELETE(url: deleteURL, params: [:], httpHeader: .application_json) { success, data in
-            if success{
-                print("deleteFavouriting Success")
-            }else {
+    func deleteFavouriting(deleteModel: DELETEMODEL, completion: @escaping (EntityOfDeleteResponse?,Error?) -> ()) {
+        let deleteURL = favouriteAPIResource + "/\(deleteModel.favouriteID)"
+        Repository().DELETE(url: deleteURL, params: [:], httpHeader: .application_json) { result  in
+            
+            switch result {
+            case let .success(data):
+                do {
+                    let model = try JSONDecoder().decode(String.self, from: data)
+                    completion( EntityOfDeleteResponse(message: model), nil )
+                }catch{
+                    completion(nil, NSError.serviceError(ServiceErrorCode.jsonDecodingError))
+                }
+            case let .failure(error):
+                completion(nil,error)
+            }
+        }
+    }
+    
+    func rxDeleteFavouriteData(_ deleteModel: DELETEMODEL) -> Observable<FavouriteDeleteResponseWrap>{
+        return Observable.create{ [weak self] emiter in
+            
+            self?.deleteFavouriting(deleteModel: deleteModel){ message,error  in
+                if error == nil,
+                   message?.message != nil{
+                    emiter.onNext(FavouriteDeleteResponseWrap(imageID: deleteModel.imageID, message: message?.message ?? ""))
+                }else {
+                    print(error!)
+                }
                 
             }
+            
+            return Disposables.create()
         }
     }
     

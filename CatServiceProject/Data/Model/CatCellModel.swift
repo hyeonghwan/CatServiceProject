@@ -25,13 +25,16 @@ struct UpdatedHeartModel{
         return PostFavouriteModel(imageID: updatedHeartModel.catCellModel.catID,
                                   userID: "user-123")
     }
+    static func getFavouriteID(_ updatedHeartModel: UpdatedHeartModel) -> Int{
+        return updatedHeartModel.catCellModel.favouriteID ?? <#default value#>
+    }
     
     
 }
 
 struct CatCellModel {
     var catID: String
-    var favouriteID: Int
+    var favouriteID: Int?
     var imageURL: String
     var favoriteFlag: Bool
     
@@ -56,11 +59,18 @@ struct CatCellModel {
         self.favoriteFlag = updateHeartModel.changedFavourite
     }
     
-    init(catCellModel: CatCellModel,_ entity: FavouriteResponseWrap){
+    init(catCellModel: CatCellModel,_ favouriteResponseWrapEntity: FavouriteResponseWrap){
         self.catID = catCellModel.catID
         self.imageURL = catCellModel.imageURL
         self.favoriteFlag = true
-        self.favouriteID = entity.favouritID
+        self.favouriteID = favouriteResponseWrapEntity.favouritID
+    }
+    
+    init(catCellModel: CatCellModel,_ favouriteDeleteWrapWrapEnitity: FavouriteDeleteResponseWrap){
+        self.catID = catCellModel.catID
+        self.imageURL = catCellModel.imageURL
+        self.favouriteID = nil
+        self.favoriteFlag = false
     }
     
 }

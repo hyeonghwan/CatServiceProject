@@ -88,7 +88,7 @@ class CatFavouriteViewModel: RxFavouriteViewModelType {
     func deleteFavouriteCellData(_ favourite_id: Int,_ indexPath: IndexPath) {
         
         self.favoriteCellModel.remove(at: indexPath.row)
-        self.catService.deleteFavouriting(favourite_id: favourite_id)
+//        self.catService.deleteFavouriting(favourite_id: favourite_id)
         
         //notify MainView to change button if have favouriteData
         NotificationCenter.default.post(name: Notification.Name.deleteActInFC,
@@ -156,7 +156,7 @@ private extension CatFavouriteViewModel{
         
         self.favoriteCellModel.remove(at: index)
       
-        self.catService.deleteFavouriting(favourite_id: favourite_id)
+//        self.catService.deleteFavouriting(favourite_id: favourite_id)
         
         
     }

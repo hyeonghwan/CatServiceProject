@@ -19,9 +19,10 @@ final class Repository {
     private let apiValue = "live_kr1uWfeTG36BkaS1wKowAR2yiX80b4Ay9dHD4kCS4EdcywLg2OFj6mOcFytY6fSG"
     private let apiKey = "x-api-key"
     
-    func DELETE(url: String, params: [String : String], httpHeader: HTTPHeaderFields, complete: @escaping (Bool,Data?) -> () ) {
+    func DELETE(url: String, params: [String : String], httpHeader: HTTPHeaderFields, completion: @escaping  (Result<Data,Error>) -> ()  ) {
+        
         guard var components = URLComponents(string: url) else {
-            print("Post Error: cannot create URLComponets")
+            completion(.failure(NSError.createError("Post Error: cannot create URLComponets")))
             return
         }
         if !params.isEmpty{
@@ -31,7 +32,7 @@ final class Repository {
         }
         
         guard let url = components.url else {
-            print("Error: cannot crate URL")
+            completion(.failure(NSError.createError("Delete Url Error")))
             return
         }
           
@@ -53,23 +54,20 @@ final class Repository {
         
         session.dataTask(with: request){ data,response,error in
             guard error == nil else {
-                print("Error: problem calling Post")
-                print(error!)
-                complete(false, nil)
+                completion(.failure(NSError.createError("Error: problem calling Post")))
                 return
             }
             guard let data = data else {
-                print("Did not receive data")
-                complete(false, nil)
+                completion(.failure(NSError.createError("Did not receive data")))
                 return
             }
             guard let response = response as? HTTPURLResponse, (200..<300) ~= response.statusCode else {
                 
-                print("Error: HTTP request failed")
-                complete(false, nil)
+                completion(.failure(NSError.createError("Error: HTTP request failed")))
                 return
             }
-            complete(true, data)
+            
+            completion(.success(data))
         }.resume()
     }
     

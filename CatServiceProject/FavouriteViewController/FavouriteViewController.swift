@@ -63,7 +63,6 @@ class FavouriteViewController: UIViewController {
                 cell.onCellData
                     .onNext(item)
                 
-                
             }.disposed(by: disposeBag )
     }
     

@@ -33,24 +33,4 @@ struct CatFavouriteModel {
     }
     
 }
-//struct EntityOfFavouriteData: Decodable {
-//    let id: Int?
-//    let userID: String?
-//    let imageID: String?
-//    let subID: String?
-//    let day: String?
-//    let image: ImageIDandURL
-//
-//    enum CodingKeys: String,CodingKey{
-//        case id
-//        case userID = "user_id"
-//        case imageID = "image_id"
-//        case subID = "sub_id"
-//        case day = "created_at"
-//        case image
-//    }
-//    struct ImageIDandURL: Decodable{
-//        let id: String?
-//        let url: String?
-//    }
-//}
+

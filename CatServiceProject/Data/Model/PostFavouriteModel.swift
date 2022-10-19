@@ -37,3 +37,14 @@ struct GetFavouriteModel: GETMOMEL {
         self.subID = ["sub_id" : subIDValue]
     }
 }
+
+
+protocol DELETEMODEL {
+    var favouriteID: Int { get }
+    var imageID: String { get }
+}
+
+struct getFavouriteModel: DELETEMODEL {
+    var favouriteID: Int
+    var imageID: String
+}

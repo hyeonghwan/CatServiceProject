@@ -111,6 +111,23 @@ class CatMainViewModel: NSObject, RxViewModelType {
         
         heartPipe
             .filter{ $0.changedFavourite == false}
+            .map(UpdatedHeartModel.getFavouriteID(_:))
+            .flatMap(catService.rxDeleteFavouriteData(_:))
+            .withLatestFrom(cellDataPipe){ responseData, originals in
+            
+            originals.map{ cellModel in
+                
+                guard cellModel.catID == responseData.imageID else {return cellModel}
+                
+                let convertedData = CatCellModel(catCellModel: cellModel, responseData)
+                
+                let favourtieData = CatFavouriteModel(convertedData)
+                
+                sucessPipe.onNext(favourtieData)
+                
+                return convertedData
+            }
+        }
         
         
         

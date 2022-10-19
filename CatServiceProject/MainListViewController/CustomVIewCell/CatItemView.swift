@@ -61,7 +61,6 @@ final class CatItemView: UIView {
         
         // add one of these blocks for each button in our collection view cell we want to actually work
         if self.heartButton.point(inside: convert(point, to: heartButton), with: event) {
-            print("hitTest : \(self.point(inside: point, with: event))")
             return self.heartButton
         }
 

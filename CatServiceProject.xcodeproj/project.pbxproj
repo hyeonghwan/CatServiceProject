@@ -23,6 +23,8 @@
 		961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */; };
 		964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D866E28FE95F1005BD10B /* FVC-ex.swift */; };
 		964D867128FEA17D005BD10B /* RootViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867028FEA17D005BD10B /* RootViewModelType.swift */; };
+		964D867328FFDD10005BD10B /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867228FFDD10005BD10B /* ToastMessageView.swift */; };
+		964D867528FFE3D9005BD10B /* Application + ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867428FFE3D9005BD10B /* Application + ex.swift */; };
 		964E66F728C30E1900518436 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F628C30E1900518436 /* AppDelegate.swift */; };
 		964E66F928C30E1900518436 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F828C30E1900518436 /* SceneDelegate.swift */; };
 		964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66FA28C30E1900518436 /* CatMainListViewController.swift */; };
@@ -77,6 +79,8 @@
 		961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatLodedResponseModel.swift; sourceTree = "<group>"; };
 		964D866E28FE95F1005BD10B /* FVC-ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FVC-ex.swift"; sourceTree = "<group>"; };
 		964D867028FEA17D005BD10B /* RootViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModelType.swift; sourceTree = "<group>"; };
+		964D867228FFDD10005BD10B /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
+		964D867428FFE3D9005BD10B /* Application + ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application + ex.swift"; sourceTree = "<group>"; };
 		964E66F328C30E1900518436 /* CatServiceProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatServiceProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		964E66F628C30E1900518436 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		964E66F828C30E1900518436 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			children = (
 				9617F2EE28FBFFB0002341B7 /* Cell + ex.swift */,
 				9617F2F228FC0DD1002341B7 /* CollectionView+ ex.swift */,
+				964D867428FFE3D9005BD10B /* Application + ex.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 				9617F2ED28FBFFA2002341B7 /* Extension */,
 				964E66F628C30E1900518436 /* AppDelegate.swift */,
 				964E66F828C30E1900518436 /* SceneDelegate.swift */,
+				964D867228FFDD10005BD10B /* ToastMessageView.swift */,
 				96635C0428C77D46004F4F34 /* BreedsCatListViewController */,
 				96635BF928C62B63004F4F34 /* MainListViewController */,
 				967CAA3428D003EB004CBCC5 /* FavouriteViewController */,
@@ -403,6 +409,7 @@
 				967CAA3628D0040B004CBCC5 /* FavouriteViewController.swift in Sources */,
 				96635C0A28C7A152004F4F34 /* CatBreedsButton.swift in Sources */,
 				967CAA3128CF40D8004CBCC5 /* EntityOfFavouriteResponse.swift in Sources */,
+				964D867528FFE3D9005BD10B /* Application + ex.swift in Sources */,
 				96635C0828C77D67004F4F34 /* CustomSegmentedControl.swift in Sources */,
 				964EE57E28C9865C00BEFCD5 /* CatService.swift in Sources */,
 				961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */,
@@ -414,6 +421,7 @@
 				964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */,
 				964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */,
 				9617F2F728FC131A002341B7 /* UIRefreshControl - ex.swift in Sources */,
+				964D867328FFDD10005BD10B /* ToastMessageView.swift in Sources */,
 				9617F2F528FC0F80002341B7 /* CatViewController - ex.swift in Sources */,
 				964E66F728C30E1900518436 /* AppDelegate.swift in Sources */,
 				966064A528D4302800CBAE6E /* REP (Data Form)- ex.swift in Sources */,

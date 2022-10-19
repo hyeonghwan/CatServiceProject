@@ -22,3 +22,14 @@ struct EntityOfFavouriteResponse: Codable {
     let id: Int
     let message: String?
 }
+
+
+struct FavouriteDeleteResponseWrap{
+    let imageID: String
+    let message: String
+    
+}
+struct EntityOfDeleteResponse: Codable {
+    let message: String?
+}
+
