@@ -15,7 +15,7 @@ struct CatFavouriteModel {
     
     
     init(){
-        self.favourite_id = 0
+        self.favourite_id = nil
         self.imageID = ""
         self.imageURL = ""
     }
@@ -32,5 +32,10 @@ struct CatFavouriteModel {
         self.imageURL = catCellModel.imageURL
     }
     
+    init(_ favouriteResponseWrap: FavouriteResponseWrap){
+        self.favourite_id = favouriteResponseWrap.favouritID
+        self.imageID = favouriteResponseWrap.imageID
+        self.imageURL = favouriteResponseWrap.imageURL
+    }
 }
 

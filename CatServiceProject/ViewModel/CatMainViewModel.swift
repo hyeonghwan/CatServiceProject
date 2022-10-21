@@ -18,21 +18,19 @@ protocol RxViewModelType {
     
     // input
     var onDataObserver: AnyObserver<Void> { get }
-    
-    var favouriteHeartObserver: AnyObserver<UpdatedHeartModel> { get }
-    
-    
+
     // output
     var allCatData: Observable<[CatCellModel]> { get }
     
-    // output To CatFavouriteViewModel
-    var favouriteSuccessObservable: Observable<CatFavouriteModel> { get }
+    var favouriteHeartObserver: AnyObserver<UpdatedHeartModel> { get }
 }
+
 
 class CatMainViewModel: NSObject, RxViewModelType {
     
     private var catService: CatServiceType
 
+    let container: RxFaovurtieType
     
     /// CollectionView reload Closure
     var reloadCollectionView: (() -> Void)?
@@ -44,8 +42,10 @@ class CatMainViewModel: NSObject, RxViewModelType {
     
     var favouriteHeartObserver: AnyObserver<UpdatedHeartModel>
     
-    var favouriteSuccessObservable: Observable<CatFavouriteModel>
-    
+//    var favouriteSuccessObservable: Observable<CatFavouriteModel>
+//
+//    var favouriteDeleteObservable: Observable<FavouriteDeleteResponseWrap>
+//
     var allCatData: Observable<[CatCellModel]>
     
     var disposeBag = DisposeBag()
@@ -62,25 +62,30 @@ class CatMainViewModel: NSObject, RxViewModelType {
     
     /// CatMainViewModel init
     /// - Parameter catService: CatService인스턴스를 default값으로 전달 (CatServiece 인스턴스는 전체 데이터를 가져오기위한 클래스)
-    init(catService: CatServiceType = CatService2() ) {
+    init(catService: CatServiceType = CatService2(),
+         conatiner: RxEventType) {
+        
         self.catService = catService
+        
+        self.container = conatiner
+        
         let dataPipe = PublishSubject<Void>()
         let cellDataPipe = BehaviorSubject<[CatCellModel]>(value: dummyData)
+
         
-        let sucessPipe = PublishSubject<CatFavouriteModel>()
-        
-        let heartPipe = PublishSubject<UpdatedHeartModel>()
-        
+        let heartPipe = PublishSubject<UpdatedHeartModel>().share()
+    
         self.favouriteHeartObserver = heartPipe.asObserver()
         
         self.onDataObserver = dataPipe.asObserver()
         
-        
-        favouriteSuccessObservable = sucessPipe
+
         
         allCatData = cellDataPipe
         
         super.init()
+    
+            
         
         dataPipe
             .flatMap( catService.rxGetCatData )
@@ -91,54 +96,66 @@ class CatMainViewModel: NSObject, RxViewModelType {
         heartPipe
             .filter{ $0.changedFavourite == true}
             .map(UpdatedHeartModel.transFormToFavouitePostModel(_:))
-            .flatMap(catService.rxPostResponse(_:))
+            .flatMap{ postModel in
+                catService.rxPostResponse(postModel)}
             .withLatestFrom(cellDataPipe){ responseData, originals in
                 
                 originals.map{ cellModel in
+                    
                     guard cellModel.catID == responseData.imageID else {return cellModel}
                     
-                    let convertedData = CatCellModel(catCellModel: cellModel, responseData)
+                    let convertedData = cellModel.addFavourite(responseData)
                     
-                    let favourtieData = CatFavouriteModel(convertedData)
-                    
-                    sucessPipe.onNext(favourtieData)
+                    conatiner.observer1.onNext(responseData.addImageURL(cellModel.imageURL))
                     
                     return convertedData
                 }
             }
             .subscribe(onNext: { cellDataPipe.onNext($0)})
             .disposed(by: disposeBag)
-        
+
         heartPipe
             .filter{ $0.changedFavourite == false}
-            .map(UpdatedHeartModel.getFavouriteID(_:))
+            .map(UpdatedHeartModel.getToDeleteFavouriteID(_:))
             .flatMap(catService.rxDeleteFavouriteData(_:))
             .withLatestFrom(cellDataPipe){ responseData, originals in
-            
-            originals.map{ cellModel in
-                
-                guard cellModel.catID == responseData.imageID else {return cellModel}
-                
-                let convertedData = CatCellModel(catCellModel: cellModel, responseData)
-                
-                let favourtieData = CatFavouriteModel(convertedData)
-                
-                sucessPipe.onNext(favourtieData)
-                
-                return convertedData
+        
+                originals.map{ cellModel in
+                    
+                    guard cellModel.catID == responseData.imageID else {return cellModel}
+                    
+                    let convertedData = cellModel.deleteFavourite(responseData)
+                    
+                    conatiner.heartObserver.onNext(responseData)
+                    
+                    return convertedData
+                }
             }
-        }
+            .subscribe(onNext: { cellDataPipe.onNext($0) })
+            .disposed(by: disposeBag)
         
+    
         
+        let deleteFromFavouriteViewModel = PublishSubject<FavouriteDeleteResponseWrap>()
         
-        self.addNotificationObserver()
+        conatiner
+            .favouriteDeleteObservable
+            .subscribe(onNext: deleteFromFavouriteViewModel.onNext(_:))
+            .disposed(by: disposeBag)
+        
+        deleteFromFavouriteViewModel
+            .withLatestFrom(cellDataPipe){ deleteData , originals in
+                originals.map{ model in
+                    guard model.catID == deleteData.imageID else {return model}
+                    return CatCellModel(catCellModel: model, deleteData)
+                }
+            }.subscribe(onNext: cellDataPipe.onNext(_:))
+            .disposed(by: disposeBag)
         
     }
     
-    func postMethod() {
+    func postMethod(_ cellDataPipe: BehaviorSubject<[CatCellModel]>) {
        
-        
-        
     }
     
     
@@ -182,7 +199,7 @@ private extension CatMainViewModel{
         for cat in cats {
             guard let id = cat.id else {print("cat id error"); return [] }
             guard let imageURL = cat.imageURL else {print("cat url error"); return [] }
-            cellmodel.append(CatCellModel(imageURL: imageURL, catID: id, favorite_id: 0))
+            cellmodel.append(CatCellModel(imageURL: imageURL, catID: id, favouriteID: nil))
         }
         
        return cellmodel
@@ -199,7 +216,7 @@ private extension CatMainViewModel{
             guard let id = cat.id else {print("cat id error"); return}
             guard let imageURL = cat.imageURL else {print("cat url error"); return}
             
-            cellmodel.append(CatCellModel(imageURL: imageURL, catID: id, favorite_id: 0))
+            cellmodel.append(CatCellModel(imageURL: imageURL, catID: id, favouriteID: nil))
         }
        self.catsCellViewModels = cellmodel
         

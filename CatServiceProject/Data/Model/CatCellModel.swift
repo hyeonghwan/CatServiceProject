@@ -21,12 +21,18 @@ struct UpdatedHeartModel{
         return CatCellModel(updateHeartModel)
     }
     
-    static func transFormToFavouitePostModel(_ updatedHeartModel: UpdatedHeartModel) -> PostFavouriteModel {
-        return PostFavouriteModel(imageID: updatedHeartModel.catCellModel.catID,
-                                  userID: "user-123")
+    static func transFormToFavouitePostModel(_ updatedHeartModel: UpdatedHeartModel) -> POSTMODEL {
+        
+            return PostFavouriteModel(imageID: updatedHeartModel.catCellModel.catID,
+                                      userID: "user-123")
     }
-    static func getFavouriteID(_ updatedHeartModel: UpdatedHeartModel) -> Int{
-        return updatedHeartModel.catCellModel.favouriteID ?? <#default value#>
+    
+    static func getToDeleteFavouriteID(_ updatedHeartModel: UpdatedHeartModel) -> DELETEMODEL{
+        print(updatedHeartModel)
+        guard updatedHeartModel.catCellModel.favouriteID != nil else {return DeleteFavouriteModel()}
+        
+        return  DeleteFavouriteModel(favouriteID: updatedHeartModel.catCellModel.favouriteID ?? 0,
+                                     imageID: updatedHeartModel.catCellModel.catID)
     }
     
     
@@ -42,14 +48,14 @@ struct CatCellModel {
         self.imageURL = ""
         self.catID = ""
         self.favoriteFlag = false
-        self.favouriteID = 0
+        self.favouriteID = nil
     }
     
-    init(imageURL: String, catID: String, favoriteFlag: Bool = false, favorite_id : Int){
+    init(imageURL: String, catID: String, favoriteFlag: Bool = false, favouriteID : Int?){
         self.imageURL = imageURL
         self.catID = catID
         self.favoriteFlag = favoriteFlag
-        self.favouriteID = favorite_id
+        self.favouriteID = favouriteID
     }
     
     init(_ updateHeartModel: UpdatedHeartModel){
@@ -65,12 +71,35 @@ struct CatCellModel {
         self.favoriteFlag = true
         self.favouriteID = favouriteResponseWrapEntity.favouritID
     }
-    
-    init(catCellModel: CatCellModel,_ favouriteDeleteWrapWrapEnitity: FavouriteDeleteResponseWrap){
-        self.catID = catCellModel.catID
-        self.imageURL = catCellModel.imageURL
-        self.favouriteID = nil
-        self.favoriteFlag = false
+    func addFavourite(_ favouriteModel: FavouriteResponseWrap) -> CatCellModel{
+        return CatCellModel(imageURL: self.imageURL,
+                            catID: favouriteModel.imageID,
+                            favoriteFlag: true,
+                            favouriteID: favouriteModel.favouritID)
     }
+    
+    init(catCellModel: CatCellModel,_ deletedModel: FavouriteDeleteResponseWrap){
+        self.catID = catCellModel.catID
+        self.favoriteFlag = false
+        self.favouriteID = nil
+        self.imageURL = catCellModel.imageURL
+    }
+    
+    func deleteFavourite(_ deletedModel: FavouriteDeleteResponseWrap) -> CatCellModel {
+        return CatCellModel(imageURL: self.imageURL,
+                            catID: deletedModel.imageID,
+                            favoriteFlag: false,
+                            favouriteID: nil)
+    }
+    
+//    
+//    init(updatedHeartModel: UpdatedHeartModel){
+//        self.catID = updatedHeartModel.catCellModel.catID
+//        self.imageURL = updatedHeartModel.catCellModel.imageURL
+//        self.favouriteID = nil
+//        self.favoriteFlag = updatedHeartModel.catCellModel.favoriteFlag
+//    }
+    
+    
     
 }

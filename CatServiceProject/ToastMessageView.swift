@@ -14,7 +14,7 @@ extension UIButton {
         let appearElement = Animation.appearElement
         let disappearElement = Animation.disappearElemet
         
-        let messageView = ToastMessageView(bottomPositionWidth: 25,offset: 120,message)
+        let messageView = ToastMessageView(positionWidth: 25,offset: 120,message)
         
         
         UIApplication.shared.keyWindow?.addSubview(messageView)
@@ -78,27 +78,7 @@ struct Position {
     static let screenWidth = UIApplication.shared.keyWindow?.frame.width ?? 0
     static let screenHeihgt = UIApplication.shared.keyWindow?.frame.height ?? 0
     
-    static func getTopPosition(_ xPosition: CGFloat,
-                               _ yOffset: CGFloat,
-                               _ yPosition: CGFloat = 0,
-                               _ defaultHeight: CGFloat = 30)  -> CGRect {
-        return CGRect(x: xPosition,
-                      y: yPosition + yOffset ,
-                      width: Position.screenWidth - (xPosition * 2),
-                      height: defaultHeight)
-    }
-    
-    static func getCenterPosition(_ xPosition: CGFloat,
-                                  _ yOffset: CGFloat,
-                                  _ yPosition: CGFloat = screenHeihgt / 2,
-                                  _ defaultHeight: CGFloat = 30)  -> CGRect {
-        return CGRect(x: xPosition,
-                      y: yPosition + yOffset,
-                      width: Position.screenWidth - (xPosition * 2),
-                      height: defaultHeight)
-       }
-    
-    static func getBottomPosition(_ xPosition: CGFloat,
+    static func getPosition(_ xPosition: CGFloat,
                                   _ yOffset: CGFloat,
                                   _ yPosition: CGFloat = screenHeihgt,
                                   _ defaultHeight: CGFloat = 30)  -> CGRect {
@@ -146,18 +126,8 @@ class ToastMessageView: UIView {
         
     }
     
-    convenience init(topPositionWidth: CGFloat, offset: CGFloat = 0, _ messgae: String) {
-        self.init(frame: Position.getTopPosition(topPositionWidth,offset))
-        self.toastLabel.text = messgae
-    }
-    
-    convenience init(centerPositionWidth: CGFloat, offset: CGFloat = 0 , _ messgae: String) {
-        self.init(frame: Position.getCenterPosition(centerPositionWidth,offset))
-        self.toastLabel.text = messgae
-    }
-    
-    convenience init(bottomPositionWidth: CGFloat, offset: CGFloat = 0, _ messgae: String) {
-        self.init(frame: Position.getBottomPosition(bottomPositionWidth, offset))
+    convenience init(positionWidth: CGFloat, offset: CGFloat = 0, _ messgae: String) {
+        self.init(frame: Position.getPosition(positionWidth, offset))
         self.toastLabel.text = messgae
     }
     

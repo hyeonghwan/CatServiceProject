@@ -24,8 +24,17 @@ final class CatCollectionViewCell: UICollectionViewCell {
     
     lazy var catItemView: CatItemView = {
         let view = CatItemView()
-        view.heartButton.addTarget(self, action: #selector(heartTapped(_:)), for: .touchUpInside)
+        
+        view.heartButton
+            .addTarget(self, action: #selector(heartTapped(_:)), for: .touchUpInside)
+        
         return view
+    }()
+    
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        
+        return indicator
     }()
     
     
@@ -55,13 +64,14 @@ final class CatCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         subject
-            .asDriver(onErrorJustReturn: CatCellModel(imageURL: "", catID: "", favorite_id: 0))
-            .drive(onNext: {model in
+            .asDriver(onErrorJustReturn: CatCellModel(imageURL: "", catID: "", favoriteFlag: false, favouriteID: nil))
+            .drive(onNext: {[weak self] model in
                 
-                self.catItemView.imageView.kf.setImage(with: URL(string: model.imageURL ))
-                self.catItemView.heartButton.heartFlag = model.favoriteFlag
+                self?.catItemView.imageView.kf.setImage(with: URL(string: model.imageURL ))
+                self?.catItemView.heartButton.heartFlag = model.favoriteFlag
             
-            },onDisposed: {print("disposed")}).disposed(by: cellDisposeBag)
+            },onDisposed: {print("disposed")})
+            .disposed(by: cellDisposeBag)
         
         configure()
     }
@@ -109,42 +119,4 @@ private extension CatCollectionViewCell {
     
 }
 
-//        favoriteAddButton.onCompleted = { [weak self] isHighlighedFlag in
-//
-//            guard let self = self else {print("self failed "); return}
-//
-//            if isHighlighedFlag == false{
-//
-//                self.favoriteAddFlag?.toggle()
-//                self.favoriteFlagDelegate?.favoriteToggle(self.favoriteAddFlag ?? false, self.indexPath ?? IndexPath(), self.image_URL ?? "",  self.image_id ?? "")
-//
-//            }
-//
-//
-//
-//        }
 
-/// Cell UpdateUI
-/// - Parameter catsCellViewModel: catMainViewModel이 가지고 있는 데이터
-/// - Parameter indexPath: collectionView 의 IndexPath 위치값
-/// - Parameter delegate: CatMainListViewController를 받아와서 데이터 전달
-//    func updateUI(_ catsCellViewModel: CatCellModel,_ indexPath: IndexPath, _ delegate: FavoriteFlagDataSendDelegate) {
-//        guard let url = catsCellViewModel.imageURL else {print("cell ImageURL ERROR"); return}
-//        guard let favoriteFlag = catsCellViewModel.favoriteFlag else {print("favoriteflag ERROR"); return}
-//        guard let id = catsCellViewModel.id else {print("id error"); return}
-//        self.image_URL = url
-//        self.favoriteFlagDelegate = delegate
-//        self.imageView.kf.setImage(with: URL(string: url))
-//        self.favoriteAddFlag = favoriteFlag
-//        self.image_id = id
-//        self.indexPath = indexPath
-//
-//        if self.favoriteAddFlag! {
-//
-//            self.favoriteAddButton.setImage(starFillImage, for: .normal)
-//            self.heartButton.setImage(heartFillImage, for: .normal)
-//        }else{
-//            self.favoriteAddButton.setImage(starImage, for: .normal)
-//            self.heartButton.setImage(heartImage, for: .normal)
-//        }
-//

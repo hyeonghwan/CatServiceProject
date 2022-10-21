@@ -20,9 +20,14 @@ class FavouriteCell: UICollectionViewCell{
     
     var onCellData: AnyObserver<CatFavouriteModel>
     
+    var deleteDataObservable: Observable<Void>
+    
+    
     var cellDisposeBag = DisposeBag()
     
     var disposeBag = DisposeBag()
+    
+    var deleteCompletion: (() -> Void)?
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -43,16 +48,7 @@ class FavouriteCell: UICollectionViewCell{
     }()
     
     private lazy var deleteAction: UIAction = UIAction(handler: { [unowned self] _ in
-        guard let favourite_id = favourite_id else {
-            print("FavouriteCell action favourite_id not found")
-            return
-        }
-        guard let indexPath = indexPath else {
-            print("FavouriteCell action indexPath not found")
-            return
-        }
-        print("action start")
-        self.deleteDelegate?.deleteFavouriteDataFromCell(favourite_id,indexPath)
+        deleteCompletion?()
     })
    
     
@@ -63,12 +59,20 @@ class FavouriteCell: UICollectionViewCell{
         
         onCellData = cellDataPipe.asObserver()
         
+        let deletePipe = PublishSubject<Void>()
       
+        deleteCompletion = { deletePipe.onNext(()) }
+        
+        
+        deleteDataObservable = deletePipe
+        
+        
         super.init(frame: frame)
         
         cellDataPipe
             .asDriver(onErrorJustReturn: CatFavouriteModel())
             .drive(onNext: { [weak self] model in
+                
                 if let urlString = model.imageURL{
                     self?.imageView.kf.setImage(with: URL(string: urlString))
                 }

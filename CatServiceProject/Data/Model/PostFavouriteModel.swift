@@ -6,16 +6,19 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol POSTMODEL {
     var body: Dictionary<String,String> {get set}
     var imageID: String { get }
+    
 }
 
 struct PostFavouriteModel: POSTMODEL {
     
     let imageID: String
     let userID: String
+    
     
     var body: [String : String] = [:]
     
@@ -40,11 +43,31 @@ struct GetFavouriteModel: GETMOMEL {
 
 
 protocol DELETEMODEL {
-    var favouriteID: Int { get }
+    var favouriteID: Int? { get }
     var imageID: String { get }
 }
 
-struct getFavouriteModel: DELETEMODEL {
-    var favouriteID: Int
+struct DeleteFavouriteModel: DELETEMODEL {
+    var favouriteID: Int?
     var imageID: String
+    
+    init(_ deleteResponse: FavouriteDeleteResponseWrap){
+        self.favouriteID = nil
+        self.imageID = deleteResponse.imageID
+    }
+    
+    init(favouriteID: Int, imageID: String) {
+        self.favouriteID = favouriteID
+        self.imageID = imageID
+    }
+    init() {
+        self.favouriteID = nil
+        self.imageID = ""
+    }
+    init(_ catFavouriteModel: CatFavouriteModel){
+        self.favouriteID = catFavouriteModel.favourite_id
+        self.imageID = catFavouriteModel.imageID!
+    }
+    
 }
+

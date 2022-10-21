@@ -23,6 +23,7 @@ class CatMainListViewController: UIViewController {
         self.catMainViewModel = catMainViewModel
         
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -75,42 +76,8 @@ class CatMainListViewController: UIViewController {
                     .disposed(by: cell.disposeBag )
                 
             }.disposed(by: disposeBag)
-        
-        
-    }
-    
-    
-    /// catMainVIewModel -> getCats호출 -> 데이터 받아오면 -> reloadCollectionView
-    private func getViewModelData() {
-        catMainViewModel.getCats()
-        
-        catMainViewModel.reloadCollectionView = {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else {return}
-                self.collectionView.reloadData()
-            }
-        }
     }
 }
-
-
-
-//extension CatMainListViewController: FavoriteFlagDataSendDelegate{
-    
-    
-    /// Send Data to CatMainViewModel
-    /// - Parameters:
-    ///   - favorite: favoriteButton add or not
-    ///   - id: image id
-    ///   - indexPath: cell 위치
-    ///   - image_URL: Image URL
-//    func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath,_ image_URL: String,_ image_id: String) {
-//        catMainViewModel.postFavoriteToggleData(favorite, image_id,image_URL, indexPath)
-//    }
-//}
-
-
-
 
 
 

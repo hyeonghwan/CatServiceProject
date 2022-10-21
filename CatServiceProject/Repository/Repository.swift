@@ -63,7 +63,7 @@ final class Repository {
             }
             guard let response = response as? HTTPURLResponse, (200..<300) ~= response.statusCode else {
                 
-                completion(.failure(NSError.createError("Error: HTTP request failed")))
+                completion(.failure(NSError.createError("Error: HTTP request failed ")))
                 return
             }
             

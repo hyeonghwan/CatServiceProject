@@ -21,8 +21,8 @@
 		961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */; };
 		961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */; };
 		961A9C8E28D3250500B8ECB0 /* CatLodedResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */; };
+		963D27C429017210007BECA0 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963D27C329017210007BECA0 /* Container.swift */; };
 		964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D866E28FE95F1005BD10B /* FVC-ex.swift */; };
-		964D867128FEA17D005BD10B /* RootViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867028FEA17D005BD10B /* RootViewModelType.swift */; };
 		964D867328FFDD10005BD10B /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867228FFDD10005BD10B /* ToastMessageView.swift */; };
 		964D867528FFE3D9005BD10B /* Application + ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867428FFE3D9005BD10B /* Application + ex.swift */; };
 		964E66F728C30E1900518436 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964E66F628C30E1900518436 /* AppDelegate.swift */; };
@@ -77,8 +77,8 @@
 		961A9C8928D30C4C00B8ECB0 /* CatUpLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewController.swift; sourceTree = "<group>"; };
 		961A9C8B28D3204400B8ECB0 /* CatUpLoadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatUpLoadViewModel.swift; sourceTree = "<group>"; };
 		961A9C8D28D3250500B8ECB0 /* CatLodedResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatLodedResponseModel.swift; sourceTree = "<group>"; };
+		963D27C329017210007BECA0 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		964D866E28FE95F1005BD10B /* FVC-ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FVC-ex.swift"; sourceTree = "<group>"; };
-		964D867028FEA17D005BD10B /* RootViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModelType.swift; sourceTree = "<group>"; };
 		964D867228FFDD10005BD10B /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
 		964D867428FFE3D9005BD10B /* Application + ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application + ex.swift"; sourceTree = "<group>"; };
 		964E66F328C30E1900518436 /* CatServiceProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatServiceProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,7 +205,7 @@
 		964EE57728C984FC00BEFCD5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				964D867028FEA17D005BD10B /* RootViewModelType.swift */,
+				963D27C329017210007BECA0 /* Container.swift */,
 				964EE57828C9852600BEFCD5 /* CatBreedsViewModel.swift */,
 				964EE58328CD494900BEFCD5 /* CatMainListViewModel.swift */,
 				967CAA2A28CEDE2C004CBCC5 /* CatMainViewModel.swift */,
@@ -421,6 +421,7 @@
 				964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */,
 				964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */,
 				9617F2F728FC131A002341B7 /* UIRefreshControl - ex.swift in Sources */,
+				963D27C429017210007BECA0 /* Container.swift in Sources */,
 				964D867328FFDD10005BD10B /* ToastMessageView.swift in Sources */,
 				9617F2F528FC0F80002341B7 /* CatViewController - ex.swift in Sources */,
 				964E66F728C30E1900518436 /* AppDelegate.swift in Sources */,
@@ -438,7 +439,6 @@
 				9617F2E728FBE742002341B7 /* CatItemView.swift in Sources */,
 				96635C0328C77AF8004F4F34 /* CatBreedsListViewController.swift in Sources */,
 				961A9C8C28D3204400B8ECB0 /* CatUpLoadViewModel.swift in Sources */,
-				964D867128FEA17D005BD10B /* RootViewModelType.swift in Sources */,
 				967CAA3828D01484004CBCC5 /* FavouriteCell.swift in Sources */,
 				96635BEE28C39EE3004F4F34 /* NetworkHandler.swift in Sources */,
 				9617F2FB28FC1EC4002341B7 /* ServiceError - ex.swift in Sources */,

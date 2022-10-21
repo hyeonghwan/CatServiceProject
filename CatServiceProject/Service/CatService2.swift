@@ -89,14 +89,22 @@ class CatService2: CatServiceType {
     /// DELETE Method call -> delete data using favourite_id from FavouriteList
     /// - Parameter favourite_id: delete data ID
     func deleteFavouriting(deleteModel: DELETEMODEL, completion: @escaping (EntityOfDeleteResponse?,Error?) -> ()) {
-        let deleteURL = favouriteAPIResource + "/\(deleteModel.favouriteID)"
+        
+        guard let favouriteID = deleteModel.favouriteID else {
+            completion(EntityOfDeleteResponse(message: "aleady Deleted"), nil)
+            return
+        }
+        
+        let deleteURL = favouriteAPIResource + "/\(favouriteID)"
+        
+        print(deleteURL)
         Repository().DELETE(url: deleteURL, params: [:], httpHeader: .application_json) { result  in
             
             switch result {
             case let .success(data):
                 do {
-                    let model = try JSONDecoder().decode(String.self, from: data)
-                    completion( EntityOfDeleteResponse(message: model), nil )
+                    let model = try JSONDecoder().decode(EntityOfDeleteResponse.self, from: data)
+                    completion(model , nil )
                 }catch{
                     completion(nil, NSError.serviceError(ServiceErrorCode.jsonDecodingError))
                 }
@@ -107,6 +115,7 @@ class CatService2: CatServiceType {
     }
     
     func rxDeleteFavouriteData(_ deleteModel: DELETEMODEL) -> Observable<FavouriteDeleteResponseWrap>{
+        
         return Observable.create{ [weak self] emiter in
             
             self?.deleteFavouriting(deleteModel: deleteModel){ message,error  in
@@ -171,7 +180,9 @@ class CatService2: CatServiceType {
     func postFavouriting(postModel: POSTMODEL,completion: @escaping (Bool,EntityOfFavouriteResponse?,Error?) -> ()) {
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: postModel.body) else {  return }
+        
         print(postModel.body)
+        
         repository.POST(url: favouriteAPIResource, params: [:] ,body: [jsonData], httpHeader: .application_json) { result in
             
             switch result {
@@ -191,18 +202,21 @@ class CatService2: CatServiceType {
     
     
     func rxPostResponse(_ postModel: POSTMODEL) -> Observable<FavouriteResponseWrap>{
-        return Observable<FavouriteResponseWrap>.create{ observer in
-            self.postFavouriting(postModel: postModel, completion: { resultFlag,responseModel,error in
-                if resultFlag,
-                   error == nil,
-                   let responseModel = responseModel {
-                    observer.onNext(FavouriteResponseWrap(responseModel, postModel.imageID))
-                }else {
-                    print(error!)
-                }
-            })
-            return Disposables.create()
-        }
+        
+            return Observable<FavouriteResponseWrap>.create{ observer in
+                self.postFavouriting(postModel: postModel, completion: { resultFlag,responseModel,error in
+                    if resultFlag,
+                       error == nil,
+                       let responseModel = responseModel {
+                        
+                        observer.onNext(FavouriteResponseWrap(responseModel, postModel.imageID))
+                    }else {
+                        print(error!)
+                    }
+                })
+                return Disposables.create()
+            }
+        
     }
     
     /// 첫 메인 뷰컨트롤러 이미지 에 대한 전체 데이터 불러오는 함수

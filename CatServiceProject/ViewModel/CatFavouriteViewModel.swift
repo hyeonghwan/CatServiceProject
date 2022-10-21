@@ -9,23 +9,28 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol RxFavouriteViewModelType: RootViewModelType{
+
+protocol RxDeleteModelType {
+    
+    var onDeleteObserver: AnyObserver<DeleteFavouriteModel> {get}
+    
+    var deleteObservable: Observable<DeleteFavouriteModel> { get }
+}
+
+
+protocol RxFavouriteViewModelType: RxDeleteModelType{
     
     var onFavouriteData: AnyObserver<GETMOMEL> { get }
     
     var allFavourites: Observable<[CatFavouriteModel]> { get }
     
-    var favouriteSuccessObservable:  Observable<CatFavouriteModel> { get }
-    
 }
-
-
 
 class CatFavouriteViewModel: RxFavouriteViewModelType {
     
     private var catService: CatServiceType
     
-    var viewType: VMType = .favourite
+//    var viewType: VMType = .favourite
     
     var favoriteCollectionViewReload: (() -> Void)?
     
@@ -35,70 +40,95 @@ class CatFavouriteViewModel: RxFavouriteViewModelType {
         }
     }
     
+    var container: RxDeleteType
+    
+    
+    
     var onFavouriteData: AnyObserver<GETMOMEL>
     
     var allFavourites: Observable<[CatFavouriteModel]>
     
-    var favouriteSuccessObservable: Observable<CatFavouriteModel>
-    
+    var onDeleteObserver: AnyObserver<DeleteFavouriteModel>
+    var deleteObservable: Observable<DeleteFavouriteModel>
+   
     var disposeBag = DisposeBag()
     
     
     var dummyData = [CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel(),CatFavouriteModel()]
     
     init(_ catService: CatServiceType ,
-         _ favouriteSuccessObservable: Observable<CatFavouriteModel> ) {
+         container: RxEventType) {
         
         self.catService = catService
         
-        self.favouriteSuccessObservable = favouriteSuccessObservable
+        self.container = container
         
         let eventPipe = PublishSubject<GETMOMEL>()
         
-        let dataPipe = BehaviorSubject<[CatFavouriteModel]>(value: dummyData)
+        let deletePipe = PublishSubject<DeleteFavouriteModel>()
         
+        let dataPipe = BehaviorSubject<[CatFavouriteModel]>(value: dummyData)
+    
+        
+        onDeleteObserver = deletePipe.asObserver()
         
         onFavouriteData = eventPipe.asObserver()
         
         allFavourites = dataPipe
+
         
-        
+        let notifyDelete = PublishSubject<DeleteFavouriteModel>()
+        deleteObservable = notifyDelete
+            
         eventPipe
             .flatMap(catService.rxGetFavouriteData)
             .map(fetchToFavouriteData)
             .subscribe(onNext: dataPipe.onNext(_:))
             .disposed(by: disposeBag)
+        
    
-        self.favouriteSuccessObservable
+        deletePipe
+            .map{data in
+                 return data }
+            .flatMap(catService.rxDeleteFavouriteData(_:))
+            .withLatestFrom(dataPipe){ responseData, originals in
+                
+                container.observer2.onNext(responseData)
+                
+                return originals.map{ cellModel in
+                    
+                    guard cellModel.imageID == responseData.imageID else {return cellModel}
+                    
+                    return CatFavouriteModel()
+                }
+            }.map{ $0.filter{ data in data.favourite_id != nil}}
+            .subscribe(onNext: dataPipe.onNext(_:))
+            .disposed(by: disposeBag)
+        
+        
+        
+        container
+            .favouriteSuccessObservable
             .subscribe(onNext: {
                 do{
-                    try dataPipe.onNext( dataPipe.value() + [$0])
+                    try dataPipe.onNext( dataPipe.value() + [CatFavouriteModel($0)])
                 } catch {
                     print(error)
                 }
             }).disposed(by: disposeBag)
         
-        notificationAddObserver()
+        container
+            .heartActionDeleteObservable
+            .map{ data in DeleteFavouriteModel(data)}
+            .subscribe(onNext: deletePipe.onNext(_:))
+            .disposed(by: disposeBag)
+        
     }
     
-    func numberOfInsection() -> Int {
-        return self.favoriteCellModel.count
-    }
-    
-    func deleteFavouriteCellData(_ favourite_id: Int,_ indexPath: IndexPath) {
-        
-        self.favoriteCellModel.remove(at: indexPath.row)
-//        self.catService.deleteFavouriting(favourite_id: favourite_id)
-        
-        //notify MainView to change button if have favouriteData
-        NotificationCenter.default.post(name: Notification.Name.deleteActInFC,
-                                        object: nil,
-                                        userInfo: ["favourite_id" : favourite_id])
-    }
 }
 
 private extension CatFavouriteViewModel{
-    
+
     
     /// FetchData - 서버에서 가져온 데이터를 Cell에 보여줄 데이터로 변형
     /// - Parameter favorEntities: 서버에서 가져온 Data

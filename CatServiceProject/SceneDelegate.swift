@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,14 +21,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         
         
-        let catMainViewModel = CatMainViewModel()
         
-        let catFavouriteViewModel = CatFavouriteViewModel(CatService2(),
-                                                          catMainViewModel.favouriteSuccessObservable)
+    
+        let container: RxEventType = Container()
+        
+        //RxFaovurtieType
+        let catMainViewModel = CatMainViewModel(catService: CatService2(),
+                                                conatiner: container)
+        
+        let favouriteViewModel = CatFavouriteViewModel(CatService2(),
+                                                       container: container)
+    
         
         let catListViewController = CatMainListViewController(catMainViewModel: catMainViewModel)
         
-        let favoriteviewController = FavouriteViewController(favourtieViewModel: catFavouriteViewModel)
+        let favoriteviewController = FavouriteViewController(favourtieViewModel: favouriteViewModel)
         
         
         let mainViewController = CatBreedsListViewController()
