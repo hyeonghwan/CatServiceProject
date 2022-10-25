@@ -14,39 +14,33 @@ protocol CustomSegmentedControlDelegate: AnyObject{
 }
 
 final class CatBreedsListViewController: UIViewController{
-    weak var delegete: CustomSegmentedControlDelegate?
-    private lazy var button: AnimationButton = {
-        let button = AnimationButton( primaryAction: UIAction(handler: { _ in 
-            
-        }))
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.layer.cornerRadius = 25
-        button.layer.masksToBounds = true
-        return button
-      }()
+    
+    let breedViewModel = CatBreedsViewModel()
+    
+    lazy var categorySegemts: CategoryView = {
+       let segment = CategoryView()
+        return segment
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        debugPrint("MainViewController ViewDidLoad called")
-//        self.navigationController?.navigationBar.isHidden = true
+        
+        breedViewModel.getCatBreedsData()
+        
+        configure()
+        
+    }
+    func configure() {
+        
         self.navigationItem.title = "Cat Service"
         view.backgroundColor = .systemBackground
-        let customSegement = CustomSegmentControl(frame: .zero)
-        customSegement.backgroundColor = .clear
-        view.addSubview(customSegement)
-        self.view.addSubview(self.button)
-           self.button.translatesAutoresizingMaskIntoConstraints = false
-           self.button.widthAnchor.constraint(equalToConstant: 120).isActive = true
-           self.button.heightAnchor.constraint(equalToConstant: 120).isActive = true
-           
-           self.button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-           self.button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
-        customSegement.snp.makeConstraints{make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
+        self.view.addSubview(categorySegemts)
+        categorySegemts.snp.makeConstraints{
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.height.equalTo(130)
+            $0.leading.trailing.equalToSuperview()
         }
-        
     }
     
 }

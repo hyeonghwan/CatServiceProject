@@ -48,6 +48,7 @@ class FavouriteCell: UICollectionViewCell{
     }()
     
     private lazy var deleteAction: UIAction = UIAction(handler: { [unowned self] _ in
+        deleteButton.toastMessage("삭제 요청")
         deleteCompletion?()
     })
    

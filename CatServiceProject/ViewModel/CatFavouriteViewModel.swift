@@ -30,8 +30,6 @@ class CatFavouriteViewModel: RxFavouriteViewModelType {
     
     private var catService: CatServiceType
     
-//    var viewType: VMType = .favourite
-    
     var favoriteCollectionViewReload: (() -> Void)?
     
     var favoriteCellModel = [CatFavouriteModel]() {

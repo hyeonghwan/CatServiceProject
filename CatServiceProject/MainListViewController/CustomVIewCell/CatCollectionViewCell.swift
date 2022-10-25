@@ -82,7 +82,7 @@ final class CatCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func heartTapped(_ sender: UIButton){
-        print("heartTapped")
+        
         
         
         self.catItemView.heartButton.heartFlag.toggle()

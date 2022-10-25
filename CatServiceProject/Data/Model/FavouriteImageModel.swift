@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct ImageModel {
+struct FavouriteImageModel {
     var Image: UIImage?
     var id: String?
     var favoriteFlag: Bool?

@@ -18,13 +18,17 @@ protocol CatServiceProtocol {
     
      func getCatDataUsingCatServiceProtocol(completion: @escaping (Bool, [EntityOfCatData]?, Error?) -> ()  )
     
-    func postFavouriting(postModel: POSTMODEL,completion: @escaping (Bool,EntityOfFavouriteResponse?,Error?) -> ())
+    func postFavouriting(postModel: POSTMODEL,
+                         completion: @escaping (Bool,EntityOfFavouriteResponse?,Error?) -> ())
     
-    func getFavouriting(params: GETMOMEL, completion: @escaping (Bool,[EntityOfFavouriteData]?,Error?) -> ())
+    func getFavouriting(params: GETMOMEL,
+                        completion: @escaping (Bool,[EntityOfFavouriteData]?,Error?) -> ())
     
-    func deleteFavouriting(deleteModel: DELETEMODEL, completion: @escaping (EntityOfDeleteResponse?,Error?) -> ())
+    func deleteFavouriting(deleteModel: DELETEMODEL,
+                           completion: @escaping (EntityOfDeleteResponse?,Error?) -> ())
     
-    func upLoadImage(_ image: UIImage, completion: @escaping (Bool,CatLodedResponseModel?,String?) -> Void)
+    func upLoadImage(_ image: UIImage,
+                     completion: @escaping (Bool,CatLodedResponseModel?,String?) -> Void)
 }
 
 protocol RxCatServiceProtocol{
@@ -142,6 +146,7 @@ class CatService2: CatServiceType {
     func getFavouriting(params: GETMOMEL,completion: @escaping (Bool,[EntityOfFavouriteData]?,Error?) -> ()){
         
         repository.GET(url: favouriteAPIResource, params: params.subID, httpHeader: .application_json) { result in
+            
             switch result{
             case let .success(data):
                 do {
@@ -210,6 +215,7 @@ class CatService2: CatServiceType {
                        let responseModel = responseModel {
                         
                         observer.onNext(FavouriteResponseWrap(responseModel, postModel.imageID))
+                        
                     }else {
                         print(error!)
                     }
@@ -259,5 +265,6 @@ class CatService2: CatServiceType {
     }
     
 }
+
 
 

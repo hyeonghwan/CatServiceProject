@@ -14,8 +14,8 @@ final class CatMainListViewModel {
     var currentPage = 0
     
     
-    var catImageListModel : [ImageModel] = []
-    var catImageModel: ImageModel?
+    var catImageListModel : [FavouriteImageModel] = []
+    var catImageModel: FavouriteImageModel?
     
     var catImageDictionary: [String : UIImage] = [:]
     var catIDarr: [String] = []
@@ -31,7 +31,7 @@ final class CatMainListViewModel {
         let catService = CatService()
         currentPage += 1
         catService.countingGetCatMainListDataModel(get: count){ item in
-            print("countingGetCatMainListDataModel \(item)")
+            
             item.forEach{
                 self.catImageDictionary[$0.id ?? ""] = $0.Image ?? UIImage()
                 self.catIDarr.append($0.id ?? "")
@@ -56,7 +56,7 @@ final class CatMainListViewModel {
             self.catIDarr.append(id)
             self.flag.append(flag)
             
-            self.catImageModel = ImageModel(Image: image, id: id, favoriteFlag: flag)
+            self.catImageModel = FavouriteImageModel(Image: image, id: id, favoriteFlag: flag)
             guard let catImageModel = self.catImageModel else { print("scrollDowngetMainListViewModel error"); return}
             self.catImageListModel.append(catImageModel)
             

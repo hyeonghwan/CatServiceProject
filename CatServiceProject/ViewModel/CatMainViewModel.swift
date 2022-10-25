@@ -9,10 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//protocol FavoriteFlagDataSendDelegate {
-//    func favoriteToggle(_ favorite: Bool, _ indexPath: IndexPath, _ image_URL : String,_ image_id: String)
-//}
-
 
 protocol RxViewModelType {
     
@@ -42,10 +38,6 @@ class CatMainViewModel: NSObject, RxViewModelType {
     
     var favouriteHeartObserver: AnyObserver<UpdatedHeartModel>
     
-//    var favouriteSuccessObservable: Observable<CatFavouriteModel>
-//
-//    var favouriteDeleteObservable: Observable<FavouriteDeleteResponseWrap>
-//
     var allCatData: Observable<[CatCellModel]>
     
     var disposeBag = DisposeBag()
@@ -73,7 +65,7 @@ class CatMainViewModel: NSObject, RxViewModelType {
         let cellDataPipe = BehaviorSubject<[CatCellModel]>(value: dummyData)
 
         
-        let heartPipe = PublishSubject<UpdatedHeartModel>().share()
+        let heartPipe = PublishSubject<UpdatedHeartModel>()
     
         self.favouriteHeartObserver = heartPipe.asObserver()
         

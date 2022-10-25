@@ -9,11 +9,17 @@ import Foundation
 import UIKit
 
 
+protocol CatBreedProtocol {
+    func getBreedsCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ()))
+}
 
-
-class CatService: ImageViewModelDelegate{
+class CatService: ImageViewModelDelegate,CatBreedProtocol{
     
-    private let breedsapiResource: String =  "https://api.thecatapi.com/v1/images/search?format=json&limit=20&breed_id=beng"
+    private let breedBangID: String =  "https://api.thecatapi.com/v1/images/search?format=json&limit=20&breed_id=beng"
+    
+    private let breedsCategories: String =
+    "https://api.thecatapi.com/v1/breeds?limit=10&page=0"
+    
     private var CatListapiResourcePage: String
     private var CatListapiResource: String = "https://api.thecatapi.com/v1/images/search?format=json&limit=12"
     private var favoriteFlag = true
@@ -28,12 +34,11 @@ class CatService: ImageViewModelDelegate{
     
     var mainListImageModel: [CatMainListDataModel] = []
     
-    var serviceModel: [ImageModel] = []
+    var serviceModel: [FavouriteImageModel] = []
     
     
      func getImageURL(_ onCompleted: @escaping ([CatURLModel]) -> ()){
-        Repository.getData(resource: breedsapiResource){ item in
-            
+        Repository.getData(resource: breedBangID){ item in
             item.forEach{
                 self.model.append(CatURLModel(imageURL: $0.imageURL))
             }
@@ -41,16 +46,43 @@ class CatService: ImageViewModelDelegate{
         }
     }
     
+    func getBreedsCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ())){
+        print("breedsCategories \(breedsCategories)")
+//        ?limit=10&page=0
+        var breedparams = [ "limit" : "10", "page" : "0"]
+        
+        Repository().GET(url: breedsCategories,
+                         params: breedparams,
+                         httpHeader: .application_json){ result in
+            switch result{
+            case let .success(data):
+                do {
+                    let model = try JSONDecoder().decode([Breed].self, from: data)
+                   
+                    completion(true, model, nil)
+                    
+                }catch{
+                    
+                    completion(false, nil, NSError.serviceError(ServiceErrorCode.jsonDecodingError))
+                }
+            case let .failure(err):
+                print(err)
+            }
+            
+        }
+    }
+    
+    
     
     
     //일정 갯수 이미지를 다운로드 받아서 CatMainListViewModel에 전달
-    func countingGetCatMainListDataModel(get count: Int,_ onCompleted: @escaping ([ImageModel]) -> () ){
+    func countingGetCatMainListDataModel(get count: Int,_ onCompleted: @escaping ([FavouriteImageModel]) -> () ){
         Repository.getData(resource: CatListapiResource) { item in
             var index = 0
             item.forEach{ data in
                 self.downloadImage(with: data.imageURL ?? ""){ image in
                     index += 1
-                    self.serviceModel.append(ImageModel(Image: image , id: data.id ?? "",favoriteFlag: self.favoriteFlag))
+                    self.serviceModel.append(FavouriteImageModel(Image: image , id: data.id ?? "",favoriteFlag: self.favoriteFlag))
                     if count == index{
                         onCompleted(self.serviceModel)
                     }
@@ -61,13 +93,13 @@ class CatService: ImageViewModelDelegate{
 
     
     // image 다운로드받는 순서대로 CatMainListViewModel에 전달
-    func directGetCatMainListDataModel(_ onCompleted: @escaping (ImageModel) -> () ){
+    func directGetCatMainListDataModel(_ onCompleted: @escaping (FavouriteImageModel) -> () ){
         Repository.getData(resource: CatListapiResourcePage) { item in
             print(self.CatListapiResourcePage)
             
             item.forEach{ data in
                 self.downloadImage(with: data.imageURL ?? ""){ image in
-                    let imageModel = ImageModel(Image: image , id: data.id ?? "",favoriteFlag: self.favoriteFlag )
+                    let imageModel = FavouriteImageModel(Image: image , id: data.id ?? "",favoriteFlag: self.favoriteFlag )
                     self.serviceModel.append(imageModel)
                     
                     onCompleted(imageModel)

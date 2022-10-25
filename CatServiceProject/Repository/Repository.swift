@@ -180,9 +180,9 @@ final class Repository {
             print("Error: cannot create URLComponents")
             return
         }
-      
+        
         components.queryItems = params.map{ key, value in
-            URLQueryItem(name: key, value: value)
+            URLQueryItem(name: key, value: value )
         }
         guard let url = components.url else {
             print("Error: cannot crate URL")
@@ -254,7 +254,15 @@ final class Repository {
            }
 
            let decoder = JSONDecoder()
+//           guard let jsonToArray = try? JSONSerialization.jsonObject(with: data, options: []) else {
+//               print("json to Any Error")
+//               return
+//           }
+//           if catDataArr.first?.breeds != nil {
+//               print(jsonToArray)
+//           }
            if let catDataArr = try? decoder.decode([EntityOfCatData].self, from: data){
+               
                complitionBlock(catDataArr)
            }
        }

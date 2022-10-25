@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-extension UIButton {
+extension UIView {
     func toastMessage(_ message: String) {
         let appearElement = Animation.appearElement
         let disappearElement = Animation.disappearElemet
