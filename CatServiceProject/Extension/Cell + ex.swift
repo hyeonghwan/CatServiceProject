@@ -19,3 +19,5 @@ extension IdentifiableProtocol{
 extension CatCollectionViewCell: IdentifiableProtocol {}
 
 extension FavouriteCell: IdentifiableProtocol {}
+
+extension CatBreedHorizontalCell: IdentifiableProtocol {}

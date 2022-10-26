@@ -15,26 +15,51 @@ class CatBreedsViewModel: ImageViewModelDelegate {
     var headerImageList: [UIImage] = []
     
     private let catService = CatService()
+    //_ completion: @escaping (([BreedsViewModel]) -> ())
     
-    func getCatBreedsData(){
-        catService.getBreedsCategories{ flag,data,error in
-            print("getBreedsCategories")
+    var breedCellModels: [BreedsViewModel]? {
+        didSet {
+            self.breedCellHandler?()
+        }
+    }
+    
+    var breedCellHandler: (() -> ())? {
+        didSet{
+            breedCellHandler?()
+        }
+    }
+    
+//    [@"view5", @"view1", @"view2", @"view3", @"view4", @"view5", @"view1"]
+    func getCatBreedsData(_ completion: @escaping () -> ()){
+        catService.getBreedsCategories{ [weak self] flag,data,error in
             if flag == true,
                let model = data,
                error == nil{
-                print("model count \(model.count)")
-                let fetchedData = self.fetchToBreedViewModel(model)
-                print("fetchedDataCOunt : \(fetchedData.count)")
-                fetchedData.forEach{ model in
-                    print(model.breedID)
-                    print(model.breedName)
-                    print(model.imageModel?.imageID)
-                    print(model.imageModel?.imageURL)
-                }
+                
+                let fetchedData = self?.fetchToBreedViewModel(model)
+              
+                self?.breedCellModels = self?.toLoopPageDataBinding(fetchedData)
+                completion()
             }
         }
-        
     }
+    
+    func toLoopPageDataBinding(_ data: [BreedsViewModel]?) -> [BreedsViewModel] {
+        var k: [BreedsViewModel] = []
+        k.append(data!.last!)
+        
+        data?.forEach{
+            k.append($0)
+        }
+        k.append(data!.first!)
+        
+        return k
+    }
+    
+    func numberOfSection() -> Int {
+        return breedCellModels?.count ?? 3
+    }
+    
     
     func getCatListHeaderImage(with completion:
                                @escaping ([UIImage]) -> () ) {

@@ -75,6 +75,7 @@ private enum Animation {
 }
 
 struct Position {
+    
     static let screenWidth = UIApplication.shared.keyWindow?.frame.width ?? 0
     static let screenHeihgt = UIApplication.shared.keyWindow?.frame.height ?? 0
     
