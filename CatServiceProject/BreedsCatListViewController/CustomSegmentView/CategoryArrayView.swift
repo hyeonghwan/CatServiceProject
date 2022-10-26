@@ -72,8 +72,11 @@ class CategoryArrayView: UIView{
             
             sender.isSelected = true
             
-            if let index = sender.imageView?.findtoChangeLabelIndex {
-                categoryButtonItems[index].categoryLabel.buttonfocused = true
+            self.categoryButtonItems.forEach{ buttonlabel in
+                if buttonlabel.categoryButton.isSelected == true{
+                    print("change")
+                    buttonlabel.categoryLabel.buttonfocused = true
+                }
             }
             
 //            onChangeRequestType(sender.getButtonType())

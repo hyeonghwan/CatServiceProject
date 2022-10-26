@@ -13,7 +13,7 @@ final class CategoryLabel: UILabel{
     
     var buttonfocused: Bool = false {
         didSet{
-            self.textColor = buttonfocused ? UIColor.black : UIColor.lightGray
+            self.textColor = buttonfocused ? UIColor.label : UIColor.lightGray
         }
     }
     

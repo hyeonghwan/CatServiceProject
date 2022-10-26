@@ -26,7 +26,6 @@
 		9621E51F2908111100D1DC6E /* CategoryRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9621E51E2908111100D1DC6E /* CategoryRoundedButton.swift */; };
 		9621E5212908112500D1DC6E /* CategoryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9621E5202908112500D1DC6E /* CategoryLabel.swift */; };
 		9621E5232908115F00D1DC6E /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9621E5222908115F00D1DC6E /* RequestType.swift */; };
-		9621E5252908161000D1DC6E /* ImageView + ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9621E5242908161000D1DC6E /* ImageView + ex.swift */; };
 		963D27C429017210007BECA0 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963D27C329017210007BECA0 /* Container.swift */; };
 		964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D866E28FE95F1005BD10B /* FVC-ex.swift */; };
 		964D867328FFDD10005BD10B /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964D867228FFDD10005BD10B /* ToastMessageView.swift */; };
@@ -88,7 +87,6 @@
 		9621E51E2908111100D1DC6E /* CategoryRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRoundedButton.swift; sourceTree = "<group>"; };
 		9621E5202908112500D1DC6E /* CategoryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryLabel.swift; sourceTree = "<group>"; };
 		9621E5222908115F00D1DC6E /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
-		9621E5242908161000D1DC6E /* ImageView + ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView + ex.swift"; sourceTree = "<group>"; };
 		963D27C329017210007BECA0 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		964D866E28FE95F1005BD10B /* FVC-ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FVC-ex.swift"; sourceTree = "<group>"; };
 		964D867228FFDD10005BD10B /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 				9621E51C290810EF00D1DC6E /* CategoryArrayView.swift */,
 				9621E51E2908111100D1DC6E /* CategoryRoundedButton.swift */,
 				9621E5202908112500D1DC6E /* CategoryLabel.swift */,
-				9621E5242908161000D1DC6E /* ImageView + ex.swift */,
 			);
 			path = CustomSegmentView;
 			sourceTree = "<group>";
@@ -447,7 +444,6 @@
 				964EE57928C9852600BEFCD5 /* CatBreedsViewModel.swift in Sources */,
 				967CAA2F28CEE124004CBCC5 /* CatCellModel.swift in Sources */,
 				964EE58228CD469200BEFCD5 /* CatMainListDataModel.swift in Sources */,
-				9621E5252908161000D1DC6E /* ImageView + ex.swift in Sources */,
 				9621E51B2908109E00D1DC6E /* CategoryView.swift in Sources */,
 				964D866F28FE95F1005BD10B /* FVC-ex.swift in Sources */,
 				964E66FB28C30E1900518436 /* CatMainListViewController.swift in Sources */,
