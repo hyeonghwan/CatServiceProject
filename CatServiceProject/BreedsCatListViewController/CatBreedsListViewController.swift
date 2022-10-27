@@ -8,12 +8,18 @@
 import Foundation
 import UIKit
 import SnapKit
+import MGStarRatingView
 
 protocol CustomSegmentedControlDelegate: AnyObject{
     func changeToIndex(index: Int)
 }
 
-final class CatBreedsListViewController: UIViewController{
+final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
+    func StarRatingValueChanged(view: MGStarRatingView.StarRatingView, value: CGFloat) {
+        print(view)
+        print(value)
+    }
+    
     
     let breedViewModel = CatBreedsViewModel()
     
@@ -21,6 +27,27 @@ final class CatBreedsListViewController: UIViewController{
        let segment = CategoryView()
         return segment
     }()
+    private lazy var container: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
+    lazy var starView: StarRatingView = {
+        let view = StarRatingView()
+        let attribute = StarRatingAttribute(type: .rate,
+                                            point: 30,
+                                            spacing: 10,
+                                            emptyColor: .lightGray,
+                                            fillColor: .systemYellow,
+                                            emptyImage: UIImage(named: "star"),
+                                            fillImage: UIImage(named: "star.fill"))
+        view.configure(attribute, current: 0, max: 8)
+        view.delegate = self
+        
+        return view
+    }()
+
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -36,6 +63,7 @@ final class CatBreedsListViewController: UIViewController{
         collectionView.delegate = self
         return collectionView
     }()
+    
     private lazy var pageControl: UIPageControl = {
         let page = UIPageControl()
         page.pageIndicatorTintColor = .systemGray
@@ -72,15 +100,13 @@ final class CatBreedsListViewController: UIViewController{
             }
         }
         
-        breedViewModel.getCatBreedsData{ [weak self] in
+        breedViewModel.getBVMCategories{ [weak self] in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 self.pageControl.numberOfPages = self.breedViewModel.numberOfSection() - 2
                 self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
             }
         }
-        
-        
         
         configure()
         
@@ -90,7 +116,7 @@ final class CatBreedsListViewController: UIViewController{
         self.navigationItem.title = "Cat Service"
         view.backgroundColor = .systemBackground
         
-        [categorySegemts,collectionView,pageControl].forEach{
+        [categorySegemts,collectionView,pageControl,container].forEach{
             self.view.addSubview($0)
         }
         categorySegemts.backgroundColor = .systemCyan
@@ -113,6 +139,12 @@ final class CatBreedsListViewController: UIViewController{
             $0.top.equalTo(collectionView.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
+        container.snp.makeConstraints{
+            $0.top.equalTo(pageControl.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(200)
+        }
+        container.addSubview(starView)
     }
     
 }
@@ -124,10 +156,10 @@ extension CatBreedsListViewController: UIScrollViewDelegate{
         self.pageControl.currentPage = Int(page - 1)
         
         if page == 0{
-            self.collectionView.scrollToItem(at: IndexPath(row: self.breedViewModel.numberOfSection() - 2, section: 0), at: .left, animated: false)
+            self.collectionView.scrollToItem(at: IndexPath(row: self.breedViewModel.numberOfSection() - 2, section: 0), at: .left, animated: true)
             self.pageControl.currentPage = self.breedViewModel.numberOfSection() - 2
         }else if (page == CGFloat(self.breedViewModel.numberOfSection() - 1) ) {
-            self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .left, animated: false)
+            self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .left, animated: true)
             self.pageControl.currentPage = 0
         }
     }

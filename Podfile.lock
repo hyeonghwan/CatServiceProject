@@ -1,0 +1,16 @@
+PODS:
+  - MGStarRatingView (1.0.0)
+
+DEPENDENCIES:
+  - MGStarRatingView (~> 1.0.0)
+
+SPEC REPOS:
+  trunk:
+    - MGStarRatingView
+
+SPEC CHECKSUMS:
+  MGStarRatingView: 78c9bfc20d6b6f2a4d6b69e7821043685ad1372a
+
+PODFILE CHECKSUM: b75b164e8293561a3cef07612eecd46c4bfe708c
+
+COCOAPODS: 1.11.2

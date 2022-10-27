@@ -57,6 +57,9 @@ class CategoryArrayView: UIView{
                                                 categoryLabel: CategoryLabel(frame: .zero, requestType: requestType)))
         }
         
+        items.first?.categoryButton.isSelected = true
+        items.first?.categoryLabel.buttonfocused = true
+        
         return items
     }()
     

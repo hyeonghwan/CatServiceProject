@@ -10,7 +10,8 @@ import UIKit
 
 
 protocol CatBreedProtocol {
-    func getBreedsCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ()))
+    func getBreedCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ()))
+    func getCatImageByBreed(_ breedID: String, completion: @escaping (Bool,[EntityOfCatData]?,Error?) -> ())
 }
 
 class CatService: ImageViewModelDelegate,CatBreedProtocol{
@@ -18,7 +19,10 @@ class CatService: ImageViewModelDelegate,CatBreedProtocol{
     private let breedBangID: String =  "https://api.thecatapi.com/v1/images/search?format=json&limit=20&breed_id=beng"
     
     private let breedsCategories: String =
-    "https://api.thecatapi.com/v1/breeds?limit=10&page=0"
+    "https://api.thecatapi.com/v1/breeds"
+    
+    private let breedCatImageResource: String =
+    "https://api.thecatapi.com/v1/images/search"
     
     private var CatListapiResourcePage: String
     private var CatListapiResource: String = "https://api.thecatapi.com/v1/images/search?format=json&limit=12"
@@ -46,10 +50,9 @@ class CatService: ImageViewModelDelegate,CatBreedProtocol{
         }
     }
     
-    func getBreedsCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ())){
-        print("breedsCategories \(breedsCategories)")
-//        ?limit=10&page=0
-        var breedparams = [ "limit" : "10", "page" : "0"]
+    func getBreedCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ())){
+        
+        let breedparams = [ "limit" : "8", "page" : "0"]
         
         Repository().GET(url: breedsCategories,
                          params: breedparams,
@@ -68,10 +71,33 @@ class CatService: ImageViewModelDelegate,CatBreedProtocol{
             case let .failure(err):
                 print(err)
             }
-            
         }
     }
     
+//    breed_ids=beng&limit=8&page=0
+    
+    func getCatImageByBreed(_ breedID: String, completion: @escaping (Bool,[EntityOfCatData]?,Error?) -> ()) {
+        let params = [ "breed_ids" : breedID ,
+                       "limit" : "8",
+                       "page" : "0"]
+        
+        Repository().GET(url: breedCatImageResource,
+                         params: params,
+                         httpHeader: .application_json){ result in
+
+            switch result{
+            case let .success(data):
+                do {
+                    let model = try JSONDecoder().decode([EntityOfCatData].self, from: data)
+                    completion(true, model, nil)
+                }catch{
+                    completion(false, nil, error)
+                }
+            case let .failure(err):
+                completion(false, nil, err)
+            }
+        }
+    }
     
     
     

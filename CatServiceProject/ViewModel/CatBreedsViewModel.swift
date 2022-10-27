@@ -14,10 +14,10 @@ class CatBreedsViewModel: ImageViewModelDelegate {
     // service -> model -> viewmodel   <- viewcontroller
     var headerImageList: [UIImage] = []
     
-    private let catService = CatService()
+    private let catService: CatBreedProtocol = CatService()
     //_ completion: @escaping (([BreedsViewModel]) -> ())
     
-    var breedCellModels: [BreedsViewModel]? {
+    var breedCellModels: [BreedViewModel]? {
         didSet {
             self.breedCellHandler?()
         }
@@ -29,9 +29,8 @@ class CatBreedsViewModel: ImageViewModelDelegate {
         }
     }
     
-//    [@"view5", @"view1", @"view2", @"view3", @"view4", @"view5", @"view1"]
-    func getCatBreedsData(_ completion: @escaping () -> ()){
-        catService.getBreedsCategories{ [weak self] flag,data,error in
+    func getBVMCategories(_ completion: @escaping () -> ()){
+        catService.getBreedCategories{ [weak self] flag,data,error in
             if flag == true,
                let model = data,
                error == nil{
@@ -44,8 +43,20 @@ class CatBreedsViewModel: ImageViewModelDelegate {
         }
     }
     
-    func toLoopPageDataBinding(_ data: [BreedsViewModel]?) -> [BreedsViewModel] {
-        var k: [BreedsViewModel] = []
+    func getBVMCatImage(_ breedID: String) {
+        catService.getCatImageByBreed(breedID){ flag, data, error in
+            if flag == true,
+               let model = data,
+               error == nil{
+                
+               
+            }
+        }
+    }
+    
+    
+    func toLoopPageDataBinding(_ data: [BreedViewModel]?) -> [BreedViewModel] {
+        var k: [BreedViewModel] = []
         k.append(data!.last!)
         
         data?.forEach{
@@ -55,6 +66,7 @@ class CatBreedsViewModel: ImageViewModelDelegate {
         
         return k
     }
+    
     
     func numberOfSection() -> Int {
         return breedCellModels?.count ?? 3
@@ -86,23 +98,30 @@ class CatBreedsViewModel: ImageViewModelDelegate {
         
     }
 }
+
 private extension CatBreedsViewModel{
     
-    func fetchToBreedViewModel(_ breeds: [Breed]) -> [BreedsViewModel]{
+    func fetchToBreedViewModel(_ breeds: [Breed]) -> [BreedViewModel]{
         
        let data = breeds.map{ model in
-            guard let breedID = model.id else {return BreedsViewModel()}
-            guard let breedName = model.name else {return BreedsViewModel()}
-            guard let imageModel = model.imageModel else {return BreedsViewModel()}
+            guard let breedID = model.id else {return BreedViewModel()}
+            guard let breedName = model.name else {return BreedViewModel()}
+            guard let imageModel = model.imageModel else {return BreedViewModel()}
            
-            return BreedsViewModel(breedID: breedID,
+            return BreedViewModel(breedID: breedID,
                                    breedName: breedName,
                                    imageModel: imageModel)
         }
         return data
     }
+    
+    func fetchToBreedViewModle(_ entity: [EntityOfCatData]) -> [BreedViewModel]{
+        
+        return self.fetchToBreedViewModel([])
+    }
 }
-struct BreedsViewModel{
+
+struct BreedViewModel{
     let breedID: String
     let breedName: String
     let imageModel: ImageModel?

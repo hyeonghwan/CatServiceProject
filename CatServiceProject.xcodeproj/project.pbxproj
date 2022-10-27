@@ -68,9 +68,11 @@
 		9690D1E228D191440038198F /* ViewAnimator in Frameworks */ = {isa = PBXBuildFile; productRef = 9690D1E128D191440038198F /* ViewAnimator */; };
 		9690D1E528D1914E0038198F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9690D1E428D1914E0038198F /* Kingfisher */; };
 		9690D1E828D1915B0038198F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9690D1E728D1915B0038198F /* SnapKit */; };
+		B43BCB3BE21E2BE7BC925900 /* Pods_CatServiceProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0F02FCD9E87B6B6764B888 /* Pods_CatServiceProject.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		172E7F5D20C7F4E8A27D469D /* Pods-CatServiceProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CatServiceProject.debug.xcconfig"; path = "Target Support Files/Pods-CatServiceProject/Pods-CatServiceProject.debug.xcconfig"; sourceTree = "<group>"; };
 		9617F2E628FBE742002341B7 /* CatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatItemView.swift; sourceTree = "<group>"; };
 		9617F2EE28FBFFB0002341B7 /* Cell + ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cell + ex.swift"; sourceTree = "<group>"; };
 		9617F2F028FC0786002341B7 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
@@ -129,6 +131,8 @@
 		967CAA3B28D01E09004CBCC5 /* EntityOfFavouriteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOfFavouriteData.swift; sourceTree = "<group>"; };
 		967CAA3D28D021FE004CBCC5 /* CatFavouriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatFavouriteModel.swift; sourceTree = "<group>"; };
 		967CAA3F28D04D3D004CBCC5 /* AnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationButton.swift; sourceTree = "<group>"; };
+		EB0F02FCD9E87B6B6764B888 /* Pods_CatServiceProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CatServiceProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDD6F746DC90C371D06B03A4 /* Pods-CatServiceProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CatServiceProject.release.xcconfig"; path = "Target Support Files/Pods-CatServiceProject/Pods-CatServiceProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,12 +145,23 @@
 				9617F2EC28FBEC9F002341B7 /* RxSwift in Frameworks */,
 				9617F2EA28FBEC9F002341B7 /* RxCocoa in Frameworks */,
 				9690D1E228D191440038198F /* ViewAnimator in Frameworks */,
+				B43BCB3BE21E2BE7BC925900 /* Pods_CatServiceProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E11DA8BF774DA9658DCB403 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				172E7F5D20C7F4E8A27D469D /* Pods-CatServiceProject.debug.xcconfig */,
+				FDD6F746DC90C371D06B03A4 /* Pods-CatServiceProject.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		9617F2E528FBE70A002341B7 /* CustomVIewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +207,8 @@
 			children = (
 				964E66F528C30E1900518436 /* CatServiceProject */,
 				964E66F428C30E1900518436 /* Products */,
+				1E11DA8BF774DA9658DCB403 /* Pods */,
+				CC374A7F4A4A1B2ABC7FF6AC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -339,6 +356,14 @@
 			path = FavouriteViewController;
 			sourceTree = "<group>";
 		};
+		CC374A7F4A4A1B2ABC7FF6AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB0F02FCD9E87B6B6764B888 /* Pods_CatServiceProject.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -346,9 +371,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 964E670728C30E1A00518436 /* Build configuration list for PBXNativeTarget "CatServiceProject" */;
 			buildPhases = (
+				0D95C0FA09AF4C2FECFD03EE /* [CP] Check Pods Manifest.lock */,
 				964E66EF28C30E1900518436 /* Sources */,
 				964E66F028C30E1900518436 /* Frameworks */,
 				964E66F128C30E1900518436 /* Resources */,
+				25DAABEA8322B689C98F6013 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -391,9 +418,9 @@
 			);
 			mainGroup = 964E66EA28C30E1900518436;
 			packageReferences = (
-				9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */,
+				9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator.git" */,
 				9690D1E328D1914E0038198F /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit.git" */,
 				9617F2E828FBEC9F002341B7 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 964E66F428C30E1900518436 /* Products */;
@@ -416,6 +443,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0D95C0FA09AF4C2FECFD03EE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CatServiceProject-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		25DAABEA8322B689C98F6013 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CatServiceProject/Pods-CatServiceProject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CatServiceProject/Pods-CatServiceProject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CatServiceProject/Pods-CatServiceProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		964E66EF28C30E1900518436 /* Sources */ = {
@@ -609,6 +678,7 @@
 		};
 		964E670828C30E1A00518436 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 172E7F5D20C7F4E8A27D469D /* Pods-CatServiceProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -636,6 +706,7 @@
 		};
 		964E670928C30E1A00518436 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDD6F746DC90C371D06B03A4 /* Pods-CatServiceProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -693,7 +764,7 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */ = {
+		9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marcosgriselli/ViewAnimator.git";
 			requirement = {
@@ -709,7 +780,7 @@
 				minimumVersion = 7.0.0;
 			};
 		};
-		9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -732,7 +803,7 @@
 		};
 		9690D1E128D191440038198F /* ViewAnimator */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator" */;
+			package = 9690D1E028D191440038198F /* XCRemoteSwiftPackageReference "ViewAnimator.git" */;
 			productName = ViewAnimator;
 		};
 		9690D1E428D1914E0038198F /* Kingfisher */ = {
@@ -742,7 +813,7 @@
 		};
 		9690D1E728D1915B0038198F /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 9690D1E628D1915B0038198F /* XCRemoteSwiftPackageReference "SnapKit.git" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

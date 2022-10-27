@@ -14,7 +14,7 @@ final class CatBreedHorizontalCell: UICollectionViewCell{
     
     private lazy var catImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "xmark.app")
+        imageView.image = UIImage(systemName: "star.leadinghalf.filled")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.borderColor = UIColor.systemCyan.cgColor
