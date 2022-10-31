@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import SnapKit
 import MGStarRatingView
+import RxCocoa
+import RxSwift
 
 protocol CustomSegmentedControlDelegate: AnyObject{
     func changeToIndex(index: Int)
@@ -16,35 +18,21 @@ protocol CustomSegmentedControlDelegate: AnyObject{
 
 final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
     func StarRatingValueChanged(view: MGStarRatingView.StarRatingView, value: CGFloat) {
-        print(view)
-        print(value)
+        
     }
     
     
     let breedViewModel = CatBreedsViewModel()
     
+    var disposeBag = DisposeBag()
+    
     lazy var categorySegemts: CategoryView = {
        let segment = CategoryView()
         return segment
     }()
-    private lazy var container: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
     
-    lazy var starView: StarRatingView = {
-        let view = StarRatingView()
-        let attribute = StarRatingAttribute(type: .rate,
-                                            point: 30,
-                                            spacing: 10,
-                                            emptyColor: .lightGray,
-                                            fillColor: .systemYellow,
-                                            emptyImage: UIImage(named: "star"),
-                                            fillImage: UIImage(named: "star.fill"))
-        view.configure(attribute, current: 0, max: 8)
-        view.delegate = self
-        
+    lazy var starView: StarView = {
+        let view = StarView()
         return view
     }()
 
@@ -58,7 +46,7 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         collectionView.register(CatBreedHorizontalCell.self,
                                 forCellWithReuseIdentifier: CatBreedHorizontalCell.identify)
         collectionView.isPagingEnabled = true
-        
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
@@ -103,10 +91,16 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         breedViewModel.getBVMCategories{ [weak self] in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                self.pageControl.numberOfPages = self.breedViewModel.numberOfSection() - 2
+                self.pageControl.numberOfPages = self.breedViewModel.numberOfPageContolCount()
                 self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
             }
         }
+        
+        categorySegemts
+            .getObservableBreedType()
+            .map{da in print(da); return da}
+            .subscribe(onNext: breedViewModel.getBVMCatImages(_:))
+            .disposed(by: disposeBag)
         
         configure()
         
@@ -116,7 +110,7 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         self.navigationItem.title = "Cat Service"
         view.backgroundColor = .systemBackground
         
-        [categorySegemts,collectionView,pageControl,container].forEach{
+        [categorySegemts,collectionView,pageControl,starView].forEach{
             self.view.addSubview($0)
         }
         categorySegemts.backgroundColor = .systemCyan
@@ -136,15 +130,15 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             $0.height.equalTo(300)
         }
         pageControl.snp.makeConstraints{
-            $0.top.equalTo(collectionView.snp.bottom).offset(16)
+            $0.top.equalTo(collectionView.snp.bottom).offset(-24)
             $0.centerX.equalToSuperview()
         }
-        container.snp.makeConstraints{
+        starView.backgroundColor = .orange
+        starView.snp.makeConstraints{
             $0.top.equalTo(pageControl.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(200)
         }
-        container.addSubview(starView)
     }
     
 }
@@ -156,8 +150,11 @@ extension CatBreedsListViewController: UIScrollViewDelegate{
         self.pageControl.currentPage = Int(page - 1)
         
         if page == 0{
-            self.collectionView.scrollToItem(at: IndexPath(row: self.breedViewModel.numberOfSection() - 2, section: 0), at: .left, animated: true)
-            self.pageControl.currentPage = self.breedViewModel.numberOfSection() - 2
+            self.collectionView.scrollToItem(at: IndexPath(row: breedViewModel.numberOfPageContolCount(), section: 0),
+                                             at: .left,
+                                             animated: true)
+            self.pageControl.currentPage = breedViewModel.numberOfPageContolCount()
+            
         }else if (page == CGFloat(self.breedViewModel.numberOfSection() - 1) ) {
             self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .left, animated: true)
             self.pageControl.currentPage = 0

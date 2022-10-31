@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RequestType {
+enum BreedType {
     case breedType(_ breedID: String,
                    _ breedName: String,
                    _ breedImage: String)

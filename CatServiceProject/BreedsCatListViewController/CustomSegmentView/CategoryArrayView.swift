@@ -5,25 +5,35 @@
 //  Created by 박형환 on 2022/10/25.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 import RxSwift
 
 struct CategoryButtonAndLabel {
+    let breedType: BreedType
     let categoryButton: CategoryRoundedButton
     let categoryLabel: CategoryLabel
+    
+    static func dummyData() -> [BreedType]{
+        return [.breedType("abys", "Abyssinian", "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"),
+                .breedType("aege", "Aegean", "https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg"),
+                .breedType("abob", "American Bobtail", "https://cdn2.thecatapi.com/images/hBXicehMA.jpg"),
+                .breedType("acur", "American Curl", "https://cdn2.thecatapi.com/images/xnsqonbjW.jpg"),
+                .breedType("asho", "American Shorthair", "https://cdn2.thecatapi.com/images/JFPROfGtQ.jpg"),
+                .breedType("awir", "American Wirehair", "https://cdn2.thecatapi.com/images/8D--jCd21.jpg"),
+                .breedType("amau", "Arabian Mau", "https://cdn2.thecatapi.com/images/k71ULYfRr.jpg"),]
+    }
 }
+
+
 
 class CategoryArrayView: UIView{
     
-    var categories: [RequestType] = [.breedType("abys", "Abyssinian", "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"),
-                                     .breedType("aege", "Aegean", "https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg"),
-                                     .breedType("abob", "American Bobtail", "https://cdn2.thecatapi.com/images/hBXicehMA.jpg"),
-                                     .breedType("acur", "American Curl", "https://cdn2.thecatapi.com/images/xnsqonbjW.jpg"),
-                                     .breedType("asho", "American Shorthair", "https://cdn2.thecatapi.com/images/JFPROfGtQ.jpg"),
-                                     .breedType("awir", "American Wirehair", "https://cdn2.thecatapi.com/images/8D--jCd21.jpg"),
-                                     .breedType("amau", "Arabian Mau", "https://cdn2.thecatapi.com/images/k71ULYfRr.jpg"),]
+    var onChangeBreed: Observable<BreedType>
+    
+    private var onChangeBreedTypeCompletion: (BreedType) -> ()
+    
+    private var categories: [BreedType] = CategoryButtonAndLabel.dummyData()
 
     
     private lazy var scrollView: UIScrollView = {
@@ -41,9 +51,10 @@ class CategoryArrayView: UIView{
         return stackView
     }()
     
+    
+    //Category Segments Items
     private lazy var categoryButtonItems: [CategoryButtonAndLabel] = {
         let frame: CGRect = .zero
-    
         
         var items: [CategoryButtonAndLabel] = []
         
@@ -53,18 +64,25 @@ class CategoryArrayView: UIView{
             
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
             
-            items.append(CategoryButtonAndLabel(categoryButton: button,
+            items.append(CategoryButtonAndLabel(breedType: requestType,
+                                                categoryButton: button,
                                                 categoryLabel: CategoryLabel(frame: .zero, requestType: requestType)))
         }
         
-        items.first?.categoryButton.isSelected = true
-        items.first?.categoryLabel.buttonfocused = true
+        //first 버튼 Label select &  GET call Breed Image by onChangeBreedTypeCompletion
+        if let item = items.first {
+            item.categoryButton.isSelected = true
+            item.categoryLabel.buttonfocused = true
+            onChangeBreedTypeCompletion(item.breedType)
+        }
         
         return items
     }()
     
+    
+    /// button Tap -> change Apperance & GET call Breed Image by onChangeBreedTypeCompletion
+    /// - Parameter sender: CategoryRoundedButton
     @objc func buttonTapped(_ sender: CategoryRoundedButton){
-        print("tapped")
         
         if sender.isSelected == false {
             categoryButtonItems
@@ -77,28 +95,31 @@ class CategoryArrayView: UIView{
             
             self.categoryButtonItems.forEach{ buttonlabel in
                 if buttonlabel.categoryButton.isSelected == true{
-                    print("change")
                     buttonlabel.categoryLabel.buttonfocused = true
+                    if let type = buttonlabel.categoryLabel.breedType{
+                        onChangeBreedTypeCompletion(type)
+                    }
                 }
             }
             
-//            onChangeRequestType(sender.getButtonType())
         }
         
     }
     
     override init(frame: CGRect) {
         
-//        let changingType = PublishSubject<RequestType>()
-//
-//        onChangeRequestType = {type in changingType.onNext(type)  }
-//
-//        onChanged = changingType
+        let changingBreedType = PublishSubject<BreedType>()
+
+        onChangeBreedTypeCompletion = {type in changingBreedType.onNext(type)  }
+
+        onChangeBreed = changingBreedType
         
         super.init(frame: frame)
+        
         configure()
     }
-    convenience init(frame: CGRect ,_ requestTypes: [RequestType]){
+    
+    convenience init(frame: CGRect ,_ requestTypes: [BreedType]){
         self.init(frame: frame)
         self.categories = requestTypes
     }

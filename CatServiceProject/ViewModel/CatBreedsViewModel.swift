@@ -9,6 +9,8 @@ import Foundation
 import Kingfisher
 import UIKit
 
+
+
 class CatBreedsViewModel: ImageViewModelDelegate {
     // repository -> get entity
     // service -> model -> viewmodel   <- viewcontroller
@@ -43,13 +45,17 @@ class CatBreedsViewModel: ImageViewModelDelegate {
         }
     }
     
-    func getBVMCatImage(_ breedID: String) {
-        catService.getCatImageByBreed(breedID){ flag, data, error in
-            if flag == true,
-               let model = data,
-               error == nil{
+    func getBVMCatImages(_ breedType: BreedType) {
+        print("getBVMCatImages : \(breedType)")
+        switch breedType{
+        case let .breedType(id, _, _):
+            catService.getCatImageByBreed(id){ flag, data, error in
+                if flag == true,
+                   let model = data,
+                   error == nil{
+                   print(model)
+                }
                 
-               
             }
         }
     }
@@ -70,6 +76,10 @@ class CatBreedsViewModel: ImageViewModelDelegate {
     
     func numberOfSection() -> Int {
         return breedCellModels?.count ?? 3
+    }
+    
+    func numberOfPageContolCount() -> Int {
+        return self.numberOfSection() - 2
     }
     
     

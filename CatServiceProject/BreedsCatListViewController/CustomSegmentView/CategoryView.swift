@@ -29,11 +29,11 @@ class CategoryView: UIView{
         
     }
     
-//    func getObservableRequestType() -> Observable<RequestType> {
-//        
-//        return self.containerView.onChanged
-//        
-//    }
+    func getObservableBreedType() -> Observable<BreedType> {
+        
+        return self.containerView.onChangeBreed
+        
+    }
     
     private func configue() {
         self.addSubview(containerView)

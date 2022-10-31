@@ -18,13 +18,13 @@ final class CategoryRoundedButton: UIButton{
         }
     }
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
         self.addTarget(self, action: #selector(categorybuttonTapped), for: .touchUpInside)
     }
-    convenience init(frame: CGRect,requestType: RequestType) {
+    
+    convenience init(frame: CGRect,requestType: BreedType) {
         self.init(frame: frame)
         
         switch requestType{

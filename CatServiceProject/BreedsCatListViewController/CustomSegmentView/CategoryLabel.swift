@@ -17,6 +17,9 @@ final class CategoryLabel: UILabel{
         }
     }
     
+    var breedType: BreedType?
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.font = UIFont.systemFont(ofSize: 11, weight: .bold)
@@ -26,8 +29,10 @@ final class CategoryLabel: UILabel{
         
     }
     
-    convenience init(frame: CGRect, requestType: RequestType) {
+    convenience init(frame: CGRect, requestType: BreedType) {
         self.init(frame: frame)
+        
+        breedType = requestType
         
         switch requestType{
         case let .breedType(_, name, _):
