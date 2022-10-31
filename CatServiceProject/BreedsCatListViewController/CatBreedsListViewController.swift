@@ -88,23 +88,36 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             }
         }
         
-        breedViewModel.getBVMCategories{ [weak self] in
-            guard let self = self else {return}
-            DispatchQueue.main.async {
-                self.pageControl.numberOfPages = self.breedViewModel.numberOfPageContolCount()
-                self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
+        if let breedType = CategoryButtonAndLabel.dummyData().first{
+            breedViewModel.getBVMCatImages(breedType){ [weak self] models in
+                guard let self = self else {return}
+                DispatchQueue.main.async {
+                    self.pageControlSetting()
+                }
             }
         }
         
         categorySegemts
             .getObservableBreedType()
-            .map{da in print(da); return da}
-            .subscribe(onNext: breedViewModel.getBVMCatImages(_:))
+            .subscribe(onNext: breedViewModel.onBreedsDataObserver.onNext(_:))
+            .disposed(by: disposeBag)
+        
+        
+        breedViewModel
+            .pagingCountObservable
+            .bind(to: pageControl.rx.numberOfPages)
             .disposed(by: disposeBag)
         
         configure()
         
     }
+    
+    func pageControlSetting(){
+        self.pageControl.numberOfPages = self.breedViewModel.numberOfPageContolCount()
+        self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
+    }
+    
+    
     func configure() {
         
         self.navigationItem.title = "Cat Service"
@@ -192,7 +205,7 @@ extension CatBreedsListViewController: UICollectionViewDataSource{
         
         guard let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: CatBreedHorizontalCell.identify, for: indexPath) as? CatBreedHorizontalCell else {return UICollectionViewCell()}
         
-        let url = breedViewModel.breedCellModels?[indexPath.row].imageModel?.imageURL
+        let url = breedViewModel.breedCellModels?[indexPath.row].imageURL
         
         if let url = url{
             cell.updateUI(url)
@@ -203,3 +216,11 @@ extension CatBreedsListViewController: UICollectionViewDataSource{
     
 }
 
+//        breedViewModel.getBVMCategories{ [weak self] in
+//            guard let self = self else {return}
+//            DispatchQueue.main.async {
+//                self.pageControl.numberOfPages = self.breedViewModel.numberOfPageContolCount()
+//                self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
+//            }
+//        }
+        

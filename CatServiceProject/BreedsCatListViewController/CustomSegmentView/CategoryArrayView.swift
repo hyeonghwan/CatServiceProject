@@ -9,21 +9,6 @@ import UIKit
 import SnapKit
 import RxSwift
 
-struct CategoryButtonAndLabel {
-    let breedType: BreedType
-    let categoryButton: CategoryRoundedButton
-    let categoryLabel: CategoryLabel
-    
-    static func dummyData() -> [BreedType]{
-        return [.breedType("abys", "Abyssinian", "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"),
-                .breedType("aege", "Aegean", "https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg"),
-                .breedType("abob", "American Bobtail", "https://cdn2.thecatapi.com/images/hBXicehMA.jpg"),
-                .breedType("acur", "American Curl", "https://cdn2.thecatapi.com/images/xnsqonbjW.jpg"),
-                .breedType("asho", "American Shorthair", "https://cdn2.thecatapi.com/images/JFPROfGtQ.jpg"),
-                .breedType("awir", "American Wirehair", "https://cdn2.thecatapi.com/images/8D--jCd21.jpg"),
-                .breedType("amau", "Arabian Mau", "https://cdn2.thecatapi.com/images/k71ULYfRr.jpg"),]
-    }
-}
 
 
 
@@ -73,12 +58,11 @@ class CategoryArrayView: UIView{
         if let item = items.first {
             item.categoryButton.isSelected = true
             item.categoryLabel.buttonfocused = true
-            onChangeBreedTypeCompletion(item.breedType)
         }
         
         return items
     }()
-    
+
     
     /// button Tap -> change Apperance & GET call Breed Image by onChangeBreedTypeCompletion
     /// - Parameter sender: CategoryRoundedButton
@@ -117,6 +101,8 @@ class CategoryArrayView: UIView{
         super.init(frame: frame)
         
         configure()
+        
+        
     }
     
     convenience init(frame: CGRect ,_ requestTypes: [BreedType]){

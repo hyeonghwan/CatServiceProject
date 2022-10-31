@@ -5,13 +5,29 @@
 //  Created by 박형환 on 2022/09/08.
 //
 
-import Foundation
-import Kingfisher
+
 import UIKit
+import Kingfisher
+import RxSwift
 
+protocol RxBreedViewModelType {
+    
+    typealias Breeds = [Breed]
+    typealias HSCollectionModels = [CatHSCollectionModel]
+    typealias BreedAndHSCModels = (Breeds,HSCollectionModels)
+    
+    
+    // input
+    var onBreedsDataObserver: AnyObserver<BreedType> { get }
+    
+    //output
+    var onHSCDataObservable: Observable<BreedAndHSCModels> { get }
+    var pagingCountObservable: Observable<Int> { get }
+}
 
-
-class CatBreedsViewModel: ImageViewModelDelegate {
+class CatBreedsViewModel: NSObject,ImageViewModelDelegate,RxBreedViewModelType {
+ 
+    
     // repository -> get entity
     // service -> model -> viewmodel   <- viewcontroller
     var headerImageList: [UIImage] = []
@@ -19,7 +35,19 @@ class CatBreedsViewModel: ImageViewModelDelegate {
     private let catService: CatBreedProtocol = CatService()
     //_ completion: @escaping (([BreedsViewModel]) -> ())
     
-    var breedCellModels: [BreedViewModel]? {
+    //input
+    var onBreedsDataObserver: AnyObserver<BreedType>
+    
+    //output
+    var pagingCountObservable: Observable<Int>
+    var onHSCDataObservable: Observable<BreedAndHSCModels>
+    
+    
+    private var disposeBag = DisposeBag()
+    
+
+    
+    var breedCellModels: HSCollectionModels? {
         didSet {
             self.breedCellHandler?()
         }
@@ -30,48 +58,65 @@ class CatBreedsViewModel: ImageViewModelDelegate {
             breedCellHandler?()
         }
     }
-    
-    func getBVMCategories(_ completion: @escaping () -> ()){
-        catService.getBreedCategories{ [weak self] flag,data,error in
-            if flag == true,
-               let model = data,
-               error == nil{
-                
-                let fetchedData = self?.fetchToBreedViewModel(model)
-              
-                self?.breedCellModels = self?.toLoopPageDataBinding(fetchedData)
-                completion()
+    override init(){
+        
+        let breedsPipe = PublishSubject<BreedType>()
+        let dataPipe = BehaviorSubject<BreedAndHSCModels>(value: ([],[]))
+        let paging = PublishSubject<Int>()
+        
+        onBreedsDataObserver = breedsPipe.asObserver()
+        
+        pagingCountObservable = paging
+        onHSCDataObservable = dataPipe
+        
+        super.init()
+        
+        breedsPipe
+            .map{requestType in
+                switch requestType{
+                case let .breedType(id, _, _):
+                    return id
+                }
             }
-        }
+            .flatMap(catService.rxGetCatImageByBreed(_:))
+            .do(onNext: { paging.onNext($0.count) } )   // page binding
+            .map{self.fetchToBreedViewModle($0).1}      // return CatHSCollectionModels
+            .subscribe(onNext: { [weak self] models in
+                guard let self = self else {return}
+                self.breedCellModels = models
+            })
+            .disposed(by: disposeBag)
     }
     
-    func getBVMCatImages(_ breedType: BreedType) {
-        print("getBVMCatImages : \(breedType)")
+
+    
+    func getBVMCatImages(_ breedType: BreedType, _ completion: @escaping (BreedAndHSCModels) -> () ) {
+        
         switch breedType{
         case let .breedType(id, _, _):
-            catService.getCatImageByBreed(id){ flag, data, error in
+            
+            catService.getCatImageByBreed(id){[weak self] flag, data, error in
+                
+                guard let self = self else {return}
+                
                 if flag == true,
                    let model = data,
                    error == nil{
-                   print(model)
+                    
+                    let fetchedData = self.fetchToBreedViewModle(model)
+                    
+                    //fetchedData.1 == CatHSCollectionModel
+                    completion(fetchedData)
+                    
+                }else {
+                    print(error!)
+                    assert(false,"bad request")
                 }
                 
             }
         }
     }
     
-    
-    func toLoopPageDataBinding(_ data: [BreedViewModel]?) -> [BreedViewModel] {
-        var k: [BreedViewModel] = []
-        k.append(data!.last!)
-        
-        data?.forEach{
-            k.append($0)
-        }
-        k.append(data!.first!)
-        
-        return k
-    }
     
     
     func numberOfSection() -> Int {
@@ -125,10 +170,61 @@ private extension CatBreedsViewModel{
         return data
     }
     
-    func fetchToBreedViewModle(_ entity: [EntityOfCatData]) -> [BreedViewModel]{
+    func fetchToBreedViewModle(_ entity: [EntityOfCatData]) -> BreedAndHSCModels {
+        let allData = entity
         
-        return self.fetchToBreedViewModel([])
+        guard let breedInformation = allData.first else {return ([],[]) }
+        
+        let catHSCollectionModel = allData.map{
+            guard let id = $0.id else {return CatHSCollectionModel()}
+            guard let imageURL = $0.imageURL else {return CatHSCollectionModel()}
+            guard let width = $0.width else {return CatHSCollectionModel()}
+            guard let height = $0.height else {return CatHSCollectionModel()}
+            return CatHSCollectionModel(id: id, imageURL: imageURL, width: width, height: height)
+        }
+        let models = self.toLoopPageDataBinding2(catHSCollectionModel)
+        
+        return (breedInformation.breeds,models)
     }
+    
+    func toLoopPageDataBinding2(_ data: HSCollectionModels) -> HSCollectionModels {
+        var catHSCModel: HSCollectionModels = []
+    
+        catHSCModel.append(data.last!)
+        
+        data.forEach{
+            catHSCModel.append($0)
+        }
+        
+        catHSCModel.append(data.first!)
+        
+        return catHSCModel
+    }
+    
+    
+    
+}
+struct CatHSCollectionModel{
+    let id: String
+    let imageURL: String
+    let width, height: Int
+            
+    init() {
+        self.id = ""
+        self.imageURL = ""
+        self.width = 0
+        self.height = 0
+    }
+    
+    init(id: String, imageURL: String, width: Int, height: Int) {
+        self.id = id
+        self.imageURL = imageURL
+        self.width = width
+        self.height = height
+    }
+    
+    
+            
 }
 
 struct BreedViewModel{

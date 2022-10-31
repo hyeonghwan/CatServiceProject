@@ -7,11 +7,14 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 
 protocol CatBreedProtocol {
     func getBreedCategories(_ completion: @escaping ((Bool,[Breed]?,Error?) -> ()))
     func getCatImageByBreed(_ breedID: String, completion: @escaping (Bool,[EntityOfCatData]?,Error?) -> ())
+    
+    func rxGetCatImageByBreed(_ breedID: String) -> Observable<[EntityOfCatData]>
 }
 
 class CatService: ImageViewModelDelegate,CatBreedProtocol{
@@ -74,7 +77,6 @@ class CatService: ImageViewModelDelegate,CatBreedProtocol{
         }
     }
     
-//    breed_ids=beng&limit=8&page=0
     
     func getCatImageByBreed(_ breedID: String, completion: @escaping (Bool,[EntityOfCatData]?,Error?) -> ()) {
         let params = [ "breed_ids" : breedID ,
@@ -96,6 +98,19 @@ class CatService: ImageViewModelDelegate,CatBreedProtocol{
             case let .failure(err):
                 completion(false, nil, err)
             }
+        }
+    }
+    
+    func rxGetCatImageByBreed(_ breedID: String) -> Observable<[EntityOfCatData]> {
+        return Observable.create{ emiter in
+            self.getCatImageByBreed(breedID, completion: { flag, data, error in
+                if flag == true,
+                   let model = data,
+                   error == nil{
+                    emiter.onNext(model)
+                }
+            })
+            return Disposables.create()
         }
     }
     

@@ -29,8 +29,12 @@ final class CatBreedHorizontalCell: UICollectionViewCell{
     }
     required init?(coder: NSCoder) {
         fatalError("required init fatalError")
-        
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.catImageView.image = nil
+    }
+    
     func updateUI(_ imageURL: String) {
         self.catImageView.kf.setImage(with: URL(string: imageURL))
     }

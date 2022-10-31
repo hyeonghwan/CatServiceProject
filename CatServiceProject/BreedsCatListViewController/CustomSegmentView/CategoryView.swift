@@ -19,8 +19,9 @@ class CategoryView: UIView{
 
     
     override init(frame: CGRect) {
+        print("CategoryView1")
         super.init(frame: frame)
-        
+        print("CategoryView2")
         configue()
     }
     
@@ -29,7 +30,7 @@ class CategoryView: UIView{
         
     }
     
-    func getObservableBreedType() -> Observable<BreedType> {
+    func getObservableBreedType() -> Observable<BreedType> { 
         
         return self.containerView.onChangeBreed
         
