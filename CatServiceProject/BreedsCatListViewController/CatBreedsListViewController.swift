@@ -5,7 +5,6 @@
 //  Created by 박형환 on 2022/09/06.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 import MGStarRatingView
@@ -17,23 +16,34 @@ protocol CustomSegmentedControlDelegate: AnyObject{
 }
 
 final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
+    
     func StarRatingValueChanged(view: MGStarRatingView.StarRatingView, value: CGFloat) {
         
     }
     
-    
     let breedViewModel = CatBreedsViewModel()
     
     var disposeBag = DisposeBag()
+    
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        
+        return view
+    }()
+    
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        return view
+    }()
     
     lazy var categorySegemts: CategoryView = {
        let segment = CategoryView()
         return segment
     }()
     
-    lazy var starView: StarView = {
-        let view = StarView()
-        return view
+    private lazy var ratingView: CatBreedsStarRatingView = {
+        let rating = CatBreedsStarRatingView()
+        return rating
     }()
 
     
@@ -102,6 +112,11 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             .subscribe(onNext: breedViewModel.onBreedsDataObserver.onNext(_:))
             .disposed(by: disposeBag)
         
+        breedViewModel
+            .onHSCDataObservable
+            .subscribe(onNext: ratingView.starAbilityView.abilityObserver.onNext(_:))
+            .disposed(by: disposeBag)
+        
         
         breedViewModel
             .pagingCountObservable
@@ -123,14 +138,30 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         self.navigationItem.title = "Cat Service"
         view.backgroundColor = .systemBackground
         
-        [categorySegemts,collectionView,pageControl,starView].forEach{
-            self.view.addSubview($0)
-        }
+        self.view.addSubview(scrollView)
+        
+        scrollView.addSubview(contentView)
+        
         categorySegemts.backgroundColor = .systemCyan
 
+        scrollView.snp.makeConstraints{
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        
+        [categorySegemts,collectionView,pageControl,ratingView].forEach{
+            contentView.addSubview($0)
+        }
+        
+        contentView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.height.equalToSuperview().priority(.low)
+        }
+        
         categorySegemts.snp.makeConstraints{
-            
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.top.equalToSuperview().offset(10)
             $0.height.equalTo(110)
             $0.leading.trailing.equalToSuperview()
         }
@@ -142,15 +173,16 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(300)
         }
+        
         pageControl.snp.makeConstraints{
             $0.top.equalTo(collectionView.snp.bottom).offset(-24)
             $0.centerX.equalToSuperview()
         }
-        starView.backgroundColor = .orange
-        starView.snp.makeConstraints{
-            $0.top.equalTo(pageControl.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(200)
+        
+        ratingView.snp.makeConstraints{
+            $0.top.equalTo(pageControl.snp.bottom).offset(10)
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(300)
         }
     }
     
@@ -216,11 +248,3 @@ extension CatBreedsListViewController: UICollectionViewDataSource{
     
 }
 
-//        breedViewModel.getBVMCategories{ [weak self] in
-//            guard let self = self else {return}
-//            DispatchQueue.main.async {
-//                self.pageControl.numberOfPages = self.breedViewModel.numberOfPageContolCount()
-//                self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
-//            }
-//        }
-        

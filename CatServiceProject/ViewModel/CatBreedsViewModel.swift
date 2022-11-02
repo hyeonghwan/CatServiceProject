@@ -10,18 +10,18 @@ import UIKit
 import Kingfisher
 import RxSwift
 
+
+typealias Breeds = [Breed]
+typealias HSCollectionModels = [CatHSCollectionModel]
+typealias BreedAndHSCModels = (Breeds,HSCollectionModels)
+
 protocol RxBreedViewModelType {
-    
-    typealias Breeds = [Breed]
-    typealias HSCollectionModels = [CatHSCollectionModel]
-    typealias BreedAndHSCModels = (Breeds,HSCollectionModels)
-    
     
     // input
     var onBreedsDataObserver: AnyObserver<BreedType> { get }
     
     //output
-    var onHSCDataObservable: Observable<BreedAndHSCModels> { get }
+    var onHSCDataObservable: Observable<Breeds> { get }
     var pagingCountObservable: Observable<Int> { get }
 }
 
@@ -33,14 +33,13 @@ class CatBreedsViewModel: NSObject,ImageViewModelDelegate,RxBreedViewModelType {
     var headerImageList: [UIImage] = []
     
     private let catService: CatBreedProtocol = CatService()
-    //_ completion: @escaping (([BreedsViewModel]) -> ())
     
     //input
     var onBreedsDataObserver: AnyObserver<BreedType>
     
     //output
     var pagingCountObservable: Observable<Int>
-    var onHSCDataObservable: Observable<BreedAndHSCModels>
+    var onHSCDataObservable: Observable<Breeds>
     
     
     private var disposeBag = DisposeBag()
@@ -61,7 +60,7 @@ class CatBreedsViewModel: NSObject,ImageViewModelDelegate,RxBreedViewModelType {
     override init(){
         
         let breedsPipe = PublishSubject<BreedType>()
-        let dataPipe = BehaviorSubject<BreedAndHSCModels>(value: ([],[]))
+        let dataPipe = BehaviorSubject<Breeds>(value: ([]))
         let paging = PublishSubject<Int>()
         
         onBreedsDataObserver = breedsPipe.asObserver()
@@ -80,10 +79,11 @@ class CatBreedsViewModel: NSObject,ImageViewModelDelegate,RxBreedViewModelType {
             }
             .flatMap(catService.rxGetCatImageByBreed(_:))
             .do(onNext: { paging.onNext($0.count) } )   // page binding
-            .map{self.fetchToBreedViewModle($0).1}      // return CatHSCollectionModels
+            .map{self.fetchToBreedViewModle($0)}      // return CatHSCollectionModels
             .subscribe(onNext: { [weak self] models in
                 guard let self = self else {return}
-                self.breedCellModels = models
+                dataPipe.onNext(models.0)
+                self.breedCellModels = models.1
             })
             .disposed(by: disposeBag)
     }
@@ -170,6 +170,10 @@ private extension CatBreedsViewModel{
         return data
     }
     
+    
+    /// func to fetch data to viewModelData for BreedsviewModel
+    /// - Parameter entity: server에서 가져온 Data
+    /// - Returns: BreedAndHSCModels (Breeds,HSCollectionModels) -> (breed정보와, ViewModelData ) tuple
     func fetchToBreedViewModle(_ entity: [EntityOfCatData]) -> BreedAndHSCModels {
         let allData = entity
         
@@ -187,6 +191,11 @@ private extension CatBreedsViewModel{
         return (breedInformation.breeds,models)
     }
     
+    
+    /// func for PageControll loop
+    /// - Parameter data: HSCollectionModels = [CatHSCollectionModel]
+    /// - Returns: HSCollectionModels
+    /// - Description : 앞뒤로 마지막이미지, 첫번째 이미지 append 해서  infinite paging enable
     func toLoopPageDataBinding2(_ data: HSCollectionModels) -> HSCollectionModels {
         var catHSCModel: HSCollectionModels = []
     

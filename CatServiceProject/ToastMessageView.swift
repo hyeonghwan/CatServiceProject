@@ -72,6 +72,7 @@ private enum Animation {
              alpha: 0
          )
      }
+    
 }
 
 struct Position {

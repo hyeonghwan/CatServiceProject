@@ -43,6 +43,8 @@
 		964EE58628CD4D2200BEFCD5 /* ImageViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */; };
 		964EE58828CD5AE200BEFCD5 /* FavouriteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964EE58728CD5AE200BEFCD5 /* FavouriteImageModel.swift */; };
 		96528DCF290FD9740023FCAB /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96528DCE290FD9740023FCAB /* StarRatingView.swift */; };
+		96528DD229127CF40023FCAB /* CatBreedsStarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96528DD129127CF40023FCAB /* CatBreedsStarRatingView.swift */; };
+		96528DD42912A6810023FCAB /* StarAbilityAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96528DD32912A6810023FCAB /* StarAbilityAll.swift */; };
 		966064A528D4302800CBAE6E /* REP (Data Form)- ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A428D4302800CBAE6E /* REP (Data Form)- ex.swift */; };
 		966064A728D4313F00CBAE6E /* UpLoadImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */; };
 		96635BEC28C39814004F4F34 /* EntityOfCatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96635BEB28C39814004F4F34 /* EntityOfCatData.swift */; };
@@ -110,6 +112,8 @@
 		964EE58528CD4D2200BEFCD5 /* ImageViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModelDelegate.swift; sourceTree = "<group>"; };
 		964EE58728CD5AE200BEFCD5 /* FavouriteImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteImageModel.swift; sourceTree = "<group>"; };
 		96528DCE290FD9740023FCAB /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
+		96528DD129127CF40023FCAB /* CatBreedsStarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatBreedsStarRatingView.swift; sourceTree = "<group>"; };
+		96528DD32912A6810023FCAB /* StarAbilityAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarAbilityAll.swift; sourceTree = "<group>"; };
 		966064A428D4302800CBAE6E /* REP (Data Form)- ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "REP (Data Form)- ex.swift"; sourceTree = "<group>"; };
 		966064A628D4313F00CBAE6E /* UpLoadImageFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpLoadImageFile.swift; sourceTree = "<group>"; };
 		96635BEB28C39814004F4F34 /* EntityOfCatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOfCatData.swift; sourceTree = "<group>"; };
@@ -339,8 +343,10 @@
 			isa = PBXGroup;
 			children = (
 				96635C0228C77AF8004F4F34 /* CatBreedsListViewController.swift */,
-				9621E5262909454300D1DC6E /* CatBreedHorizontalCell.swift */,
+				96528DD129127CF40023FCAB /* CatBreedsStarRatingView.swift */,
+				96528DD32912A6810023FCAB /* StarAbilityAll.swift */,
 				96528DCE290FD9740023FCAB /* StarRatingView.swift */,
+				9621E5262909454300D1DC6E /* CatBreedHorizontalCell.swift */,
 				9621E5192908108700D1DC6E /* CustomSegmentView */,
 				96635C0728C77D67004F4F34 /* CustomSegmentedControl.swift */,
 				96635C0928C7A152004F4F34 /* CatBreedsButton.swift */,
@@ -517,6 +523,7 @@
 				9617F2F328FC0DD1002341B7 /* CollectionView+ ex.swift in Sources */,
 				9621E5232908115F00D1DC6E /* BreedType.swift in Sources */,
 				964EE57928C9852600BEFCD5 /* CatBreedsViewModel.swift in Sources */,
+				96528DD42912A6810023FCAB /* StarAbilityAll.swift in Sources */,
 				967CAA2F28CEE124004CBCC5 /* CatCellModel.swift in Sources */,
 				964EE58228CD469200BEFCD5 /* CatMainListDataModel.swift in Sources */,
 				9621E51B2908109E00D1DC6E /* CategoryView.swift in Sources */,
@@ -535,6 +542,7 @@
 				964EE58828CD5AE200BEFCD5 /* FavouriteImageModel.swift in Sources */,
 				961A9C8A28D30C4C00B8ECB0 /* CatUpLoadViewController.swift in Sources */,
 				967CAA3C28D01E09004CBCC5 /* EntityOfFavouriteData.swift in Sources */,
+				96528DD229127CF40023FCAB /* CatBreedsStarRatingView.swift in Sources */,
 				9617F2F128FC0786002341B7 /* HeartButton.swift in Sources */,
 				967CAA4028D04D3D004CBCC5 /* AnimationButton.swift in Sources */,
 				9617F2F928FC1E05002341B7 /* REPError-ex.swift in Sources */,

@@ -47,7 +47,22 @@ struct Breed: Codable {
     let referenceImageID: String?
     let imageModel: ImageModel?
     
-
+    
+    static func getAbility(_ breed : Breed) -> Array<Int> {
+        return [breed.adaptability ?? 0,
+                breed.affectionLevel ?? 0,
+                breed.childFriendly ?? 0,
+                breed.dogFriendly ?? 0,
+                breed.energyLevel ?? 0,
+                breed.grooming ?? 0,
+                breed.healthIssues ?? 0,
+                breed.intelligence ?? 0,
+                breed.sheddingLevel ?? 0,
+                breed.socialNeeds ?? 0,
+                breed.strangerFriendly ?? 0,
+                breed.vocalisation ?? 0]
+        
+    }
     
     enum CodingKeys: String, CodingKey {
         case weight, id, name
@@ -79,6 +94,27 @@ struct Breed: Codable {
         case hypoallergenic
         case referenceImageID = "reference_image_id"
         case imageModel = "image"
+    }
+}
+
+extension Breed {
+    
+//    class Test {
+//        var name: String = "Ido"
+//        var lastName: String = "Cohen"
+//    }
+//
+//    let t = Test()
+//    let mirror = Mirror(reflecting: t)
+//
+//    for child in mirror.children {
+//        print(child.label ?? "")
+//    }
+    static func getPropertyName(_ breed: Breed) -> Mirror {
+       let mirror = Mirror(reflecting:  breed)
+        
+        return mirror
+        
     }
 }
 
