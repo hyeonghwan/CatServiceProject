@@ -10,8 +10,6 @@ import SnapKit
 import RxSwift
 
 
-
-
 class CategoryArrayView: UIView{
     
     var onChangeBreed: Observable<BreedType>

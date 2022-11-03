@@ -46,19 +46,16 @@ class StarView: UIView{
         self.addSubview(starLabel)
         self.addSubview(star)
         
-        
-        
         starLabel.snp.makeConstraints{
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview()
         }
-        starLabel.backgroundColor = .orange
+        
         star.snp.makeConstraints{
             $0.leading.greaterThanOrEqualTo(starLabel.snp.trailing)
             $0.trailing.equalToSuperview().priority(.high)
             $0.centerY.equalToSuperview()
         }
-        star.backgroundColor = .blue
         
     }
     

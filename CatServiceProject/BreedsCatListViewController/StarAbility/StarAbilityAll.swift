@@ -12,7 +12,7 @@ import RxSwift
 
 class StarAbilityAll: UIView {
     
-    var abilityObserver: AnyObserver<Breeds>
+    var abilityObserver: AnyObserver<Breed?>
     
     var disposeBag = DisposeBag()
     
@@ -101,12 +101,14 @@ class StarAbilityAll: UIView {
     
     override init(frame: CGRect) {
         
-        let pipe = PublishSubject<Breeds>()
+        let pipe = PublishSubject<Breed?>()
+        
         abilityObserver = pipe.asObserver()
         
         super.init(frame: frame)
         
         self.addSubview(stackView)
+        
         stackView.snp.makeConstraints{
             $0.leading.equalToSuperview()
         }
@@ -128,10 +130,9 @@ class StarAbilityAll: UIView {
                 
             }
         
-        pipe.bind(onNext: {[weak self] breeds in
+        pipe.bind(onNext: {[weak self] breed in
             guard let self = self else {return}
-            guard let breed = breeds.first else {return}
-            
+            guard let breed = breed else {return}
             let ability = Breed.getAbility(breed)
             
             var count = 0

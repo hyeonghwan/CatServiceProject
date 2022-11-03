@@ -27,8 +27,12 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        
         return view
+    }()
+    
+    private lazy var categorySegemts: CategoryView = {
+       let segment = CategoryView()
+        return segment
     }()
     
     private lazy var contentView: UIView = {
@@ -36,16 +40,17 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         return view
     }()
     
-    lazy var categorySegemts: CategoryView = {
-       let segment = CategoryView()
-        return segment
-    }()
-    
     private lazy var ratingView: CatBreedsStarRatingView = {
         let rating = CatBreedsStarRatingView()
         return rating
     }()
 
+    private lazy var headerLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .label
+        return label
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -70,6 +75,8 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         page.addTarget(self, action: #selector(handlePageControl(_:)), for: .valueChanged)
         return page
     }()
+    
+
     
     @objc func handlePageControl(_ sender: UIPageControl){
         if sender.currentPage == 0{
@@ -114,6 +121,12 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         
         breedViewModel
             .onHSCDataObservable
+            .map{ breeds in return breeds.first}
+            .do(onNext: { [weak self] breed in
+                guard let self = self else { return }
+                guard let breed = breed else { return }
+                self.headerLabel.rx.text.onNext(breed.name)
+            })
             .subscribe(onNext: ratingView.starAbilityView.abilityObserver.onNext(_:))
             .disposed(by: disposeBag)
         
@@ -136,6 +149,7 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
     func configure() {
         
         self.navigationItem.title = "Cat Service"
+        
         view.backgroundColor = .systemBackground
         
         self.view.addSubview(scrollView)
@@ -150,7 +164,7 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         }
         
         
-        [categorySegemts,collectionView,pageControl,ratingView].forEach{
+        [categorySegemts,headerLabel,collectionView,pageControl,ratingView].forEach{
             contentView.addSubview($0)
         }
         
@@ -166,10 +180,14 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             $0.leading.trailing.equalToSuperview()
         }
         
-        collectionView.backgroundColor = .orange
+        headerLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().offset(16)
+            $0.top.equalTo(categorySegemts.snp.bottom).offset(10)
+        }
+        
         
         collectionView.snp.makeConstraints{
-            $0.top.equalTo(categorySegemts.snp.bottom)
+            $0.top.equalTo(headerLabel.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(300)
         }

@@ -25,8 +25,7 @@ final class CatCollectionViewCell: UICollectionViewCell {
     lazy var catItemView: CatItemView = {
         let view = CatItemView()
         
-        view.heartButton
-            .addTarget(self, action: #selector(heartTapped(_:)), for: .touchUpInside)
+        view.heartButton.addTarget(self, action: #selector(heartTapped(_:)), for: .touchUpInside)
         
         return view
     }()
@@ -82,8 +81,6 @@ final class CatCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func heartTapped(_ sender: UIButton){
-        
-        
         
         self.catItemView.heartButton.heartFlag.toggle()
         
