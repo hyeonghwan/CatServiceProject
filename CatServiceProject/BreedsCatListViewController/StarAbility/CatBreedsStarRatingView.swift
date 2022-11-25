@@ -50,7 +50,8 @@ class CatBreedsStarRatingView: UIView {
         self.addSubview(starAbilityView)
         
         starAbilityView.snp.makeConstraints{
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(12)
+            
         }
         
        

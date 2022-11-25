@@ -76,6 +76,20 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         return page
     }()
     
+    lazy var fetureContainer: FeatureContainer = {
+        let view = FeatureContainer()
+        return view
+    }()
+    
+    lazy var descriptionLabel: UILabel = {
+       let label = UILabel()
+        label.textColor = .label
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    
 
     
     @objc func handlePageControl(_ sender: UIPageControl){
@@ -118,14 +132,21 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             .getObservableBreedType()
             .subscribe(onNext: breedViewModel.onBreedsDataObserver.onNext(_:))
             .disposed(by: disposeBag)
-        
+
         breedViewModel
             .onHSCDataObservable
             .map{ breeds in return breeds.first}
-            .do(onNext: { [weak self] breed in
+            .do(onNext: { [weak self] breedOp in
+                
                 guard let self = self else { return }
-                guard let breed = breed else { return }
-                self.headerLabel.rx.text.onNext(breed.name)
+                guard let breed = breedOp else { return }
+                
+                DispatchQueue.main.async {
+                    self.headerLabel.rx.text.onNext(breed.name)
+                    self.descriptionLabel.rx.text.onNext(breed.breedDescription)
+                }
+                
+                self.fetureContainer.onData.onNext(breed.getFeature())
             })
             .subscribe(onNext: ratingView.starAbilityView.abilityObserver.onNext(_:))
             .disposed(by: disposeBag)
@@ -156,15 +177,16 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
         
         scrollView.addSubview(contentView)
         
-        categorySegemts.backgroundColor = .systemCyan
+        
 
         scrollView.snp.makeConstraints{
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
         
         
-        [categorySegemts,headerLabel,collectionView,pageControl,ratingView].forEach{
+        [categorySegemts,headerLabel,collectionView,pageControl,fetureContainer,descriptionLabel,ratingView].forEach{
             contentView.addSubview($0)
         }
         
@@ -197,9 +219,22 @@ final class CatBreedsListViewController: UIViewController, StarRatingDelegate{
             $0.centerX.equalToSuperview()
         }
         
-        ratingView.snp.makeConstraints{
+        fetureContainer.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(pageControl.snp.bottom).offset(10)
-            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().priority(.low)
+        }
+        
+        descriptionLabel.snp.makeConstraints{
+            $0.top.equalTo(fetureContainer.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(12)
+        }
+        
+        
+        ratingView.snp.makeConstraints{
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(14)
             $0.height.equalTo(300)
         }
     }

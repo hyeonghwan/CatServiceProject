@@ -232,10 +232,10 @@
 		964E66F528C30E1900518436 /* CatServiceProject */ = {
 			isa = PBXGroup;
 			children = (
-				9617F2ED28FBFFA2002341B7 /* Extension */,
 				964E66F628C30E1900518436 /* AppDelegate.swift */,
 				964E66F828C30E1900518436 /* SceneDelegate.swift */,
 				964D867228FFDD10005BD10B /* ToastMessageView.swift */,
+				9617F2ED28FBFFA2002341B7 /* Extension */,
 				96635C0428C77D46004F4F34 /* BreedsCatListViewController */,
 				96635BF928C62B63004F4F34 /* MainListViewController */,
 				967CAA3428D003EB004CBCC5 /* FavouriteViewController */,

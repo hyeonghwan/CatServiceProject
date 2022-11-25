@@ -96,6 +96,27 @@ extension Breed {
                 breed.vocalisation ?? 0]
         
     }
+    func getFeature() -> [String] {
+
+        var result: [String] = [countryCodes ?? "",
+                                countryCode ?? ""]
+        
+        [(experimental, "experimental"),
+         (hairless,"hairless"),
+         (natural,"natural"),
+         (rare, "rare"),
+         (rex, "rex"),
+         (suppressedTail , "suppressedTail"),
+         (shortLegs, "shortLegs"),
+         (hypoallergenic, "hypoallergenic")].forEach{
+            if let data = $0.0,
+               $0.0 != 0 {
+                result.append( $0.1 )
+            }
+        }
+        
+        return result
+    }
 
     
 }

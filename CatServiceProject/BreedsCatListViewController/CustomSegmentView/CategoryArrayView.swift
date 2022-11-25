@@ -85,8 +85,8 @@ class CategoryArrayView: UIView{
             }
             
         }
-        
     }
+    
     
     override init(frame: CGRect) {
         

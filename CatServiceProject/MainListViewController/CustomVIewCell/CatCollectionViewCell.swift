@@ -103,7 +103,7 @@ private extension CatCollectionViewCell {
     /// cell 설정 , 오토레이아웃
     func configure() {
         self.backgroundColor = .systemCyan
-        self.contentView.backgroundColor = .orange
+        
         self.contentView.layer.borderWidth = 1
         self.contentView.layer.borderColor = UIColor.black.cgColor
         self.contentView.addSubview(catItemView)

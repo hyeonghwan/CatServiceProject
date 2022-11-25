@@ -11,7 +11,9 @@ import UIKit
 
 extension UIView {
     func toastMessage(_ message: String) {
+        
         let appearElement = Animation.appearElement
+        
         let disappearElement = Animation.disappearElemet
         
         let messageView = ToastMessageView(positionWidth: 25,offset: 120,message)
